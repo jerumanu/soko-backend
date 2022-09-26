@@ -29,9 +29,9 @@ class ProductFilter(Resource):
     @api.doc('get a product')
     @api.marshal_with(_products)
     def get(self, name):
-        item_data = ProductModel.find_by_name(name)
-        if item_data:
-            return item_schema.dump(item_data)
+        product_data = ProductModel.find_by_name(name)
+        if product_data:
+            return item_schema.dump(product_data)
         return {'message': ITEM_NOT_FOUND}, 404
 @api.route('/<int:id>')
 @api.param('id', 'The User identifier')  
@@ -40,9 +40,9 @@ class Product(Resource):
     @api.marshal_with(_products)
 
     def delete(self,id):
-        item_data =  ProductModel.find_by_id(id)
-        if item_data:
-            item_data.delete_from_db()
+        product_data =  ProductModel.find_by_id(id)
+        if product_data:
+            product_data.delete_from_db()
             return {'message': "Item Deleted successfully"}, 200
         return {'message': ITEM_NOT_FOUND}, 404
 
@@ -57,17 +57,17 @@ class Product(Resource):
     @api.marshal_with(_products)
     @api.expect(_products, validate=True)
     def put(self, id):
-        item_data =  ProductModel.find_by_id(id)
+        product_data =  ProductModel.find_by_id(id)
         item_json = request.get_json();
 
-        if item_data:
-            item_data.price = item_json['price']
-            item_data.name = item_json['name']
+        if product_data:
+            product_data.price = item_json['price']
+            product_data.name = item_json['name']
         else:
-            item_data = item_schema.load(item_json)
+            product_data = item_schema.load(item_json)
 
-        item_data.save_to_db()
-        return item_schema.dump(item_data), 200
+        product_data.save_to_db()
+        return item_schema.dump(product_data), 200
 
 @api.route('/')
 class ProductList(Resource):
@@ -82,7 +82,7 @@ class ProductList(Resource):
     @api.expect(_products, validate=True)
     def post(self):
         item_json = request.get_json()
-        item_data = item_schema.load(item_json)
-        item_data.save_to_db()
+        product_data = item_schema.load(item_json)
+        product_data.save_to_db()
 
-        return item_schema.dump(item_data), 201
+        return item_schema.dump(product_data), 201
