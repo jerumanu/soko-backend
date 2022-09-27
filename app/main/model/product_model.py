@@ -13,15 +13,16 @@ class ProductModel(db.Model):
     price = db.Column(db.Integer, nullable=False)
     image=db.Column(db.String(256))
     product_owner=db.Column(db.String(50), unique=True)
+    update_at=db.Column(db.DateTime(),default=datetime.utcnow )
     
-    def __init__(self, name,description,product_owner,image,price,date_added):
+    def __init__(self, name,description,update_at,product_owner,image,price,date_added):
         self.name = name
         self.description = description
         self.image = image
         self.product_owner = product_owner
         self.price = price
         self.date_added=date_added
-
+        self.update_at=update_at
     def __repr__(self):
         return 'ProductModel(name=%s)' % self.name
 

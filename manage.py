@@ -10,7 +10,7 @@ from app.main import create_app, db
 from app import blueprint
 
 from app.main.model import product_model
-
+from app.main.model import comment_model
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
 app.register_blueprint(blueprint)
