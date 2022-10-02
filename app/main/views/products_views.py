@@ -1,16 +1,10 @@
-
-from app.main import db
+from app.main                     import db
 from app.main.model.product_model import ProductModel
+from flask                        import request
+from flask_restx                  import Resource
+from ..schema.schema              import ProductSchema
+from ..utils.dto                  import ProductDto
 
-
-from flask import request
-from flask_restx import Resource
-
-from ..schema.schema import ProductSchema
-
-
-
-from ..utils.dto import ProductDto
 
 
 
@@ -33,6 +27,8 @@ class ProductFilter(Resource):
         if item_data:
             return item_schema.dump(item_data)
         return {'message': ITEM_NOT_FOUND}, 404
+
+
 @api.route('/<int:id>')
 @api.param('id', 'The User identifier')  
 class Product(Resource):     
