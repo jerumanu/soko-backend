@@ -1,6 +1,10 @@
+
 from .. import db 
 from datetime import datetime
 from typing import List
+
+
+
 
 class ProductModel(db.Model):
 
@@ -10,20 +14,30 @@ class ProductModel(db.Model):
     date_added=db.Column(db.DateTime(),default=datetime.utcnow )
     name = db.Column(db.String(50), unique=True)
     description =db.Column(db.String(250),nullable=False )
-    price = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)
     image=db.Column(db.String(256))
     product_owner=db.Column(db.String(50), unique=True)
+    update_at=db.Column(db.DateTime(),default=datetime.utcnow )
+    products = db.relationship("CommentsModel",lazy="joined",
+    primaryjoin="ProductModel.id == CommentsModel.product_id",back_populates='product')
     
-    def __init__(self, name,description,product_owner,image,price,date_added):
+    def __init__(self, name,description,update_at,product_owner,image,price,date_added,):
         self.name = name
         self.description = description
         self.image = image
         self.product_owner = product_owner
         self.price = price
         self.date_added=date_added
+        self.update_at=update_at
+        
+    
+    
 
     def __repr__(self):
         return 'ProductModel(name=%s)' % self.name
+
+    def json(self):
+        return {'price ': self.price , 'price': self.price}    
 
     @classmethod
     def find_by_name(cls, name) -> "ProductModel":
