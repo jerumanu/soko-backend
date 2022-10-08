@@ -10,6 +10,10 @@ from app.main import create_app, db
 from app import blueprint
 
 from app.main.model import product_model
+from app.main.model import comment_model
+from app.main.model import timming_model
+
+from app.main.auth import model
 
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
