@@ -3,6 +3,7 @@ from flask_restx import Namespace, fields
 class ProductDto:
     api = Namespace('product', description='product related operations')
     product = api.model('product', {
+        'id'        : fields.Integer(readonly= True, description="unique identifier"),
         'date_added': fields.DateTime( required=True, description=' time the product was created  '),
         'name': fields.String(required=True, description='product email address'),
         'description': fields.String(required=True, description='product productname'),
@@ -37,8 +38,23 @@ class FaqDto:
 class BlogDto:
     api = Namespace('Blog', description="Blog")
     blog = api.model('Blog',{
-        'id'              : fields.Integer(readonly=True, description="unique identifier"),
+        'id'              : fields.Integer(readonly=True,  description="unique identifier"),
         'title'           : fields.String(required=True,   description="Blog title"),
         'text'            : fields.String(required=True,   description="Subtitle"),
         'description'     : fields.String(required=True,   description="FAQ Description")
     })
+
+
+
+
+
+class FavouriteDto:
+    api = Namespace('favourite', description="favourite")
+    favourite = api.model('Favourite',{
+        'id'              : fields.Integer(readonly= True, description="unique identifier"),
+        #'user_id'        : fields.Integer(required=True, description="user Id")
+        'product_id'      : fields.Integer(required=True, description="product Id"),
+
+    })
+
+
