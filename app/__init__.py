@@ -7,7 +7,7 @@ from .main.views.comment_views import api as comments_ns
 from .main.views.time_views import api as timings_ns
 
 from app.main.auth.controller.auth_controler import api as login_ns
-from app.main.auth.controller.regestiter_controler import api as register_ns
+from app.main.auth.controller.register_controler import api as register_ns
 
 
 blueprint = Blueprint('api', __name__)
