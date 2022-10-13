@@ -1,0 +1,7 @@
+{% if user.name %}
+<p>User <code>{{ user.name}}</code> is logged into the DevOps platform</p>
+{% else %}
+<p>User <code>{{ user.username}}</code> is logged into the DevOps platform</p>
+{% endif %}
+<p>IP: <code>{{ ip }}</code> </p>
+<p>Browser: <code>{{ agent }}</code> </p>
