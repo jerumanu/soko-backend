@@ -1,4 +1,3 @@
-from wsgiref import validate
 from flask                          import request
 from flask_restx                    import Resource
 from app.main.model.faq_model       import FaqModel
