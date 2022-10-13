@@ -13,8 +13,8 @@ from app.main.model import product_model
 from app.main.model import comment_model
 from app.main.model import timming_model
 
-from app.main.auth import model
-
+from app.main.auth.models import user
+from app.main.auth.models import  blacklist
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
 app.register_blueprint(blueprint)
