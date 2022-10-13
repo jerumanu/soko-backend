@@ -4,6 +4,8 @@ from ..model.subscribe_model import SubscribeModel
 from ..model.category_model  import CategoryModel
 from ..model.faq_model       import FaqModel
 from ..model.blog_model      import BlogModel
+from ..model.favourite_model import FavouriteModel
+
 
 
 
@@ -47,6 +49,14 @@ class BlogSchema(ma.SQLAlchemyAutoSchema):
         load_only     = ("blog")
         include_fk    = True
 
+
+
+class FavouriteSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model         = FavouriteModel
+        load_instance = True #optional: deserialize to model instance
+        load_only     = ("favourite")
+        include_fk    = True
 
 
 
