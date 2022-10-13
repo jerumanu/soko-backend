@@ -56,6 +56,8 @@ class Blog(Resource):
         item_data = BlogModel.query.filter_by(id=id).first_or_404(description=f" not found in database.")
         return item_schema.dump(item_data), 200
 
+        
+
     @api.doc('edit Frequently asked questions')
     @api.marshal_with(_blog )
     @api.expect(_blog, validate=True)
