@@ -1,6 +1,7 @@
 from .. import db 
 from datetime import datetime
 from typing import List
+from .favourite_model import FavouriteModel
 
 class ProductModel(db.Model):
 
@@ -14,13 +15,14 @@ class ProductModel(db.Model):
     image=db.Column(db.String(256))
     product_owner=db.Column(db.String(50), unique=True)
     
+    
     def __init__(self, name,description,product_owner,image,price,date_added):
-        self.name = name
-        self.description = description
-        self.image = image
+        self.name          = name
+        self.description   = description
+        self.image         = image
         self.product_owner = product_owner
-        self.price = price
-        self.date_added=date_added
+        self.price         = price
+        self.date_added    = date_added
 
     def __repr__(self):
         return 'ProductModel(name=%s)' % self.name

@@ -25,6 +25,7 @@ class ProductFilter(Resource):
     def get(self, name):
         item_data = ProductModel.find_by_name(name)
         if item_data:
+            
             return item_schema.dump(item_data)
         return {'message': ITEM_NOT_FOUND}, 404
 
@@ -72,6 +73,7 @@ class ProductList(Resource):
     
     def get(self):
         return item_list_schema.dump( ProductModel.find_all()), 200
+        
 
     @api.response(201, 'Product successfully created.')
     @api.doc('create a new Product')
