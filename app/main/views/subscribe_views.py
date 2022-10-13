@@ -2,9 +2,11 @@ from flask                          import request
 from flask_restx                    import Resource
 from app.main.model.subscribe_model import SubscribeModel
 from app.main.schema.schema         import SubscribeSchema
-from app.main.utils.dto             import SubscribeDto
+from app.main.utils.dto             import  SubscribeDto
 import re
 from ..                             import db
+from ..                             import mail
+from flask_mail                     import Message
 
 regex               = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
 api                 = SubscribeDto.api
@@ -13,7 +15,10 @@ item_schema         = SubscribeSchema()
 item_list_schema    = SubscribeSchema( many=True)
 
 
-@api.route('/subscribe/email')
+
+
+
+@api.route('/email')
 @api.param('name', 'The User identifier')
 class Subscribe(Resource):
     @api.doc('list_of_emails')
@@ -27,19 +32,37 @@ class Subscribe(Resource):
     @api.expect(_subscribe, validate=True)
     def post(self):
         item_json = request.get_json()
+        
         if(re.fullmatch(regex, item_json['email'])):
-            emailConfirmation = SubscribeModel.find_by_email(item_json['email'])
-            if not emailConfirmation:
+            emailConfirmation = SubscribeModel.query.filter_by(email=item_json['email'].lower()).first()
+            if not emailConfirmation :
+                msg = Message('Hello',  recipients = [item_json['email']])
+                msg.body = "Hello Flask message sent from Flask-Mail"
+                mail.send(msg)
                 item_data = item_schema.load(item_json)
                 db.session.add(item_data)
                 db.session.commit()
                 return item_schema.dump(item_data), 201
-                
             else:
-                return {"message": "Email is already subscribed to newsletter"}, 201
+                return {"message": "email already exist"}, 404
         else:
             return {"message": "Invalid Email"}, 404
 
+    
+    @api.doc('unsubscribe by delete the email')
+    @api.marshal_with(_subscribe)
+    def delete(self):
+        item_json = request.get_json()
+        if(re.fullmatch(regex, item_json['email'])):
+            item_data = SubscribeModel.query.filter_by(email=item_json['email'].lower()).first()
+            if item_data:
+                db.session.delete(item_data)
+                db.session.commit()
+                return {"Email is unscribed successfully"}
+        
+        else:
+            return {"message": "Invalid Email"}, 404
+           
 
 @api.route('/unsubscribe/<email>')
 @api.param('email', 'User email')
@@ -53,7 +76,7 @@ class Unsubscribe(Resource):
         else:
             db.session.delete(item_data)
             db.session.commit()
-            return {"Email is unscribed successfully"}
+            return {"Email is unsubscribed successfully"}
         
         
     @api.doc('get email')
@@ -61,6 +84,35 @@ class Unsubscribe(Resource):
     def get(self, email):
         item_data = SubscribeModel.query.filter_by(email=email.lower()).first_or_404(description=f"{email} not found in database.")
         return item_schema.dump(item_data), 200
+
+@api.route('/send_updates')
+@api.param('name', 'The User identifier')
+class Update(Resource):
+    @api.doc('sending newsletter to all subscribers')
+    
+    def post(self):
+        subject = request.form.get('subject')
+        message = request.form.get('message')
+        data = request.get_json()
+        emaillist = item_list_schema.dump(SubscribeModel.find_all())
+
+        with mail.connect() as conn:
+            for user in emaillist:
+                message =  message
+                subject =  subject
+                msg = Message(recipients=[user.email],
+                            body=message,
+                            subject=subject)
+
+                conn.send(msg)
+    
+        return{"message": "Successfully submitted"}
+
+
+        
+
+
+
        
 
     
