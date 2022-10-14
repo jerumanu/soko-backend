@@ -11,8 +11,8 @@ class BlogModel(db.Model):
     description = db.Column(db.String(255), nullable=False)
     blog_img    = db.Column(db.String)
     createAt    = db.Column(db.DateTime, nullable=False, default=dt.datetime.now())
-    # author    = db.Column(db.String)
-    # comments  = db.Column()
+    author   = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    # comments    = db.Column()
 
     def __init__(self, title, text, description):
         self.createAt    = dt.datetime.now()

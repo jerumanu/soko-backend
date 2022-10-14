@@ -11,6 +11,11 @@ class CategoryModel(db.Model):
     id          = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     name        = db.Column(db.String(120), unique=True, nullable=False)
     createdAt   = db.Column(db.DateTime, nullable=False, default=dt.datetime.now())
+    author    = db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False)
+
+    #relationship
+    product    = db.relationship('ProductModel', backref='category', cascade = 'all, delete-orphan', lazy='joined')
+    
 
     def __init__(self, name):
         self.createdAt  = dt.datetime.now()

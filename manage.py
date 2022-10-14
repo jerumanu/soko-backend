@@ -9,8 +9,8 @@ from flask_script import Manager
 from app.main import create_app, db
 from app import blueprint
 
-from app.main.model import product_model, subscribe_model
-
+from app.main.model       import product_model, subscribe_model, comment_model, timming_model
+from app.main.auth.models import user, blacklist
 
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')

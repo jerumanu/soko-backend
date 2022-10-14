@@ -24,5 +24,6 @@ def create_app(config_name):
     mail.init_app(app)
     db.init_app(app)
     flask_bcrypt.init_app(app)
+    mail.init_app(app)
 
     return app
