@@ -1,15 +1,11 @@
+from app.main                     import db
 from app.main import db
 from app.main.model.product_model import ProductModel
+from flask                        import request
+from flask_restx                  import Resource
+from ..schema.schema              import ProductSchema
+from ..utils.dto                  import ProductDto
 
-
-from flask import request
-from flask_restx import Resource
-
-from ..schema.schema import ProductSchema
-
-
-
-from ..utils.dto import ProductDto
 
 
 
@@ -30,6 +26,12 @@ class ProductFilter(Resource):
     @api.doc('get a product')
     @api.marshal_with(_products)
     def get(self, name):
+        item_data = ProductModel.find_by_name(name)
+        if item_data:
+            
+            return {'message': ITEM_NOT_FOUND}, 404
+
+
         product_data = ProductModel.find_by_name(name)
         if product_data:
             return product_schema.dump(product_data)
@@ -86,6 +88,8 @@ class ProductList(Resource):
     @api.marshal_list_with(_products, envelope='data')
     
     def get(self):
+        
+        
         return product_list_schema.dump( ProductModel.find_all()), 200
 
     @api.response(201, 'Product successfully created.')

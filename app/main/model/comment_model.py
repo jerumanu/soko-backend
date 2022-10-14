@@ -3,29 +3,29 @@ from typing import List
 
 from .. import db 
 
-from  .product_model import ProductModel
+
 
 
 class CommentsModel(db.Model):
 
     __tablename__ = "comments"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    created_on = db.Column(db.DateTime, nullable=False)
-    comment = db.Column(db.String(250),nullable=False )
-    comment_owner = db.Column(db.String(50), unique=True)
-    update_at=db.Column(db.DateTime(),default=datetime.utcnow )
-    product_id =db.Column(db.Integer,db.ForeignKey('product.id'),nullable=False)
-    product = db.relationship("ProductModel",)
+    id            = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    created_on    = db.Column(db.DateTime, nullable=False)
+    comment       = db.Column(db.String(250),nullable=False )
+    comment_owner  = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    update_at     = db.Column(db.DateTime(),default=datetime.utcnow )
+    product_id    = db.Column(db.Integer,db.ForeignKey('product.id'),nullable=False)
+    
 
 
-    def __init__(self, comment_owner,created_on ,comment,update_at,product_id,product):
-        self.comment_owner = comment_owner
+    def __init__(self, created_on ,comment,update_at):
+        
         self.created_on  = created_on 
         self.comment = comment
         self.update_at = update_at
-        self.product_id= product_id
-        self.product= product
+        
+        
     
     def __repr__(self):
         return 'CommentsModel(comment=%s,product_id=%s,)' % (self.comment ,self.product_id,)
