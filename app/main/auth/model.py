@@ -12,6 +12,13 @@ class User(db.Model):
     username = db.Column(db.String(50), unique=True)
     password_hash = db.Column(db.String(100))
 
+    # relationship
+    favourite     = db.relationship('FavouriteModel', backref=db.backref('user', cascade = 'all, delete-orphan', lazy='joined'))
+    blog          = db.relationship('BlogModel', backref=db.backref('user', cascade = 'all, delete-orphan', lazy='joined'))
+    comment       = db.relationship('CommentsModel', backref=db.backref('user', cascade = 'all, delete-orphan', lazy='joined'))
+    product       = db.relationship('ProductModel', backref=db.backref('user', cascade = 'all, delete-orphan', lazy='joined'))
+    category     = db.relationship('CategoryModel', backref=db.backref('user', cascade = 'all, delete-orphan', lazy='joined'))
+
     @property
     def password(self):
         raise AttributeError('password: write-only field')
