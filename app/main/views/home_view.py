@@ -4,10 +4,15 @@ from flask_restx  import Resource, Api
 
 home = Blueprint('home', __name__)
 
+api = Api(home,
+        title='Sokosolar documention ',
+        version='1.0',
+        description=' project route '
+        
+        )
 
-
-@home.route('/', methods=['GET', 'POST'])
+@api.route('/', methods=['GET', 'POST'])
 class HelloWorld(Resource):
     def get(self):
-        response = {'status': 'fail', "message": "Account does not seem to exist"}
+        response = { "message": "Go to /app to get all the endpoints"}
         return make_response(jsonify(response))
