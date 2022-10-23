@@ -1,11 +1,9 @@
 import uuid
 import datetime
-
-from flask import request
+from flask       import request
 from flask_restx import Resource
-
-from app.main import db
-from .model import User
+from app.main    import db
+from .model      import User
 
 
 def save_new_user(data):

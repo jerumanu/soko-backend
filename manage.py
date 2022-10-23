@@ -1,14 +1,9 @@
 import os
 import unittest
-
-from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager
-
-
-
-from app.main import create_app, db
-from app import blueprint
-
+from flask_migrate        import Migrate, MigrateCommand
+from flask_script         import Manager
+from app.main             import create_app, db
+from app                  import blueprint
 from app.main.model       import product_model, subscribe_model, comment_model, timming_model
 from app.main.auth.models import user, blacklist
 

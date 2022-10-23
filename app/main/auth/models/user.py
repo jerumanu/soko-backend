@@ -11,21 +11,26 @@ from datetime import datetime
 
 class User(db.Model):
     # Generates default class name for table. For changing use
-    #__tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), unique=True, index=True)
-    public_id = db.Column(db.String(100), unique=True)
-    username = db.Column(db.String(64))
-    user_role = db.Column(db.String(length=30), default='user')
+    __tablename__ = 'user'
+
+    id            = db.Column(db.Integer, primary_key=True)
+    email         = db.Column(db.String(64), unique=True, index=True)
+    public_id     = db.Column(db.String(100), unique=True)
+    username      = db.Column(db.String(64))
+    user_role     = db.Column(db.String(length=30), default='user')
     password_hash = db.Column(db.String(128))
-    is_active = db.Column(db.Boolean, default=False)
-    mobile = db.Column(db.String(11))
-    name = db.Column(db.String(64))
-    location = db.Column(db.String(64))
-    about_me = db.Column(db.Text())
-    member_since = db.Column(db.DateTime(), default=datetime.now)
-    last_seen = db.Column(db.DateTime(), default=datetime.now)
-    avatar_hash = db.Column(db.String(32))
+    is_active     = db.Column(db.Boolean, default=False)
+    mobile        = db.Column(db.String(11))
+    name          = db.Column(db.String(64))
+    location      = db.Column(db.String(64))
+    about_me      = db.Column(db.Text())
+    member_since  = db.Column(db.DateTime(), default=datetime.now)
+    last_seen     = db.Column(db.DateTime(), default=datetime.now)
+    avatar_hash   = db.Column(db.String(32))
+
+    #relationship
+    blogAuthor    = db.relationship('BlogModel', backref='user', cascade = 'all, delete-orphan', lazy='joined')
+    userPayment   = db.relationship('Invoice', backref='user', cascade = 'all, delete-orphan', lazy='joined')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

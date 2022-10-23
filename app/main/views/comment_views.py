@@ -1,23 +1,14 @@
-from app.main import db
+from app.main                     import db
 from app.main.model.comment_model import CommentsModel
+from flask                        import request
+from flask_restx                  import Resource
+from ..schema.schema              import CommentsSchema
+from ..utils.dto                  import CommentsDto
 
-from flask import request
-from flask_restx import Resource
-
-
-
-from ..schema.schema import  CommentsSchema
-
-
-
-from ..utils.dto import CommentsDto
-
-api = CommentsDto.api
-_comments = CommentsDto.comments
-
-COMMENT_NOT_FOUND = "Comment not found."
-
-comments_schema=  CommentsSchema()
+api                  = CommentsDto.api
+_comments            = CommentsDto.comments
+COMMENT_NOT_FOUND    = "Comment not found."
+comments_schema      = CommentsSchema()
 comments_list_schema = CommentsSchema( many=True)
 
 @api.route('/<int:id>')
