@@ -88,9 +88,30 @@ class TimeDto():
 class UserDto:
     api = Namespace('user', description='user related operations')
     user = api.model('user', {
-        'email': fields.String(required=True, description='user email address'),
-        'username': fields.String(required=True, description='user username'),
-        'password': fields.String(required=True, description='user password'),
+        'email'    : fields.String(required=True, description='user email address'),
+        'username' : fields.String(required=True, description='user username'),
+        'password' : fields.String(required=True, description='user password'),
         'public_id': fields.String(description='user Identifier')
+    })
+
+
+
+class InvoiceDto:
+    api     = Namespace('invoice payment', description='payment for services provided')
+    payment = api.model('invoice', {
+        'amount'      : fields.Float(required=True,  description='amount'),
+        'phoneNumber' : fields.String(required=True, description='number to pay'),
+        'user_id'     : fields.String(required=True, description='user id')
+    })
+
+class TransactionDto:
+    api     = Namespace('Transaction payment', description='payment for services provided')
+    transaction = api.model('transaction', {
+        # 'receipt_id '        : fields.String(required=True, description='payment reciept'),
+        # 'date_paid '         : fields.String(required=True, description='date paid'),
+        # 'merchant_request_id': fields.String(required=True, description='merchant id'),
+        'amount'             : fields.Float (required=True, description='amount'),
+        'phoneNumber'        : fields.String(required=True, description='phone number'),
+        # 'user_id'            : fields.String(required=True, description='user id')
     })
 
