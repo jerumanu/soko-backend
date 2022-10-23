@@ -2,7 +2,7 @@ import os
 import unittest
 
 from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager
+from flask_script import Manager, Server
 
 
 
@@ -20,6 +20,7 @@ app.app_context().push()
 
 
 manager = Manager(app)
+manager.add_command('server', Server)
 migrate = Migrate(app, db)
 
 manager.add_command('db', MigrateCommand)
