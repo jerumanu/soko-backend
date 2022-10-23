@@ -8,6 +8,7 @@ from ..model.favourite_model import FavouriteModel
 from ..model.product_model   import ProductModel
 from ..model.comment_model   import CommentsModel
 from ..model.timming_model   import TimeFormat
+from ..model.payment_model   import Invoice, Transaction
 
 ma = Marshmallow()
 
@@ -74,3 +75,18 @@ class TimeSchema(ma.SQLAlchemyAutoSchema):
         model = TimeFormat
         load_instance = True
         include_fk = True        
+
+
+class InvoiceSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model         = Invoice
+        load_instance = True #optional: deserialize to model instance
+        load_only     = ("payment Invoice")
+        include_fk    = True
+
+class TransactionSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        # model         = Transaction
+        load_instance = True #optional: deserialize to model instance
+        load_only     = ("payment")
+        include_fk    = True
