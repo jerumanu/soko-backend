@@ -4,6 +4,7 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_script  import Manager, Server
 from app.main      import create_app, db
 from app           import blueprint
+from app.main.views.home_view import home
 
 # from app.main.model       import product_model, subscribe_model, comment_model, timming_model
 # from app.main.auth.models import user, blacklist
@@ -11,6 +12,7 @@ from app           import blueprint
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
 app.register_blueprint(blueprint)
+app.register_blueprint(home)
 app.app_context().push()
 
 

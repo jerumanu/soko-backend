@@ -1,5 +1,6 @@
-from flask_restx                                 import Api
+from flask_restx                                 import Api, Resource
 from flask                                       import Blueprint
+
 from .main.views.products_views                  import api as products_ns
 from .main.views.subscribe_views                 import api as subscribe_ns
 from .main.views.category_views                  import api as category_ns
@@ -12,13 +13,17 @@ from app.main.auth.controller.auth_controler     import api as login_ns
 from app.main.auth.controller.register_controler import api as register_ns
 
 
-blueprint = Blueprint('api', __name__, url_prefix='/')
+blueprint = Blueprint('api', __name__, url_prefix="/app")
 
 api = Api(blueprint,
         title='Sokosolar documention ',
         version='1.0',
         description=' project route '
+        
         )
+
+
+
 
 api.add_namespace(products_ns,  path='/product')
 api.add_namespace(subscribe_ns, path='/subscribe')
