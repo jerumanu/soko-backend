@@ -1,13 +1,9 @@
 from app.main                     import db
-from app.main import db
 from app.main.model.product_model import ProductModel
 from flask                        import request
 from flask_restx                  import Resource
 from ..schema.schema              import ProductSchema
 from ..utils.dto                  import ProductDto
-
-
-
 
 api = ProductDto.api
 _products = ProductDto.product
@@ -30,7 +26,6 @@ class ProductFilter(Resource):
         if item_data:
             
             return {'message': ITEM_NOT_FOUND}, 404
-
 
         product_data = ProductModel.find_by_name(name)
         if product_data:
