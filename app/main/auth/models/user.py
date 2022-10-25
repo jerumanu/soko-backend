@@ -29,12 +29,7 @@ class User(db.Model):
     avatar_hash   = db.Column(db.String(32))
 
 
-     # relationship
-    favourite     = db.relationship('FavouriteModel', backref=db.backref('user', cascade = 'all, delete-orphan', lazy='joined'))
-    blog          = db.relationship('BlogModel', backref=db.backref('user', cascade = 'all, delete-orphan', lazy='joined'))
-    comment       = db.relationship('CommentsModel', backref=db.backref('user', cascade = 'all, delete-orphan', lazy='joined'))
-    product       = db.relationship('ProductModel', backref=db.backref('user', cascade = 'all, delete-orphan', lazy='joined'))
-    category     = db.relationship('CategoryModel', backref=db.backref('user', cascade = 'all, delete-orphan', lazy='joined'))
+
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
