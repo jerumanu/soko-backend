@@ -6,6 +6,7 @@ from app.main      import create_app, db
 from app           import blueprint
 from app.main.views.home_view import home
 
+
 # from app.main.model       import product_model, subscribe_model, comment_model, timming_model
 # from app.main.auth.models import user, blacklist
 
@@ -35,6 +36,7 @@ migrate = Migrate(app, db)
 #     if result.wasSuccessful():
 #         return 0
 #     return 1
+
 
 if __name__ == '__main__':
     app.run(debug=True)
