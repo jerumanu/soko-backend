@@ -5,9 +5,10 @@ from flask_restx import fields, reqparse,Namespace
 class DeleteUser():
         api = Namespace('delete', description=' user related operations')
         delete = api.model('delete', {
-                'email': fields.String(required=True, description='user email address'),
-                'username': fields.String(required=True, description='user username'),
-                'password': fields.String(required=True, description='user password'),
+                'email'    : fields.String(required=True, description='user email address'),
+                'firstname': fields.String(required=True, description='first name'),
+                'lastname' : fields.String(required=True, description='last name'),
+                'password' : fields.String(required=True, description='user password'),
         })
 
 class Userlist():
