@@ -9,7 +9,7 @@ from     app.errors  import CustomFlaskErr as notice
 
 def save_new_user(data):
     user = User.query.filter_by(email=data['email']).first()
-    print (data['username'])
+    
     # validate_email: 用于检测邮箱是否正确，并且真实可用
     if not validate_email(data['email'],verify=True,check_mx=True):
         
