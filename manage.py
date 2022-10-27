@@ -8,13 +8,15 @@ from flask_script import Manager
 
 from app.main import create_app, db
 from app import blueprint
+from app.main.views.ratings import rate
 
-from app.main.model       import product_model, subscribe_model, comment_model, timming_model
+from app.main.model       import product_model, subscribe_model, comment_model, timming_model,star_rating
 from app.main.auth.models import user, blacklist
 
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
 app.register_blueprint(blueprint)
+app.register_blueprint(rate)
 app.app_context().push()
 
 
