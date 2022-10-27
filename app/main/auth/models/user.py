@@ -115,9 +115,9 @@ class User(db.Model):
         return False
 
     #Generates confirmation token.
-    def generate_confirmation_token(self, email, username):
+    def generate_confirmation_token(self, email, firstname, lastname):
 
-       return confirm_email_jwt.dumps({'email': self.email, 'username': self.username}).decode('ascii')
+       return confirm_email_jwt.dumps({'email': self.email, 'firstname': self.firstname, "lastname": self.lastname}).decode('ascii')
 
     # Check token
     @staticmethod
@@ -203,7 +203,7 @@ class User(db.Model):
     def __repr__(self):
 
         # This is only for representation how you want to see user information after query.
-        return "<User(id='%s', username='%s',email='%s')>" % (self.id, self.username, self.email)
+        return "<User(id='%s', firstname='%s', lastname='%s',email='%s')>" % (self.id, self.firstname, self.lastname, self.email)
     #
     # # 类方法 class_method
     # @classmethod
