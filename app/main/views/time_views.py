@@ -6,7 +6,7 @@ from flask_restx import Resource
 
 
 
-from ..schema.schema import  TimeSchema
+# from ..schema.schema import  TimeSchema
 
 
 
@@ -17,8 +17,8 @@ _timings = TimeDto.timings
 
 COMMENT_NOT_FOUND = "Comment not found."
 
-time_schema=  TimeSchema()
-time_list_schema = TimeSchema( many=True)
+# time_schema=  TimeSchema()
+# time_list_schema = TimeSchema( many=True)
 
 @api.route('/<int:id>')
 @api.param('comment_id', 'The User identifier')

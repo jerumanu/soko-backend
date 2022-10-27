@@ -34,8 +34,9 @@ def save_new_user(data):
         email_confirm_token =  (user.generate_confirmation_token(data['email'],data['username']))
         
         confirm_url = (url_for('api.confirm',confirm_token=email_confirm_token,_external=True)) + '?email=' + data['email']
+        send_email(to=data['email'], subject='active',template='confirm.html', confirm_url=confirm_url,user=data['username'],)
 
-        send_email(to=data['email'], subject='active',template='email_tpl/confirm.html', confirm_url=confirm_url,user=data['username'],)
+        # send_email(to=data['email'], subject='active',template='email_tpl/confirm.html', confirm_url=confirm_url,user=data['username'],)
 
         # raise notice(playbook={
         #             'username': data['username'],

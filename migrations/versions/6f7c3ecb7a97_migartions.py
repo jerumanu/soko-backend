@@ -1,8 +1,8 @@
-"""initial migration
+"""migartions 
 
-Revision ID: 31a64fecd30d
+Revision ID: 6f7c3ecb7a97
 Revises: 
-Create Date: 2022-10-14 11:10:51.263172
+Create Date: 2022-10-25 14:17:18.964675
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '31a64fecd30d'
+revision = '6f7c3ecb7a97'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,6 +31,11 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('refresh_token', sa.String(length=255), nullable=True),
     sa.Column('block_time', sa.DateTime(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('starRating',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('rating', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('subscribe',
@@ -139,6 +144,7 @@ def downgrade():
     op.drop_table('user')
     op.drop_table('time_format')
     op.drop_table('subscribe')
+    op.drop_table('starRating')
     op.drop_table('blacklist')
     op.drop_table('Faq')
     # ### end Alembic commands ###
