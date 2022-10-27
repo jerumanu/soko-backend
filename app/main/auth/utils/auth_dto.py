@@ -6,8 +6,7 @@ class RegisterDto():
         api = Namespace('user', description=' user related operations')
         user = api.model('user', {
                 'email': fields.String(required=True, description=' user email address'),
-                'firstname': fields.String(required=True, description='first name'),
-                'lastname' : fields.String(required=True, description='last name'),
+                'username': fields.String(required=True, description='user username'),
                 'password': fields.String(required=True, description='user password'),
         })
 class LoginDto():
