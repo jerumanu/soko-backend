@@ -12,7 +12,7 @@ from app.main.auth.controller.auth_controler     import api as login_ns
 from app.main.auth.controller.register_controler import api as register_ns
 from .main.views.Star_rating                    import api as rating_ns
 
-blueprint = Blueprint('api', __name__ ,url_prefix="/soko" )
+blueprint = Blueprint('api', __name__ , )
 
 
 
