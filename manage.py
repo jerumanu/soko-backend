@@ -31,19 +31,22 @@ app.register_blueprint(rate)
 
 app.app_context().push()
 
-
-
-cli = FlaskGroup(app)
-
+manager = Manager(app)
 migrate = Migrate(app, db)
 
-cli.add_command('db', MigrateCommand)
+manager.add_command('db', MigrateCommand)
 
-@cli.command
+# cli = FlaskGroup(app)
+
+# migrate = Migrate(app, db)
+
+# cli.add_command('db', MigrateCommand)
+
+@manager.command
 def run():
     app.run(Debug=True)
 
-@cli.command
+@manager.command
 def test():
     """Runs the unit tests."""
     tests = unittest.TestLoader().discover('app/test', pattern='test*.py')
@@ -54,4 +57,4 @@ def test():
 
 
 if __name__ == '__main__':
-    app.run()
+    manager.run()
