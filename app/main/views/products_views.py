@@ -1,4 +1,3 @@
-from app.main                     import db
 from app.main import db
 from app.main.model.product_model import ProductModel
 from flask                        import request
@@ -88,7 +87,7 @@ class ProductList(Resource):
     @api.marshal_list_with(_products, envelope='data')
     
     def get(self):
-        
+        # critic_avg = db.session.query(func.avg(Rating.rating)).scalar() or 0
         
         return product_list_schema.dump( ProductModel.find_all()), 200
 
@@ -99,6 +98,7 @@ class ProductList(Resource):
     def post(self):
         product_json = request.get_json()
         product_data = product_schema.load(product_json)
+        
         product_data.save_to_db()
 
         return product_schema.dump(product_data), 201
