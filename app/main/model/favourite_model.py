@@ -26,4 +26,4 @@ class FavouriteModel(db.Model):
         return self.id
 
 
-    
+

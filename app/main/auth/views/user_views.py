@@ -9,21 +9,22 @@ from     app.errors  import CustomFlaskErr as notice
 
 def save_new_user(data):
     user = User.query.filter_by(email=data['email']).first()
-    print (data['username'])
+    
     # validate_email: 用于检测邮箱是否正确，并且真实可用
     if not validate_email(data['email'],verify=True,check_mx=True):
         
         # raise notice(status_code=500,return_code=20006,action_status=False)
         return {'message': "email not valid "}, 404
     
-    if not data['password']  or  not data['username']:
+    if not data['password']  or  (not data['firstname'] and not data['lastname']):
         # raise notice(status_code=422,return_code=20007,action_status=False)
         return {'message': "email username not valid "}, 404
     if not user:
         user = User(
             public_id=str(uuid.uuid4()),
             email=data['email'],
-            username=data['username'],
+            firstname=data['firstname'],
+            lastname=data['lastname'],
             password=data['password'],
             
         )
@@ -31,12 +32,11 @@ def save_new_user(data):
 
         
 
-        email_confirm_token =  (user.generate_confirmation_token(data['email'],data['username']))
+        email_confirm_token =  (user.generate_confirmation_token(data['email'],data['firstname']))
         
         confirm_url = (url_for('api.confirm',confirm_token=email_confirm_token,_external=True)) + '?email=' + data['email']
-        send_email(to=data['email'], subject='active',template='confirm.html', confirm_url=confirm_url,user=data['username'],)
 
-        # send_email(to=data['email'], subject='active',template='email_tpl/confirm.html', confirm_url=confirm_url,user=data['username'],)
+        send_email(to=data['email'], subject='active',template='email_tpl/confirm.html', confirm_url=confirm_url,user=data['firstname'],)
 
         # raise notice(playbook={
         #             'username': data['username'],
