@@ -51,7 +51,7 @@ class User(db.Model):
 
     # Generates auth token.
     def generate_auth_token(self, permission_level):
-        """生成token"""
+        """generete token"""
         # Check if admin.
         if permission_level == 1:
 
@@ -116,7 +116,7 @@ class User(db.Model):
     #Generates confirmation token.
     def generate_confirmation_token(self):
 
-       return confirm_email_jwt.dumps({'email': self.email, 'firstname': self.firstName, "lastname": self.lastname}).decode('ascii')
+       return confirm_email_jwt.dumps({'email': self.email, 'username': self.username, }).decode('ascii')
 
     # Check token
     @staticmethod
@@ -202,7 +202,7 @@ class User(db.Model):
     def __repr__(self):
 
         # This is only for representation how you want to see user information after query.
-        return "<User(id='%s', firstname='%s', lastname='%s',email='%s')>" % (self.id, self.firstName, self.lastname, self.email)
+        return "<User(id='%s',  username='%s',email='%s')>" % (self.id, self.username, self.email)
     #
     # # 类方法 class_method
     # @classmethod
