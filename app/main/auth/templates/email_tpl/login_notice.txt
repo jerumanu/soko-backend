@@ -1,0 +1,5 @@
+{% if user.name %}
+User {{ user.name}} is logged in to the DevOps platform
+{% else %}
+User {{ user.username}} is logged in to the DevOps platform
+{% endif %}

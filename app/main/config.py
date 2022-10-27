@@ -8,6 +8,16 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'my_precious_secret_key')
     DEBUG = False
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    MAIL_SERVER = 'smtp.qq.com'
+    MAIL_PORT = 465
+    MAIL_ASCII_ATTACHMENTS = False
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = 'emanueljeru200'
+    MAIL_PASSWORD =  'Jeru3757'
+    FLASKY_MAIL_SUBJECT_PREFIX = 'we'
+    FLASKY_MAIL_SENDER = 'emanueljeru200@gmail.com'
+    FLASKY_ADMIN = 'emanueljeru200@gmail.com'
 
 
 class DevelopmentConfig(Config):
@@ -39,3 +49,4 @@ config_by_name = dict(
 )
 
 key = Config.SECRET_KEY
+
