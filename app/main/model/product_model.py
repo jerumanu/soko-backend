@@ -3,7 +3,7 @@ from .. import db
 from datetime import datetime
 from typing import List
 from .favourite_model import FavouriteModel
-
+# from  .star_rating import StarRatingModel
 
 
 
@@ -26,7 +26,7 @@ class ProductModel(db.Model):
     #relationship
     favourite     = db.relationship('FavouriteModel', backref='product', cascade = 'all, delete-orphan', lazy='joined')
     comment       = db.relationship('CommentsModel', backref='product', cascade = 'all, delete-orphan', lazy='joined')
-
+    # star_ratings  =  db.relationship('StarRatingModel', backref='product', cascade = 'all, delete-orphan', lazy='joined')
     # comment       = db.relationship("CommentsModel", lazy="joined", primaryjoin="ProductModel.id == CommentsModel.product_id",back_populates='product')
     
 
