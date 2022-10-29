@@ -39,7 +39,7 @@ class StarRating(Resource):
         return star_schema.dump(product_data), 201
 
     @api.doc('list_of_products')
-    @api.marshal_list_with(_star, envelope='data')
+    # @api.marshal_list_with(_star, envelope='data')
     def get(self):
         # critic_avg = db.session.query(func.avg(Rating.rating)).scalar() or 0
         result= star_list_schema .dump( StarRatingModel.find_all())
@@ -48,15 +48,25 @@ class StarRating(Resource):
         # num=mean(result
         # )
         # data=[]
-        num=mean(d['rating'] for d in result)
+
+        num= mean(d['rating'] for d in result)
+        # s = format(x, '.5f')
+        avg =float(format(num, '.1f'))
+ 
         print("hello world")
         print(num)
         print(result)
-       
-        item = {"avg":[]}
-        item['avg'].append(num)
-        print(item)
 
-        return jsonify({'item':item})
+
+        data = dict()
+
+        
+        data['avg'] = avg
+        print (data)
+        
+        # return data
+        return jsonify({'data':data}) 
+
+        # return jsonify({'item':item})
         
         # return star_list_schema .dump( StarRatingModel.find_all()), 200

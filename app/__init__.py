@@ -23,7 +23,7 @@ api = Api(blueprint,
         
         )
 
-api.add_namespace(products_ns,  path='/')
+api.add_namespace(products_ns,  path='/product')
 api.add_namespace(subscribe_ns, path='/subscribe')
 api.add_namespace(category_ns,  path='/category')
 api.add_namespace(faq_ns,       path='/faq')
