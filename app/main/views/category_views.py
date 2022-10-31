@@ -5,7 +5,7 @@ from app.main.model.category_model  import CategoryModel
 from app.main.schema.schema         import CategorySchema
 from app.main.utils.dto             import CategoryDto
 from ..                             import db
-
+from app.main.auth.models.user      import User
 
 api              = CategoryDto.api
 _category        = CategoryDto.category
@@ -26,15 +26,20 @@ class Category(Resource):
     def post(self):
         item_json = request.get_json()
         nameConfirmation = CategoryModel.query.filter_by(name=item_json["name"]).first()
+        author           = User.query.filter_by(id=item_json['author']).first()
+        
 
-        if not nameConfirmation:
-            item_data = item_schema.load(item_json)
-            db.session.add(item_data)
-            db.session.commit()
-            return item_schema.dump(item_data), 201
-                
+        if author:
+            if not nameConfirmation:
+                item_data = item_schema.load(item_json)
+                db.session.add(item_data)
+                db.session.commit()
+                return item_schema.dump(item_data), 201
+                    
+            else:
+                return {"message": "The category name already exist"}, 404
         else:
-            return {"message": "The category name already exist"}, 201
+            return {"message": "Invalid user ID"}, 404
 
 
 @api.route('/<int:id>')

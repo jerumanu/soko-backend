@@ -5,6 +5,7 @@ from app.main.schema.schema         import  FavouriteSchema
 from app.main.utils.dto             import  FavouriteDto
 from ..                             import  db
 from app.main.model.product_model   import  ProductModel
+from app.main.auth.models.user      import  User
 
 api              = FavouriteDto.api
 _favourite       = FavouriteDto.favourite
@@ -19,6 +20,7 @@ class Favourite(Resource):
     @api.doc('add specific product as favourite and getting specific product add as favourite by specific user')
     @api.marshal_with(_favourite)
     def delete(self, id):
+       
         favourite = Favourite.query.filter_by(id=id).first()
         if not favourite:
             return{"message":"Item is not found"}
@@ -45,13 +47,18 @@ class Favourite(Resource):
     @api.expect(_favourite, validate=True)
     def post(self):
         item_json  = request.get_json()
-    
-        product   = ProductModel.query.filter_by(id=item_json['product_id']).first_or_404(description=f"no product found")
+        product    = ProductModel.query.filter_by(id=item_json['product_id']).first_or_404(description=f"no product found")
+        author     = User.query.filter_by(id=item_json['user_id']).first()
         
 
-        if product:
-            favourite_item = item_schema.load(item_json)
-            db.session.add(favourite_item)
-            db.session.commit()
-            return item_schema.dump(favourite_item), 201
+        if author:
+            if product:
+                favourite_item = item_schema.load(item_json)
+                db.session.add(favourite_item)
+                db.session.commit()
+                return item_schema.dump(favourite_item), 201
+            else:
+                return {"message": ""}
+        else:
+            return{"message": "Invalid user Id"}
     
