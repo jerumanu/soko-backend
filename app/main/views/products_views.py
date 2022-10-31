@@ -10,6 +10,8 @@ from ..utils.dto                   import ProductDto
 
 
 
+
+
 api                 = ProductDto.api
 _products           = ProductDto.product
 ITEM_NOT_FOUND      = "Item not found."
@@ -86,8 +88,12 @@ class ProductList(Resource):
     @api.doc('list_of_products')
     @api.marshal_list_with(_products, envelope='data')
     def get(self):
+
         return product_list_schema.dump( ProductModel.find_all()), 201
 
+        # critic_avg = db.session.query(func.avg(Rating.rating)).scalar() or 0
+        
+      
 
     @api.response(201, 'Product successfully created.')
     @api.doc('create a new Product')
@@ -96,6 +102,8 @@ class ProductList(Resource):
         product_json = request.get_json()
         category     = CategoryModel.query.filter_by(id=product_json['category']).first()
         productOwner = User.query.filter_by(id=product_json['product_owner']).first()
+       
+
 
         if category:
             if productOwner:

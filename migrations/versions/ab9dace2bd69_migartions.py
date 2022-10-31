@@ -1,8 +1,8 @@
-"""initial commit
+"""migartions 
 
-Revision ID: 7bf722304087
+Revision ID: ab9dace2bd69
 Revises: 
-Create Date: 2022-10-26 21:05:25.617756
+Create Date: 2022-10-27 16:25:47.393092
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7bf722304087'
+revision = 'ab9dace2bd69'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,6 +33,11 @@ def upgrade():
     sa.Column('block_time', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('starRating',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('rating', sa.Integer(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('subscribe',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('email', sa.String(length=255), nullable=False),
@@ -52,8 +57,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('email', sa.String(length=64), nullable=True),
     sa.Column('public_id', sa.String(length=100), nullable=True),
-    sa.Column('firstName', sa.String(), nullable=True),
-    sa.Column('lastname', sa.String(length=64), nullable=True),
+    sa.Column('username', sa.String(length=64), nullable=True),
     sa.Column('user_role', sa.String(length=30), nullable=True),
     sa.Column('password_hash', sa.String(length=128), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=True),
@@ -140,6 +144,7 @@ def downgrade():
     op.drop_table('user')
     op.drop_table('time_format')
     op.drop_table('subscribe')
+    op.drop_table('starRating')
     op.drop_table('blacklist')
     op.drop_table('Faq')
     # ### end Alembic commands ###
