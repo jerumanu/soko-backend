@@ -69,7 +69,7 @@ class FavouriteDto:
     api = Namespace('favourite', description="favourite")
     favourite = api.model('Favourite',{
         'id'              : fields.Integer(readonly= True, description="unique identifier"),
-        #'user_id'        : fields.Integer(required=True, description="user Id")
+        'user_id'        : fields.Integer(required=True, description="user Id"),
         'product_id'      : fields.Integer(required=True, description="product Id"),
 
     })
