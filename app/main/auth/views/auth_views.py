@@ -92,7 +92,7 @@ class Auth:
                 "access_token": "Bearer %s" % (access_token),
                 "refresh_token": refresh_token,
                 "avatar": 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-                "name": user.username
+                "name": user.firstname
             }
             # return {
                 #     'status':200,

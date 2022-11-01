@@ -15,7 +15,8 @@ class User(db.Model):
     id            = db.Column(db.Integer, primary_key=True)
     email         = db.Column(db.String(64), unique=True, index=True)
     public_id     = db.Column(db.String(100), unique=True)
-    username       =db.Column(db.String(64))
+    lastname       =db.Column(db.String(64))
+    firstname       = db.Column(db.String (64))
     user_role     = db.Column(db.String(length=30), default='user')
     password_hash = db.Column(db.String(128))
     is_active     = db.Column(db.Boolean, default=False)
@@ -116,7 +117,7 @@ class User(db.Model):
     #Generates confirmation token.
     def generate_confirmation_token(self):
 
-       return confirm_email_jwt.dumps({'email': self.email, 'username': self.username, }).decode('ascii')
+       return confirm_email_jwt.dumps({'email': self.email, 'lastname': self.lastname, 'firstname': self.firstname,}).decode('ascii')
 
     # Check token
     @staticmethod
@@ -202,9 +203,9 @@ class User(db.Model):
     def __repr__(self):
 
         # This is only for representation how you want to see user information after query.
-        return "<User(id='%s',  username='%s',email='%s')>" % (self.id, self.username, self.email)
+        return "<User(id='%s',  firstname='%s', lastname='%s',email='%s')>" % (self.id, self.lastname, self.firstname ,self.email)
     #
-    # # 类方法 class_method
+    # # class_method
     # @classmethod
     # def return_all(cls):
     #     def to_json(self):
@@ -212,7 +213,8 @@ class User(db.Model):
     #             'id': self.id,
     #             'email': self.email,
     #             'mobile': self.mobile,
-    #             'username': self.username,
+    #             'lastname': self.lastname,
+                # 'firstname': self.firstname,
     #             'user_role': self.user_role,
     #             'is_active': self.is_active,
     #             'name': self.name,
