@@ -9,6 +9,8 @@ class RegisterDto():
                 'firstname': fields.String(required=True, description='user firstname'),
                 'lastname': fields.String(required=True, description='user lastname'),
                 'password': fields.String(required=True, description='user password'),
+                'user_role': fields.String(required=True, description='user user_role'),
+
         })
 class LoginDto():
         api = Namespace('login', description='login related operations')

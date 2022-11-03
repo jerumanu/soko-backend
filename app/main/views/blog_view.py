@@ -4,6 +4,7 @@ from app.main.model.blog_model      import BlogModel
 from app.main.schema.schema         import BlogSchema
 from app.main.utils.dto             import BlogDto
 from ..                             import db
+from app.main.auth.models.user      import User
 
 
 api              = BlogDto.api
@@ -25,15 +26,20 @@ class Blog(Resource):
     def post(self):
         item_json         = request.get_json()
         titleConfirmation = BlogModel.query.filter_by(title=item_json["title"]).first()
+        author            = User.query.filter_by(id=item_json['author']).first()
+        
 
-        if not titleConfirmation:
-            item_data = item_schema.load(item_json)
-            db.session.add(item_data)
-            db.session.commit()
-            return item_schema.dump(item_data), 201
-                
-        else:
-            return {"message": "Title already exist"}, 201
+        if author:
+            if not titleConfirmation:
+                item_data = item_schema.load(item_json)
+                db.session.add(item_data)
+                db.session.commit()
+                return item_schema.dump(item_data), 201
+                    
+            else:
+                return {"message": "Title already exist"}, 404
+        else: 
+            return {"message": "Invalid user ID"}, 404
 
 
 @api.route('/<int:id>')

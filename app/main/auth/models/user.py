@@ -1,12 +1,20 @@
 import logging
-
+import enum
 
 from ....main import db, flask_bcrypt
 from app.main.auth.extensions.auth.jwt_auth import jwt, auth, confirm_email_jwt
 from flask import g, request, jsonify
 import hashlib
 from datetime import datetime
+# roles= {"user": user, "engineer": engineer ,"business":business ,'admin':admin}
 
+class EnumGender(enum.Enum):
+    blank = ' '
+    female = 'Female'
+    male = 'Male'
+    other = 'Other'
+
+# fields.String(description='The object type', enum=EnumGender._member_names_)
 
 
 class User(db.Model):
@@ -72,12 +80,10 @@ class User(db.Model):
             # Return admin flag.
             return token
 
-        # Return normal user flag permission_level == 0 .
-        # python 2 dumps过后是str, 而在python3 中dumps的结果为bytes,
-        # 则需要将bytes转为字符串，即可 decode('ascii)
-        # 否则会报错: "TypeError: Object of type 'bytes' is not JSON serializable"
-
-        #print(jwt.make_header(header_fields={'token': jwt.dumps({'email': self.email, 'admin': 0}).decode('ascii')}))
+        # # Return normal user flag permission_level == 0 .
+         # After python 2 dumps is str, and in python3 the result of dumps is bytes,
+         # You need to convert bytes to strings, you can decode('ascii)
+         # Otherwise an error will be reported: "TypeError: Object of type 'bytes' is not JSON serializable"
         token = jwt.dumps({'email': self.email, 'admin': 0}).decode('ascii')
         #jwt.make_header(header_fields=token)
         return token
