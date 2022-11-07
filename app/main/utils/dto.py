@@ -38,8 +38,11 @@ class SubscribeDto:
 class CategoryDto:
     api = Namespace('Category', description="Product category")
     category = api.model('Category',{
-        'id'       : fields.Integer(readonly= True, description=" unique identifier."),
-        'name'     : fields.String(required=True, description="Category name")
+
+        'id'       : fields.Integer(readonly= True, description="unique identifier"),
+        'name'     : fields.String(required=True, description="Category name"),
+        'author'   : fields.Integer(required=True, description="User Id")
+    
     })
 
 class FaqDto:
@@ -56,7 +59,8 @@ class BlogDto:
         'id'              : fields.Integer(readonly=True,  description=" unique identifier"),
         'title'           : fields.String(required=True,   description="Blog title"),
         'text'            : fields.String(required=True,   description="Subtitle"),
-        'description'     : fields.String(required=True,   description="FAQ Description")
+        'description'     : fields.String(required=True,   description="Blog Description"),
+        'author'          : fields.Integer(required=True,  description="Author id")
     })
 
 
@@ -67,7 +71,7 @@ class FavouriteDto:
     api = Namespace('favourite', description="favourite")
     favourite = api.model('Favourite',{
         'id'              : fields.Integer(readonly= True, description="unique identifier"),
-        #'user_id'        : fields.Integer(required=True, description="user Id")
+        'user_id'        : fields.Integer(required=True, description="user Id"),
         'product_id'      : fields.Integer(required=True, description="product Id"),
 
     })
@@ -89,7 +93,7 @@ class UserDto:
     api = Namespace('user', description='user related operations')
     user = api.model('user', {
         'email': fields.String(required=True, description='user email address'),
-        'username': fields.String(required=True, description='user username'),
+        'firstname': fields.String(required=True, description='user username'),
         'password': fields.String(required=True, description='user password'),
         'public_id': fields.String(description='user Identifier')
     })

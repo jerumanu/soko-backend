@@ -1,5 +1,4 @@
 # from app.main import api
-
 from flask_restx import fields, reqparse,Namespace
 
 class DeleteUser():

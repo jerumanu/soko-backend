@@ -1,31 +1,43 @@
 import logging
-
+import enum
 
 from ....main import db, flask_bcrypt
 from app.main.auth.extensions.auth.jwt_auth import jwt, auth, confirm_email_jwt
 from flask import g, request, jsonify
 import hashlib
 from datetime import datetime
+# roles= {"user": user, "engineer": engineer ,"business":business ,'admin':admin}
 
+class EnumGender(enum.Enum):
+    blank = ' '
+    female = 'Female'
+    male = 'Male'
+    other = 'Other'
+
+# fields.String(description='The object type', enum=EnumGender._member_names_)
 
 
 class User(db.Model):
     # Generates default class name for table. For changing use
-    #__tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), unique=True, index=True)
-    public_id = db.Column(db.String(100), unique=True)
-    username = db.Column(db.String(64))
-    user_role = db.Column(db.String(length=30), default='user')
+    __tablename__ = 'user'
+    id            = db.Column(db.Integer, primary_key=True)
+    email         = db.Column(db.String(64), unique=True, index=True)
+    public_id     = db.Column(db.String(100), unique=True)
+    lastname       =db.Column(db.String(64))
+    firstname       = db.Column(db.String (64))
+    user_role     = db.Column(db.String(length=30), default='user')
     password_hash = db.Column(db.String(128))
-    is_active = db.Column(db.Boolean, default=False)
-    mobile = db.Column(db.String(11))
-    name = db.Column(db.String(64))
-    location = db.Column(db.String(64))
-    about_me = db.Column(db.Text())
-    member_since = db.Column(db.DateTime(), default=datetime.now)
-    last_seen = db.Column(db.DateTime(), default=datetime.now)
-    avatar_hash = db.Column(db.String(32))
+    is_active     = db.Column(db.Boolean, default=False)
+    mobile        = db.Column(db.String(11))
+    name          = db.Column(db.String(64))
+    location      = db.Column(db.String(64))
+    about_me      = db.Column(db.Text())
+    member_since  = db.Column(db.DateTime(), default=datetime.now)
+    last_seen     = db.Column(db.DateTime(), default=datetime.now)
+    avatar_hash   = db.Column(db.String(32))
+
+
+
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -48,7 +60,7 @@ class User(db.Model):
 
     # Generates auth token.
     def generate_auth_token(self, permission_level):
-        """生成token"""
+        """generete token"""
         # Check if admin.
         if permission_level == 1:
 
@@ -68,12 +80,10 @@ class User(db.Model):
             # Return admin flag.
             return token
 
-        # Return normal user flag permission_level == 0 .
-        # python 2 dumps过后是str, 而在python3 中dumps的结果为bytes,
-        # 则需要将bytes转为字符串，即可 decode('ascii)
-        # 否则会报错: "TypeError: Object of type 'bytes' is not JSON serializable"
-
-        #print(jwt.make_header(header_fields={'token': jwt.dumps({'email': self.email, 'admin': 0}).decode('ascii')}))
+        # # Return normal user flag permission_level == 0 .
+         # After python 2 dumps is str, and in python3 the result of dumps is bytes,
+         # You need to convert bytes to strings, you can decode('ascii)
+         # Otherwise an error will be reported: "TypeError: Object of type 'bytes' is not JSON serializable"
         token = jwt.dumps({'email': self.email, 'admin': 0}).decode('ascii')
         #jwt.make_header(header_fields=token)
         return token
@@ -111,9 +121,9 @@ class User(db.Model):
         return False
 
     #Generates confirmation token.
-    def generate_confirmation_token(self, email, username):
+    def generate_confirmation_token(self):
 
-       return confirm_email_jwt.dumps({'email': self.email, 'username': self.username}).decode('ascii')
+       return confirm_email_jwt.dumps({'email': self.email, 'lastname': self.lastname, 'firstname': self.firstname,}).decode('ascii')
 
     # Check token
     @staticmethod
@@ -199,9 +209,9 @@ class User(db.Model):
     def __repr__(self):
 
         # This is only for representation how you want to see user information after query.
-        return "<User(id='%s', username='%s',email='%s')>" % (self.id, self.username, self.email)
+        return "<User(id='%s',  firstname='%s', lastname='%s',email='%s')>" % (self.id, self.lastname, self.firstname ,self.email)
     #
-    # # 类方法 class_method
+    # # class_method
     # @classmethod
     # def return_all(cls):
     #     def to_json(self):
@@ -209,7 +219,8 @@ class User(db.Model):
     #             'id': self.id,
     #             'email': self.email,
     #             'mobile': self.mobile,
-    #             'username': self.username,
+    #             'lastname': self.lastname,
+                # 'firstname': self.firstname,
     #             'user_role': self.user_role,
     #             'is_active': self.is_active,
     #             'name': self.name,

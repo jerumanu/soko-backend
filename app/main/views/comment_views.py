@@ -1,16 +1,11 @@
-from app.main import db
+from app.main                     import db
 from app.main.model.comment_model import CommentsModel
-
-from flask import request
-from flask_restx import Resource
-
-
-
-from ..schema.schema import  CommentsSchema
-
-
-
-from ..utils.dto import CommentsDto
+from app.main.auth.models.user    import User
+from app.main.model.product_model import ProductModel
+from flask                        import request
+from flask_restx                  import Resource
+from ..schema.schema              import  CommentsSchema
+from ..utils.dto                  import CommentsDto
 
 api = CommentsDto.api
 _comments = CommentsDto.comments
@@ -48,15 +43,25 @@ class Comments(Resource):
     def put(self, id):
         comment_data = CommentsModel.find_by_id(id)
         comment_json = request.get_json();
+        author            = User.query.filter_by(id=comment_json['comment_owner']).first()
+        productId         = ProductModel.query.filter_by(id=comment_json['product_id']).first()
 
         if comment_data:
             comment_data.comment= comment_json['comment']
             
         else:
             comment_data = comments_schema.load(comment_json)
+        
+        if author:
+            if productId:
+                comment_data.save_to_db()
+                return comments_schema.dump(comment_data), 200
+            else:
+                return {"message": "Prodcut not found"}, 404
+        else:
+            return {"message": "Invalid User"}, 404
 
-        comment_data.save_to_db()
-        return comments_schema.dump(comment_data), 200
+            
 
 @api.route('/')
 class CommentsList(Resource):
@@ -73,7 +78,17 @@ class CommentsList(Resource):
     @api.expect(_comments, validate=True)
     def post(self):
         comment_json = request.get_json()
-        comment_data = comments_schema.load(comment_json)
-        comment_data.save_to_db()
+        author            = User.query.filter_by(id=comment_json['comment_owner']).first()
+        productId         = ProductModel.query.filter_by(id=comment_json['product_id']).first()
+        
 
-        return comments_schema.dump(comment_data), 201
+        if author:
+            if productId:
+                comment_data = comments_schema.load(comment_json)
+                comment_data.save_to_db()
+                # return comments_schema.dump(comment_data), 201
+                return {"message": "commented successfully"}, 201
+            else:
+                return {"message": "Prodcut not found"}, 404
+        else:
+            return {"message": "Invalid User"}, 404

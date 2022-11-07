@@ -12,11 +12,13 @@ def save_new_user(data):
     user = User.query.filter_by(email=data['email']).first()
     if not user:
         new_user = User(
-            public_id=str(uuid.uuid4()),
-            email=data['email'],
-            username=data['username'],
-            password=data['password'],
-            registered_on=datetime.datetime.utcnow()
+            public_id     = str(uuid.uuid4()),
+            email         = data['email'],
+            lastname     = data['lastname'],
+            firstname     = data['firstname'],
+           
+            password      = data['password'],
+            registered_on = datetime.datetime.utcnow()
         )
         save_changes(new_user)
         response_object = {

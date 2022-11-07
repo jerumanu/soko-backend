@@ -1,5 +1,6 @@
-from flask_restx                                 import Api
+from flask_restx                                 import Api, Resource
 from flask                                       import Blueprint
+
 from .main.views.products_views                  import api as products_ns
 from .main.views.subscribe_views                 import api as subscribe_ns
 from .main.views.category_views                  import api as category_ns
@@ -16,6 +17,7 @@ from .main.qoutation.views.load_analysis      import api as load_ns
 blueprint = Blueprint('api', __name__ , )
 
 
+blueprint = Blueprint('api', __name__, url_prefix="/app")
 
 api = Api(blueprint,
         title='Sokosolar documention ',
