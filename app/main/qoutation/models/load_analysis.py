@@ -13,19 +13,20 @@ class LoadAnalysis(db.Model):
     id           = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     tenegerydemand= db.Column(db.Integer,)
     autonomy = db.Column(db.Integer)
-    location=db.Column(db.Integer,)
+    location=db.Column(db.String(50),)
     latitude = db.Column(db.Integer,)
     longtitude= db.Column(db.Integer)
-    date_added=db.Column(db.Datetime)
-    update_at     = db.Column(db.DateTime(),default=datetime.utcnow )
+    systemvolts=db.Column(db.Datetime)
+    date_added     = db.Column(db.DateTime(),default=datetime.utcnow )
 
-    def __init__(self, tenegerydemand,autonomy,location,latitude,longtitude,date_added):
+    def __init__(self, tenegerydemand,autonomy,systemvolts,location,latitude,longtitude,date_added):
         self.tenegerydemand = tenegerydemand
         self.autonomy = autonomy
         self.location= location
         self.latitude=latitude
         self.longtitude=longtitude
         self.date_added=date_added
+        self.systemvolts=systemvolts
         
         
     
