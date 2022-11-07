@@ -12,6 +12,7 @@ from app.main.views.ratings import rate
 
 from app.main.model       import product_model, subscribe_model, comment_model, timming_model,star_rating
 from app.main.auth.models import user, blacklist
+from app.main.qoutation.models import dereted_power,load_analysis
 
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')

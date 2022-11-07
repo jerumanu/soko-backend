@@ -11,7 +11,8 @@ from .main.views.time_views                      import api as timings_ns
 from app.main.auth.controller.auth_controler     import api as login_ns
 from app.main.auth.controller.register_controler import api as register_ns
 from .main.views.Star_rating                    import api as rating_ns
-
+from .main.qoutation.views.dereted_power        import api as dereted_ns
+from .main.qoutation.views.load_analysis      import api as load_ns
 blueprint = Blueprint('api', __name__ , )
 
 
@@ -35,3 +36,5 @@ api.add_namespace(timings_ns,   path='/time')
 api.add_namespace(login_ns,     path='/auth')
 api.add_namespace(register_ns,  path='/user')
 api.add_namespace(rating_ns,  path='/ratings')
+api.add_namespace(dereted_ns, path="/deretedPanels")
+api.add_namespace(load_ns, path="/loadAnalysis")
