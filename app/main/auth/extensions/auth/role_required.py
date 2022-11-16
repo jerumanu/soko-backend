@@ -63,3 +63,4 @@ def permission(arg):
 
     # Return check permissions method.
     return check_permissions
+
