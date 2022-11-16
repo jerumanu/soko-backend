@@ -8,7 +8,7 @@ from app.main.auth.extensions.auth.jwt_auth import refresh_jwt
 from app.errors import CustomFlaskErr as notice
 from validate_email import validate_email
 
-
+USER_ACCOUNT_FORBIDDEN = "Account has been disabled"
 
 class Auth:
     @staticmethod
@@ -24,7 +24,7 @@ class Auth:
             # Return invalid input error.
             return {'message': "invaild mail or password"}, 404
 
-        #if not validate_email(data['email'],verify=True,check_mx=True):
+        # if not validate_email(data['email'],verify=True,check_mx=True):
          #   raise error(status_code=500,return_code=20006)    
 
         # Check if user information is none.
@@ -33,6 +33,7 @@ class Auth:
 
         # Get user if it is existed.
         user = User.query.filter_by(email=email).first()
+        print ("hello")
         print(user)
         # Check if user is not existed.
         if user is None:
@@ -46,27 +47,30 @@ class Auth:
         # Three roles for user, default user role is user.
         # user：0，admin:1, sa:2
         print(user.verify_password(password))
+        print ("hello")
         if user is not None and user.verify_password(password):
 
             if user.user_role == 'user':
-
+                
                 # Generate access token. This method takes boolean \
                 # value for checking admin or normal user. Admin: 1 or 0.
                 access_token = user.generate_auth_token(0)
 
             # If user is admin.
             elif user.user_role == 'admin':
-
+                print(user.user_role)
                 # Generate access token. This method takes boolean \
                 # value for checking admin or normal user. Admin: 1 or 0.
                 access_token = user.generate_auth_token(1)
 
             # If user is super admin.
             elif user.user_role == 'sa':
-
+                print(user.user_role)
                 # Generate access token. This method takes boolean \
                 # value for checking admin or normal user. Admin: 2, 1, 0.
                 access_token = user.generate_auth_token(2)
+
+                print(user.user_role)        
 
             else:
                 return {"message": "invalid input."}, 422
@@ -86,28 +90,29 @@ class Auth:
                     # 'access_token': access_token,
                     # 'refresh_token': refresh_token
                 # })
-            return {
-                "message": "login success",
-                "roles": [user.user_role],
-                "access_token": "Bearer %s" % (access_token),
-                "refresh_token": refresh_token,
-                "avatar": 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-                "name": user.firstname
-            }
             # return {
-                #     'status':200,
-                #     'message':"success",
-                #     'user_id': user.id,
-                #     'roles': 'editor',
-                #     'is_active': user.is_active,
-                #     'username': user.username,
-                #     'user_role': user.user_role,
-                #     'access_token': access_token,
-                #     'refresh_token': refresh_token
-                # }
+            #     "message": "login success",
+            #     "roles": [user.user_role],
+            #     "access_token": "Bearer %s" % (access_token),
+            #     "refresh_token": refresh_token,
+            #     "avatar": 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+            #     "name": user.firstname
+            # }
+            return {
+                    'status':200,
+                    'message':"success",
+                    'user_id': user.id,
+                    'roles': 'editor',
+                    # 'is_active': user.is_active,
+                    'username': user.firstname,
+                    'user_role': user.user_role,
+                    'access_token': access_token,
+                    'refresh_token': refresh_token
+                }
         else:
             # Return invalid password
-            raise notice(status_code=421,return_code=20003,action_status=False)
+            # raise notice(status_code=421,return_code=20003,action_status=False)
+            return {"message": USER_ACCOUNT_FORBIDDEN},403
 
 
     @staticmethod

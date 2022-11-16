@@ -14,7 +14,7 @@ class Userlist():
         users = api.model('users', {
                 'email': fields.String(required=True, description='user email address'),
                 'user_role': fields.String(required=True, description='user user_role'),
-                'is_active': fields.String(required=True, description='user is_active'),
+                # 'is_active': fields.String(required=True, description='user is_active'),
                 'mobile': fields.String(required=True, description='user mobile'),
                 'about_me': fields.String(required=True, description='user info'),
                 'public_id': fields.String(description='user Identifier'),
