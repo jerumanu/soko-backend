@@ -1,5 +1,4 @@
-from statistics import mean
-from typing import List
+
 
 from flask_marshmallow       import Marshmallow
 from ..model.product_model   import ProductModel
