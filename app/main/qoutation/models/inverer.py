@@ -13,9 +13,9 @@ class DeretedPanel(db.Model):
 
     id           = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     name= db.Column(db.String(50) ,unique=True)
-    wp= db.Column(db.Integer,)
-    tstc = db.Column(db.Integer)
-    vmp=db.Column(db.Integer,)
+    batt_volts= db.Column(db.Integer,)
+    dod= db.Column(db.Integer)
+    ah=db.Column(db.Integer,)
     voc= db.Column(db.Integer,)
     isc= db.Column(db.Integer)
     tcoeff= db.Column(db.Integer)

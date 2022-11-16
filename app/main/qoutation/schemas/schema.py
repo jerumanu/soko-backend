@@ -19,7 +19,14 @@ class LoadsSchema(ma.SQLAlchemyAutoSchema):
 
 class DeretedSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = DeretedPanel
+        model =DeretedPanel
         load_instance = True
         load_only = ("deretedPanel")
         include_fk= True
+
+class BattSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model =DeretedPanel
+        load_instance = True
+        load_only = ("batt")
+        include_fk= True        

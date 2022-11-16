@@ -43,11 +43,7 @@ class StarRating(Resource):
     def get(self):
         # critic_avg = db.session.query(func.avg(Rating.rating)).scalar() or 0
         result= star_list_schema .dump( StarRatingModel.find_all())
-        # result=[1,2,3,4,]
-        # print(result)
-        # num=mean(result
-        # )
-        # data=[]
+        
 
         num= mean(d['rating'] for d in result)
         # s = format(x, '.5f')
@@ -64,9 +60,9 @@ class StarRating(Resource):
         data['avg'] = avg
         print (data)
         
-        # return data
+       
         return jsonify({'data':data}) 
 
-        # return jsonify({'item':item})
+        
         
         # return star_list_schema .dump( StarRatingModel.find_all()), 200

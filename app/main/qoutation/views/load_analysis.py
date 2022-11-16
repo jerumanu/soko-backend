@@ -2,7 +2,7 @@ from app.main import db
 from app.main.qoutation.models.load_analysis import LoadAnalysis
 from flask                        import request
 from flask_restx                  import Resource
-from ..schema.schema              import LoadsSchema
+from ..schemas.schema              import LoadsSchema
 from ..utils.dto                  import LoadsDto
 
 
@@ -18,23 +18,7 @@ loads_schema= LoadsSchema()
 loads_list_schema =  LoadsSchema( many=True)
 
 
-@api.route('/<name>')
-@api.param('name', 'The User identifier')
-class ProductFilter(Resource):
 
-    @api.doc('get a product')
-    @api.marshal_with( _loads)
-    def get(self, name):
-        loads_data = LoadAnalysis.find_by_name(name)
-        if loads_data:
-            
-            return {'message': LOADS_NOT_FOUND}, 404
-
-
-        loads_analysis_data = LoadAnalysis.find_by_name(name)
-        if loads_analysis_data:
-            return  loads_schema.dump(loads_analysis_data)
-        return {'message': LOADS_NOT_FOUND}, 404
 
 @api.route('/<int:id>')
 @api.param('id', 'The User identifier')  
@@ -57,29 +41,29 @@ class Product(Resource):
         return {'message': LOADS_NOT_FOUND}, 404    
 
 
-    # @api.doc('edit a product')
-    # @api.marshal_with( _loads)
-    # @api.expect( _loads, validate=True)
+    @api.doc('edit a load analysis')
+    @api.marshal_with( _loads)
+    @api.expect( _loads, validate=True)
 
-    # def put(self, id):
-    #     loads_analysis_data =  LoadAnalysis.find_by_id(id)
-    #     product_json = request.get_json();
+    def put(self, id):
+        loads_analysis_data =  LoadAnalysis.find_by_id(id)
+        product_json= request.get_json();
 
-    #     if loads_analysis_data:
+        if loads_analysis_data:
             
-    #         loads_analysis_data.price = product_json['price']
-    #         loads_analysis_data.name = product_json['name']
-    #         loads_analysis_data.description = product_json['description']
-    #         loads_analysis_data.price  = product_json['price ']
-    #         loads_analysis_data.image = product_json['image']
-    #         loads_analysis_data.update_at = product_json['update_at']
+            loads_analysis_data.price = product_json['price']
+            loads_analysis_data.name = product_json['name']
+            loads_analysis_data.description = product_json['description']
+            loads_analysis_data.price  = product_json['price ']
+            loads_analysis_data.image = product_json['image']
+            loads_analysis_data.update_at = product_json['update_at']
 
-    #     else:
-    #         loads_analysis_data =  loads_schema.load(product_json)
+        else:
+            loads_analysis_data =  loads_schema.load(product_json)
 
-    #     loads_analysis_data.save_to_db()
-    #     return  loads_schema.dump(loads_analysis_data), 200
-    
+        loads_analysis_data.save_to_db()
+        return  loads_schema.dump(loads_analysis_data), 200
+
 
 @api.route('/')
 class ProductList(Resource):
@@ -102,4 +86,17 @@ class ProductList(Resource):
         
         loads_analysis_data.save_to_db()
 
-        return  loads_schema.dump(loads_analysis_data), 201
+        return loads_schema.dump(loads_analysis_data), 201
+
+        # ted=results['tenegerydemand']
+        # autonomy =results['autonomy ']
+        # location=results['location']
+        # latitude=results['latitude']
+        # longtitude=results['longtitude']
+        # systemvolts=results['systemvolts']
+
+    
+        
+
+
+
