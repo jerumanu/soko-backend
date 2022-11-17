@@ -12,10 +12,6 @@ class FavouriteModel(db.Model):
     timeStamp    = db.Column(db.DateTime, nullable=False, default=dt.datetime.utcnow, onupdate=dt.datetime.utcnow)
     user_id     = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
-    
-    
-
-   
 
     @classmethod
     def find_all(cls) -> List["FavouriteModel"]:

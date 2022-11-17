@@ -1,14 +1,13 @@
-
 from .. import db 
 from datetime import datetime
 from typing import List
-from .favourite_model import FavouriteModel
+import datetime as dt
+
 
 
 
 
 class ProductModel(db.Model):
-
     __tablename__ = "product"
 
     id            = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -18,35 +17,29 @@ class ProductModel(db.Model):
     price         = db.Column(db.Float, nullable=False)
     image         = db.Column(db.String(256))
     product_owner = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    inStock       = db.Column(db.Boolean,  nullable=False)
+    condition     = db.Column(db.String,  nullable=False)
     update_at     = db.Column(db.DateTime(),default=datetime.utcnow )
-   
     category_id   = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
+    solarType_id  = db.Column(db.Integer, db.ForeignKey('solarType.id'), nullable=False)
+    brand_id      = db.Column(db.Integer, db.ForeignKey('brand.id'), nullable=False)
 
 
     #relationship
     favourite     = db.relationship('FavouriteModel', backref='product', cascade = 'all, delete-orphan', lazy='joined')
     comment       = db.relationship('CommentsModel', backref='product', cascade = 'all, delete-orphan', lazy='joined')
 
-    # comment       = db.relationship("CommentsModel", lazy="joined", primaryjoin="ProductModel.id == CommentsModel.product_id",back_populates='product')
-    
-
-    
-   
-    
-    
-    
-    def __init__(self, name,description,update_at,product_owner,image,price,date_added):
+    def __init__(self, name,description,product_owner,image,price,date_added):
         self.name = name
         self.description = description
         self.image = image
         self.product_owner = product_owner
         self.price = price
-        self.date_added=date_added
-        self.update_at=update_at
+        self.date_added= dt.datetime.now()
+        self.update_at= dt.datetime.now()
         
     
     
-
     def __repr__(self):
         return 'ProductModel(name=%s)' % self.name
 
