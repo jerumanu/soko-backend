@@ -9,7 +9,7 @@ from ..model.product_model   import ProductModel
 from ..model.comment_model   import CommentsModel
 from ..model.timming_model   import TimeFormat
 from ..model.payment_model   import Invoice, Transaction
-
+from ..model.submodel  import SolarType, Brand
 ma = Marshmallow()
 
 
@@ -86,7 +86,23 @@ class InvoiceSchema(ma.SQLAlchemyAutoSchema):
 
 class TransactionSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        # model         = Transaction
+        model         = Transaction
         load_instance = True #optional: deserialize to model instance
         load_only     = ("payment")
+        include_fk    = True
+
+
+class SolarTypeSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model         = SolarType
+        load_instance = True #optional: deserialize to model instance
+        load_only     = ("solarType")
+        include_fk    = True
+
+
+class BrandSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model         = Brand
+        load_instance = True #optional: deserialize to model instance
+        load_only     = ("brand")
         include_fk    = True

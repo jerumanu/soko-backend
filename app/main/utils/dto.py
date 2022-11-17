@@ -18,12 +18,15 @@ class ProductDto:
     api = Namespace('product', description='product related operations')
     product = api.model('product', {
         'id'          : fields.Integer(readonly= True, description="unique identifier"),
-        'date_added'  : fields.DateTime( required=True, description=' time the product was created  '),
         'name'         : fields.String(required=True, description='product email address'),
         'description'  : fields.String(required=True, description='product productname'),
         'price'        : fields.Float(0.00,required=True, description='product price'),
         "image"        : fields.String(description='product Identifier'),
         'product_owner': fields.String(description='product Identifier'),
+        'inStock'      : fields.Boolean(required=True, description="is the product available"),
+        'condition'    : fields.String(required=True, description="Is the product new or used"),
+        'solarType_id ': fields.Integer(required=True, description="Solar type Id"),
+        'brand_id '    : fields.Integer(required=True, description="Brand Id"),
         'category'     : fields.String(description='category Identifier')
     })
 
@@ -101,17 +104,35 @@ class InvoiceDto:
     payment = api.model('invoice', {
         'amount'      : fields.Float(required=True,  description='amount'),
         'phoneNumber' : fields.String(required=True, description='number to pay'),
-        'user_id'     : fields.String(required=True, description='user id')
+        'user_id'     : fields.Integer(required=True, description='user id'),
+        'paymentType' : fields.String(required = True, description='Payment type')
     })
 
 class TransactionDto:
     api     = Namespace('Transaction payment', description='payment for services provided')
     transaction = api.model('transaction', {
-        # 'receipt_id '        : fields.String(required=True, description='payment reciept'),
-        # 'date_paid '         : fields.String(required=True, description='date paid'),
-        # 'merchant_request_id': fields.String(required=True, description='merchant id'),
+        'receipt_id '        : fields.String(required=True, description='payment reciept'),
+        'date_paid '         : fields.String(required=True, description='date paid'),
+        'merchant_request_id': fields.String(required=True, description='merchant id'),
         'amount'             : fields.Float (required=True, description='amount'),
         'phoneNumber'        : fields.String(required=True, description='phone number'),
-        # 'user_id'            : fields.String(required=True, description='user id')
+        'user_id'            : fields.String(required=True, description='user id'),
+        'paymentType'        : fields.String(required=True, description='Payment type')
+    })
+
+
+class BrandDto:
+    api     = Namespace('Brand name', description='Product brand name')
+    brand   = api.model('brand', {
+        'id'    : fields.Integer(readonly=True,  description="unique identifier"),
+        'name'  : fields.String(required=True,   description="Product Brand name")
+    })
+
+
+class SolarTypeDto:
+    api       = Namespace('Solar type', description='Type of solar in the market')
+    solarType = api.model('solarType', {
+        'id'    : fields.Integer(readonly=True,  description="unique identifier"),
+        'name'  : fields.String(required=True,   description="solar type name")
     })
 
