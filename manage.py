@@ -19,6 +19,8 @@ migrate = Migrate(app, db)
 
 manager.add_command('db', MigrateCommand)
 
+# cli.add_command(...)
+
 @manager.command
 def run():
     app.run()
@@ -34,4 +36,8 @@ def test():
 
 if __name__ == '__main__':
     manager.run()
+
+
+# if __name__ == "__main__":
+#     cli()
 
