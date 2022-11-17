@@ -11,7 +11,8 @@ from .main.views.time_views                      import api as timings_ns
 from .main.views.payments_view                   import api as payment_ns
 from app.main.auth.controller.auth_controler     import api as login_ns
 from app.main.auth.controller.register_controler import api as register_ns
-
+from .main.views.brand_views                     import api as brand_ns
+from .main.views.solarType_views                 import api as solarType_ns
 
 
 blueprint = Blueprint('api', __name__)
@@ -34,4 +35,6 @@ api.add_namespace(comments_ns,  path='/comments')
 api.add_namespace(timings_ns,   path='/time')
 api.add_namespace(login_ns,     path='/auth')
 api.add_namespace(register_ns,  path='/user')
+api.add_namespace(brand_ns,     path='/brand')
+api.add_namespace(solarType_ns, path='/solar-type')
 
