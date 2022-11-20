@@ -1,8 +1,8 @@
 """migartions 
 
-Revision ID: 14ff4028b8a2
+Revision ID: dd29dd9d7c47
 Revises: 
-Create Date: 2022-11-15 19:12:50.728516
+Create Date: 2022-11-18 23:25:39.060371
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '14ff4028b8a2'
+revision = 'dd29dd9d7c47'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -75,6 +75,7 @@ def upgrade():
     sa.Column('tcoeff', sa.Integer(), nullable=True),
     sa.Column('fman', sa.Integer(), nullable=True),
     sa.Column('vcoeff', sa.Integer(), nullable=True),
+    sa.Column('wpd', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id'),
     sa.UniqueConstraint('name')
@@ -95,6 +96,7 @@ def upgrade():
     op.create_table('starRating',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('rating', sa.Integer(), nullable=True),
+    sa.Column('rate', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('subscribe',
@@ -120,6 +122,7 @@ def upgrade():
     sa.Column('firstname', sa.String(length=64), nullable=True),
     sa.Column('user_role', sa.String(length=30), nullable=True),
     sa.Column('password_hash', sa.String(length=128), nullable=True),
+    sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.Column('mobile', sa.String(length=11), nullable=True),
     sa.Column('name', sa.String(length=64), nullable=True),
     sa.Column('location', sa.String(length=64), nullable=True),
