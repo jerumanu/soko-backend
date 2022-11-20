@@ -29,13 +29,15 @@ class DeretedDto:
         'tcoeff':fields.Integer( required=True, description=' client prefrence system volts'    ) ,
         'fman':fields.Integer( required=True, description=' client prefrence system volts'    ) ,
         'vcoeff':fields.Integer( required=True, description=' client prefrence system volts'    ) ,
+        'wpd':fields.Integer( description=' client prefrence system volts'    ) ,
+
 
         # 'date_added ':fields.DateTime( required=True, description=' date created'    )
     })
 class BattDto:
 
     api = Namespace('batt', description='comments related operations')
-    batt= api.model('dereted', { 
+    batt= api.model('batt', { 
 
         'name': fields.String(description='locations of the client'),
         'battv': fields.Integer(required=True, description='total energy demand in kw/hrs'),

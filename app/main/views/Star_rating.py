@@ -27,10 +27,21 @@ class StarRating(Resource):
     @api.doc('create a new Product')
     @api.expect(_star, validate=True)
 
+    # refactor the code  to alow mean callculation befor the serialization 
+
     def post(self):
         star_json= request.get_json()
         # product_data = request.get_json().load()
+
         
+        # result= star_list_schema .dump( StarRatingModel.find_all())
+
+
+        # num= mean(d['rating'] for d in result)
+
+        # avg =float(format(num, '.1f'))
+        # star_json['rate']=avg
+
         product_data=star_schema.load(star_json)
         # print(product_data)
         
@@ -42,27 +53,27 @@ class StarRating(Resource):
     # @api.marshal_list_with(_star, envelope='data')
     def get(self):
         # critic_avg = db.session.query(func.avg(Rating.rating)).scalar() or 0
-        result= star_list_schema .dump( StarRatingModel.find_all())
+        # result= star_list_schema .dump( StarRatingModel.find_all())
         
 
-        num= mean(d['rating'] for d in result)
-        # s = format(x, '.5f')
-        avg =float(format(num, '.1f'))
+        # num= mean(d['rating'] for d in result)
+        # # s = format(x, '.5f')
+        # avg =float(format(num, '.1f'))
  
-        print("hello world")
-        print(num)
-        print(result)
+        # print("hello world")
+        # print(num)
+        # print(result)
 
 
-        data = dict()
+        # data = dict()
 
         
-        data['avg'] = avg
-        print (data)
+        # data['avg'] = avg
+        # print (data)
         
        
-        return jsonify({'data':data}) 
+        # return jsonify({'data':data}) 
 
         
         
-        # return star_list_schema .dump( StarRatingModel.find_all()), 200
+        return star_list_schema .dump( StarRatingModel.find_all()), 200

@@ -21,9 +21,11 @@ class DeretedPanel(db.Model):
     tcoeff= db.Column(db.Integer)
     fman=db.Column(db.Integer)
     vcoeff= db.Column(db.Integer)
+    wpd= db.Column(db.Integer)
+
     # date_added     = db.Column(db.DateTime(),default=datetime.utcnow )
 
-    def __init__(self,name, tstc,wp,vmp,voc,isc,tcoeff,fman,vcoeff):
+    def __init__(self,name, tstc,wp,vmp,voc,isc,tcoeff,fman,vcoeff,wpd):
         self.tstc = tstc
         self.name=name
         self.wp = wp
@@ -33,6 +35,7 @@ class DeretedPanel(db.Model):
         self.tcoeff=tcoeff
         self.fman=fman
         self.vcoeff =vcoeff
+        self.wpd = wpd
         # self.date_added=date_added
         
         
@@ -57,9 +60,20 @@ class DeretedPanel(db.Model):
     def find_all(cls) -> List["DeretedPanel"]:
         return cls.query.all()
 
-    def save_to_db(self) -> None:
-        db.session.add(self)
-        db.session.commit()
+
+    def save(dereted):
+
+        db.session.add(dereted)
+        try:
+            db.session.commit()
+            return {"status": True}
+        except Exception as e:
+            return {"status": False, "message": str(e)
+            }
+
+    # def save_to_db(self) -> None:
+    #     db.session.add(self)
+    #     db.session.commit()
 
     def delete_from_db(self) -> None:
         db.session.delete(self)

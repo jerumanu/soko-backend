@@ -25,7 +25,27 @@ dereted_list_schema=  DeretedSchema(many=True)
 
 
 
-   
+@api.route('/<name>')
+@api.param('name', 'The User identifier')
+
+class ProductFilter(Resource):
+
+    @api.doc('get a product')
+    @api.marshal_with(_dereted)
+
+
+    def get(self):
+
+        my_dict = dict()
+        deretedpower_data = DeretedPanel.find_by_name(name)
+        if deretedpower_data:
+            result= dereted_schema.dump(deretedpower_data)
+
+            # res = [test_list[0], test_list[-1]]
+
+            
+
+            
 
 
 
@@ -98,9 +118,54 @@ class ProductList(Resource):
     @api.expect(_dereted, validate=True)
 
     def post(self):
+
         dereted_json= request.get_json()
-        deretedpower_data = dereted_schema.load(dereted_json)
         
-        deretedpower_data.save_to_db()
+
+        print('wp',dereted_json['wp'])
+
+        print("relusts",dereted_json)
+        name = dereted_json['name']
+        wp= dereted_json['wp'] 
+        vmp= dereted_json['vmp']
+        voc=dereted_json['voc']
+        isc=dereted_json['isc']
+        fman=dereted_json['fman']
+        tstc=dereted_json['tstc']
+        vcoeff=dereted_json['vcoeff']
+        tcoeff= dereted_json ['tcoeff']
+
+        print('name',name)
+
+            # dirt=results['dirt']
+
+            # tceff= -0.5
+        tamb= 20
+        dirt=0.98
+            # panelsvolts=12
+            # num=0.2
+            # s_factor=0.5
+        print(wp)
+        print(vmp)
+        print(voc)
+        print(isc)
+        print(fman)
+        print(tstc)
+        print(vcoeff)
+
+        tceff = tamb + tstc
+            
+        wpd = round(wp * (1 + ((tceff/100) * (tamb - tstc))) * (1-dirt) * (1-fman))
+
+        dereted_json['wpd'] =  wpd
+
+        print ('wpd',wpd)
+        print('dereted_json',dereted_json)
+        deretedpower_data = dereted_schema.load(dereted_json)
+
+
+
+        
+        deretedpower_data.save()
 
         return dereted_schema.dump(deretedpower_data), 201
