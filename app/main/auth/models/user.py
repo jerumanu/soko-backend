@@ -27,7 +27,7 @@ class User(db.Model):
     firstname       = db.Column(db.String (64))
     user_role      = db.Column(db.String(length=30),)
     password_hash = db.Column(db.String(128))
-    # is_active     = db.Column(db.Boolean, default=True)
+    is_active     = db.Column(db.Boolean, default=False)
     mobile        = db.Column(db.String(11))
     name          = db.Column(db.String(64))
     location      = db.Column(db.String(64))
@@ -79,7 +79,21 @@ class User(db.Model):
 
             # Return admin flag.
             return token
+        elif permission_level == 3:
 
+            # Generate admin token with flag 2.
+            token = jwt.dumps({'email': self.email, 'admin': 3}).decode('ascii')
+
+            # Return admin flag.
+            return token
+
+        elif permission_level == 4:
+
+            # Generate admin token with flag 2.
+            token = jwt.dumps({'email': self.email, 'admin': 4}).decode('ascii')
+
+            # Return admin flag.
+            return token    
         # # Return normal user flag permission_level == 0 .
          # After python 2 dumps is str, and in python3 the result of dumps is bytes,
          # You need to convert bytes to strings, you can decode('ascii)
@@ -121,7 +135,7 @@ class User(db.Model):
         return False
 
     #Generates confirmation token.
-    def generate_confirmation_token(self, email,firstname):
+    def generate_confirmation_token(self):
 
        return confirm_email_jwt.dumps({'email': self.email, 'firstname': self.firstname,}).decode('ascii')
 

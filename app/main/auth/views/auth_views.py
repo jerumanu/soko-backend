@@ -62,13 +62,22 @@ class Auth:
                 # Generate access token. This method takes boolean \
                 # value for checking admin or normal user. Admin: 1 or 0.
                 access_token = user.generate_auth_token(1)
-
+            elif user.user_role == 'business':
+                print(user.user_role)
+                # Generate access token. This method takes boolean \
+                # value for checking admin or normal user. Admin: 1 or 0.
+                access_token = user.generate_auth_token(3)
+            elif user.user_role == 'engineer':
+                print(user.user_role)
+                # Generate access token. This method takes boolean \
+                # value for checking admin or normal user. Admin: 1 or 0.
+                access_token = user.generate_auth_token(2)
             # If user is super admin.
             elif user.user_role == 'sa':
                 print(user.user_role)
                 # Generate access token. This method takes boolean \
                 # value for checking admin or normal user. Admin: 2, 1, 0.
-                access_token = user.generate_auth_token(2)
+                access_token = user.generate_auth_token(4)
 
                 print(user.user_role)        
 
@@ -102,7 +111,7 @@ class Auth:
                     'status':200,
                     'message':"success",
                     'user_id': user.id,
-                    'roles': 'editor',
+                    # 'roles': 'editor',
                     # 'is_active': user.is_active,
                     'username': user.firstname,
                     'user_role': user.user_role,
@@ -160,4 +169,3 @@ class Auth:
 
         token = user.generate_auth_token(False)
         return {'access_token': token}
-      

@@ -24,18 +24,6 @@ business_schema= BusinessSchema()
 
 business_list_schema=  BusinessSchema(many=True)
 
-
-
-   
-
-
-
-
-            
-        
-
-
-
 @api.route('/<int:id>')
 @api.param('id', 'The User identifier')  
 class Product(Resource):
@@ -98,7 +86,9 @@ class ProductList(Resource):
     @api.doc('create a new Product')
     @api.expect(_business, validate=True)
     @auth.login_required
-    @role_required.permission(2)
+    
+    @role_required.permission(1)
+
 
     def post(self):
         dereted_json= request.get_json()
