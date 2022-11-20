@@ -12,6 +12,9 @@ class StarRatingModel(db.Model):
 
     id            = db.Column(db.Integer, primary_key=True, )
     rating    =db.Column(db.Integer,)
+    rate = db.Column(db.Integer,)
+    # product_id    = db.Column(db.Integer,db.ForeignKey('product.id'),nullable=False)
+
     # critic_avg = db.session.query(func.avg(StarRatingModel.rating)).scalar() or 0
 
     # four_stars =db.Column(db.Integer )
@@ -27,8 +30,9 @@ class StarRatingModel(db.Model):
     
     
     
-    def __init__(self,rating):
+    def __init__(self,rating,rate):
         self.rating = rating
+        self.rate =rate
         # self.four_stars  = four_stars 
         # self.three_stars = three_stars
         # self.two_stars =two_stars

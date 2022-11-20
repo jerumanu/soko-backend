@@ -1,12 +1,12 @@
 from flask import request
 from flask_restx import Resource, Namespace
 
-from app import db
+
 from app.main.auth.models.user import User
 from app.main.auth.extensions.auth import  role_required
 from app.main.auth.extensions.auth.jwt_auth import  auth
 from app.main.auth.views.user_views import get_all_users
-from app.main.auth.utils.user_dto import user_put_model,get_user_fields
+# from app.main.auth.utils.user_dto import user_put_model,get_user_fields
 from ..utils.auth_dto import RegisterDto
 
 

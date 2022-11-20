@@ -10,7 +10,7 @@ import functools
 from flask import request
 from app.main.auth.extensions.auth.jwt_auth import jwt
 
-def permission(arg):
+def permission(arg ):
     def check_permissions(f):
         @functools.wraps(f)
         def decorated(*args, **kwargs):
@@ -29,8 +29,13 @@ def permission(arg):
                     print (auth_type,token)
 
                     # Just print info
-                    if data['admin'] == 2:
+                    if data['admin'] == 4  :
                         print ("Your role is sa .")
+                    elif data['admin']== 3  :
+                        print('your role is businees owner')
+                    elif data['admin']==2 :
+                        print('your role is engineer')
+
                     elif data['admin'] == 1:
                         print ("Your role is admin .")
                     else:
@@ -63,3 +68,4 @@ def permission(arg):
 
     # Return check permissions method.
     return check_permissions
+

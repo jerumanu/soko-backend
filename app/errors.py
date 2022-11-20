@@ -13,6 +13,7 @@
 # 500 INTERNAL SERVER ERROR - [*]: An error has occurred on the server, and the user will not be able to determine whether the sent request is successful or not
 from flask import make_response,jsonify
 # from  . import blueprint
+# from app import blueprint
 from app.main.auth.extensions.auth.jwt_auth import auth
 
 error_list = {
@@ -125,7 +126,7 @@ class CustomFlaskErr(Exception):
         print(rv)
         return rv
 
-# @blueprint.app_errorhandler(CustomFlaskErr)
+# @app_errorhandler(CustomFlaskErr)
 def handle_flask_error(error):
     # response The json content is custom error code and error message
     response = jsonify(error.to_dict())

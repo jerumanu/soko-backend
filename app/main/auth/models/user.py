@@ -25,7 +25,7 @@ class User(db.Model):
     public_id     = db.Column(db.String(100), unique=True)
     lastname       =db.Column(db.String(64))
     firstname       = db.Column(db.String (64))
-    user_role     = db.Column(db.String(length=30), default='user')
+    user_role      = db.Column(db.String(length=30),)
     password_hash = db.Column(db.String(128))
     is_active     = db.Column(db.Boolean, default=False)
     mobile        = db.Column(db.String(11))
@@ -79,7 +79,21 @@ class User(db.Model):
 
             # Return admin flag.
             return token
+        elif permission_level == 3:
 
+            # Generate admin token with flag 2.
+            token = jwt.dumps({'email': self.email, 'admin': 3}).decode('ascii')
+
+            # Return admin flag.
+            return token
+
+        elif permission_level == 4:
+
+            # Generate admin token with flag 2.
+            token = jwt.dumps({'email': self.email, 'admin': 4}).decode('ascii')
+
+            # Return admin flag.
+            return token    
         # # Return normal user flag permission_level == 0 .
          # After python 2 dumps is str, and in python3 the result of dumps is bytes,
          # You need to convert bytes to strings, you can decode('ascii)
@@ -123,7 +137,7 @@ class User(db.Model):
     #Generates confirmation token.
     def generate_confirmation_token(self):
 
-       return confirm_email_jwt.dumps({'email': self.email, 'lastname': self.lastname, 'firstname': self.firstname,}).decode('ascii')
+       return confirm_email_jwt.dumps({'email': self.email, 'firstname': self.firstname,}).decode('ascii')
 
     # Check token
     @staticmethod
@@ -137,7 +151,7 @@ class User(db.Model):
                 user = User.query.filter_by(email=data['email']).first()
 
                 # set is_activce is 1
-                user.is_active = 1
+                # user.is_active = 1
                 #print(user)
                 db.session.add(user)
                 db.session.commit()
@@ -209,7 +223,7 @@ class User(db.Model):
     def __repr__(self):
 
         # This is only for representation how you want to see user information after query.
-        return "<User(id='%s',  firstname='%s', lastname='%s',email='%s')>" % (self.id, self.lastname, self.firstname ,self.email)
+        return "<User(id='%s', user_role'%s' firstname='%s',email='%s')>" % (self.id,  self.firstname ,self.email,self.user_role)
     #
     # # class_method
     # @classmethod

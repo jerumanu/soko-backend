@@ -11,9 +11,16 @@ from .main.views.comment_views                   import api as comments_ns
 from .main.views.time_views                      import api as timings_ns
 from app.main.auth.controller.auth_controler     import api as login_ns
 from app.main.auth.controller.register_controler import api as register_ns
+from app.main.auth.controller.user_controler      import api as users_ns
 from .main.views.Star_rating                    import api as rating_ns
+from .main.qoutation.views.dereted_power        import api as dereted_ns
+from .main.qoutation.views.load_analysis      import api as load_ns
+from  .main.qoutation.views.batt_views          import api as batt_ns
+from  .main.auth.views.engineer_views    import api as engineer_ns
+from  .main.auth.views.business_views    import api as business_ns
 
-blueprint = Blueprint('api', __name__ , )
+
+# blueprint = Blueprint('api', __name__ , )
 
 
 blueprint = Blueprint('api', __name__, url_prefix="/app")
@@ -24,9 +31,6 @@ api = Api(blueprint,
         description=' project route '
         
         )
-
-
-
 
 api.add_namespace(products_ns,  path='/product')
 api.add_namespace(subscribe_ns, path='/subscribe')
@@ -40,3 +44,9 @@ api.add_namespace(timings_ns,   path='/time')
 api.add_namespace(login_ns,     path='/auth')
 api.add_namespace(register_ns,  path='/user')
 api.add_namespace(rating_ns,  path='/ratings')
+api.add_namespace(dereted_ns, path="/dereted")
+api.add_namespace(load_ns, path="/analysis")
+api.add_namespace(batt_ns, path="/batt")
+api.add_namespace (engineer_ns, path="/engineer")
+api.add_namespace (business_ns, path='/business')
+api.add_namespace (users_ns, path='/userList')

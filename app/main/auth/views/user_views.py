@@ -24,19 +24,18 @@ def save_new_user(data):
             public_id=str(uuid.uuid4()),
             email=data['email'],
             firstname=data['firstname'],
-
-            # lastname=data['lastname'],
+            lastname=data['lastname'],
             password=data['password'],
-            
+            user_role=data['user_role']
         )
         save_changes(user) # 
 
         
 
-        email_confirm_token =  (user.generate_confirmation_token(data['email'],data['firstname']['lastname']))
+        email_confirm_token =  (user.generate_confirmation_token(data['email'],data['firstname']))
         
         confirm_url = (url_for('api.confirm',confirm_token=email_confirm_token,_external=True)) + '?email=' + data['email']
-        send_email(to=data['email'], subject='active',template='confirm.html', confirm_url=confirm_url,user=data['firstname'],)
+        # send_email(to=data['email'], subject='active',template='confirm.html', confirm_url=confirm_url,user=data['firstname'],)
 
         
     else:

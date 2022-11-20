@@ -19,5 +19,5 @@ refresh_jwt = JWT('Ag93ZQ3KcGg&KUhR', expires_in=17200)
 confirm_email_jwt = JWT('HuGIUMKXLoHi4Y2S', expires_in=17200)
 
 # Auth object creation.
-auth = HTTPTokenAuth('Bearer')
+auth = HTTPTokenAuth(scheme='Bearer')
 
