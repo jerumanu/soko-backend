@@ -1,5 +1,5 @@
 from app.main import db
-from app.main.model.timming_model import  TimeFormat
+from app.main.ecommerce.model.timming_model import  TimeFormat
 
 from flask import request
 from flask_restx import Resource

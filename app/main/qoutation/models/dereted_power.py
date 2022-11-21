@@ -11,7 +11,7 @@ class DeretedPanel(db.Model):
     __tablename__="dereted"
 
 
-    id           = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
+    id           = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True )
     name= db.Column(db.String(50) ,unique=True)
     wp= db.Column(db.Integer,)
     tstc = db.Column(db.Integer)
@@ -61,19 +61,19 @@ class DeretedPanel(db.Model):
         return cls.query.all()
 
 
-    def save(dereted):
+    # def save(dereted):
 
-        db.session.add(dereted)
-        try:
-            db.session.commit()
-            return {"status": True}
-        except Exception as e:
-            return {"status": False, "message": str(e)
-            }
+    #     db.session.add(dereted)
+    #     try:
+    #         db.session.commit()
+    #         return {"status": True}
+    #     except Exception as e:
+    #         return {"status": False, "message": str(e)
+    #         }
 
-    # def save_to_db(self) -> None:
-    #     db.session.add(self)
-    #     db.session.commit()
+    def save_to_db(self) -> None:
+        db.session.add(self)
+        db.session.commit()
 
     def delete_from_db(self) -> None:
         db.session.delete(self)

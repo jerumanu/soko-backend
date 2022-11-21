@@ -49,4 +49,20 @@ class BattDto:
         # 'date_added ':fields.DateTime( required=True, description=' date created'    )
     })
 
+class QouteDto:
 
+    api = Namespace('qoute', description='comments related operations')
+    qoute= api.model('qoute', { 
+
+        'power': fields.Integer( description='total energy demand in kw/hrs'),
+        'panel': fields.Integer( description='No of days the battrey takes to be fuly discharged'),
+        'panels_series':fields.Integer(  description=' latitude logations of the client  '),
+        'total_panels':fields.Integer(  description=' longtitude logations of the client  '),
+        'charge_controler':fields.Integer(  description=' longtitude logations of the client  '),
+        'batt_capacity':fields.Integer(  description=' longtitude logations of the client  '),
+        'batt_string':fields.Integer(  description=' longtitude logations of the client  '),
+        'batt_series':fields.Integer(  description=' longtitude logations of the client  '),
+        'no_batt':fields.Integer(  description=' longtitude logations of the client  '),
+        'inverter':fields.Integer(  description=' longtitude logations of the client  '),
+        # 'date_added ':fields.DateTime( required=True, description=' date created'    )
+    })

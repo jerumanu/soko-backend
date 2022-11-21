@@ -1,8 +1,8 @@
 """migartions 
 
-Revision ID: dd29dd9d7c47
+Revision ID: f0249f73b80e
 Revises: 
-Create Date: 2022-11-18 23:25:39.060371
+Create Date: 2022-11-21 12:53:06.338205
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'dd29dd9d7c47'
+revision = 'f0249f73b80e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,6 +36,21 @@ def upgrade():
     sa.Column('latitude', sa.Integer(), nullable=True),
     sa.Column('longtitude', sa.Integer(), nullable=True),
     sa.Column('systemvolts', sa.Integer(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('id')
+    )
+    op.create_table(' qoute',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('power', sa.Integer(), nullable=True),
+    sa.Column('panel', sa.Integer(), nullable=True),
+    sa.Column('panels_series', sa.String(length=50), nullable=True),
+    sa.Column('total_panels', sa.Integer(), nullable=True),
+    sa.Column('charge_controler', sa.Integer(), nullable=True),
+    sa.Column('batt_capacity', sa.Integer(), nullable=True),
+    sa.Column('batt_string', sa.Integer(), nullable=True),
+    sa.Column('batt_series', sa.Integer(), nullable=True),
+    sa.Column('no_batt', sa.Integer(), nullable=True),
+    sa.Column('inverter', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
     )
@@ -212,6 +227,7 @@ def downgrade():
     op.drop_table('blacklist')
     op.drop_table('batt')
     op.drop_table('Faq')
+    op.drop_table(' qoute')
     op.drop_table(' loads')
     op.drop_table(' business')
     # ### end Alembic commands ###

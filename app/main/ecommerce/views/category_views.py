@@ -1,10 +1,10 @@
 from wsgiref import validate
 from flask                          import request
 from flask_restx                    import Resource
-from app.main.model.category_model  import CategoryModel
-from app.main.schema.schema         import CategorySchema
-from app.main.utils.dto             import CategoryDto
-from ..                             import db
+from app.main.ecommerce.model.category_model  import CategoryModel
+from app.main.ecommerce.schema.schema         import CategorySchema
+from app.main.ecommerce.utils.dto             import CategoryDto
+from  ....main import db
 from app.main.auth.models.user      import User
 
 api              = CategoryDto.api

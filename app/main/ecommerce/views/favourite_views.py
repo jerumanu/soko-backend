@@ -1,10 +1,10 @@
 from flask                          import  request
 from flask_restx                    import  Resource
-from app.main.model.favourite_model import  FavouriteModel
-from app.main.schema.schema         import  FavouriteSchema
-from app.main.utils.dto             import  FavouriteDto
-from ..                             import  db
-from app.main.model.product_model   import  ProductModel
+from app.main.ecommerce.model.favourite_model import  FavouriteModel
+from app.main.ecommerce.schema.schema         import  FavouriteSchema
+from app.main.ecommerce.utils.dto             import  FavouriteDto
+from  ....main import db
+from app.main.ecommerce.model.product_model   import  ProductModel
 from app.main.auth.models.user      import  User
 
 api              = FavouriteDto.api

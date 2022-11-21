@@ -14,7 +14,7 @@ from ..model.star_rating   import  StarRatingModel
 from marshmallow import EXCLUDE
 
 # from flask                        import request
-from ...main import db
+from  ....main import db
 # from ..views.Star_rating import star_list_schema
 ma = Marshmallow()
 from marshmallow import Schema, fields

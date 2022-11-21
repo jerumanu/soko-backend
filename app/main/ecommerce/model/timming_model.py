@@ -1,5 +1,5 @@
 from datetime import time
-from .. import db 
+from  ....main import db
 from typing import List
 
 # class TimeFormat(fields.Raw):

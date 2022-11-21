@@ -4,7 +4,7 @@ from flask_migrate            import Migrate, MigrateCommand
 # from flask.cli                import FlaskGroup
 from app.main                 import create_app, db
 from app                      import blueprint
-from app.main.views.home_view import home
+from app.main.ecommerce.views.home_view import home
 from flask_script import Manager
 
 
@@ -14,9 +14,9 @@ from flask_script import Manager
 
 
 
-from app.main.views.ratings import rate
+from app.main.ecommerce.views.ratings import rate
 
-from app.main.model       import product_model, subscribe_model, comment_model, timming_model,star_rating
+from app.main.ecommerce.model       import product_model, subscribe_model, comment_model, timming_model,star_rating
 from app.main.auth.models import user, blacklist
 from app.main.qoutation.models import dereted_power,load_analysis
 

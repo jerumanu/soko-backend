@@ -166,6 +166,6 @@ class ProductList(Resource):
 
 
         
-        deretedpower_data.save()
+        deretedpower_data.save_to_db()
 
         return dereted_schema.dump(deretedpower_data), 201

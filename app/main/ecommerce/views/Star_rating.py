@@ -4,8 +4,8 @@ from statistics import mean
 import string
 from itsdangerous import json
 from app.main import db
-from app.main.model.star_rating import StarRatingModel
-from app.main.schema.schema import RatingsSchema
+from app.main.ecommerce.model.star_rating import StarRatingModel
+from app.main.ecommerce.schema.schema import RatingsSchema
 from flask                        import request
 from flask_restx                  import Resource
 from ..utils.dto import StarDto
