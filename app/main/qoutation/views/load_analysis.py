@@ -87,6 +87,7 @@ class ProductList(Resource):
         loads_analysis_data.save_to_db()
 
         return loads_schema.dump(loads_analysis_data), 201
+        
 
         # ted=results['tenegerydemand']
         # autonomy =results['autonomy ']

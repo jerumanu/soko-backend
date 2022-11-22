@@ -61,7 +61,7 @@ class DeretedPanel(db.Model):
         return cls.query.all()
 
 
-    # def save(dereted):
+    # def save(self , dereted):
 
     #     db.session.add(dereted)
     #     try:

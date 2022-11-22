@@ -100,6 +100,7 @@ class Product(Resource):
             deretedpower_data = dereted_schema.load(dereted_json)
 
         deretedpower_data.save_to_db()
+
         return dereted_schema.dump(deretedpower_data), 200
 
 @api.route('/')
@@ -119,7 +120,7 @@ class ProductList(Resource):
 
     def post(self):
 
-        dereted_json= request.get_json()
+        dereted_json= request.get_json();
         
 
         print('wp',dereted_json['wp'])
@@ -163,9 +164,6 @@ class ProductList(Resource):
         print('dereted_json',dereted_json)
         deretedpower_data = dereted_schema.load(dereted_json)
 
-
-
-        
         deretedpower_data.save_to_db()
 
         return dereted_schema.dump(deretedpower_data), 201
