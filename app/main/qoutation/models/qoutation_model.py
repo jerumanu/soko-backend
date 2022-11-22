@@ -13,7 +13,8 @@ class Qoute(db.Model):
     id           = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     power= db.Column(db.Integer,)
     panel = db.Column(db.Integer)
-    panels_series=db.Column(db.String(50),)
+    panels_series=db.Column(db.Integer)
+    
     total_panels = db.Column(db.Integer,)
     charge_controler= db.Column(db.Integer)
     batt_capacity=db.Column(db.Integer)
@@ -25,10 +26,10 @@ class Qoute(db.Model):
 
     # date_added     = db.Column(db.DateTime(),default=datetime.utcnow )
 
-    def __init__(self,power , panels,panels_series,total_panels,charge_controler,batt_capacity,batt_string,batt_series,no_batt,inverter):
+    def __init__(self,power , panel,panels_series,total_panels,charge_controler,batt_capacity,batt_string,batt_series,no_batt,inverter):
 
         self.power = power
-        self.panels =panels
+        self.panel =panel
         self.panels_series =panels_series
         self.total_panels = total_panels
         self.charge_controler =charge_controler
