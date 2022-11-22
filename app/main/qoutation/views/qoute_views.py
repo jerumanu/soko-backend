@@ -1,8 +1,11 @@
-
+import requests
 from app.main import db
 from app.main.qoutation.models.dereted_power import DeretedPanel
 from app.main.qoutation.models.load_analysis import LoadAnalysis
 from app.main.qoutation.models.batt import Batt
+ 
+
+
 
 from flask                        import request
 from flask_restx                  import Resource
@@ -89,26 +92,59 @@ class QouteList(Resource):
             # dirt=results['dirt']
 
         psh =5
+
+        payload={'lat':40,'lon':-105}
+
+        payload['lat'] = 30
+
+        payload['lon'] = 80
+
+
+
+
+        #print(r['inputs']['log'])
+
+        print (payload)
+        r=requests.get('https://developer.nrel.gov/api/pvwatts/v6.json?api_key=DEMO_KEY&system_capacity=4&azimuth=180&tilt=40&array_type=1&module_type=1&losses=10', params=payload).json()
+
+
+        print('latitude of the area',
+          r['inputs']['lat'])
+        
+
+        
+        print('annual psh of the area',r['outputs']["solrad_annual"])
+        print("psh of the area",r['outputs']["solrad_monthly"])
+
+        # psh=min(r["outputs"]["solrad_monthly"])
+
         results = loads_list_schema.dump( LoadAnalysis.find_all())
+        name = 'panel'
+        
+        # ted_name= next(d for d in results if d['name'] == name)
+
         results1 =dereted_list_schema.dump( DeretedPanel.find_all())
 
-        print('rese',results)
+        panel_name= next(d for d in results1 if d['name'] == name)
+        # print('rese',results)
+        print ("panel_name",panel_name)
         panelsvolts =12
-        num =0.2
+        NUM =0.2
         s_factor=1.1
         print('results1',results)
         
-        ted = results ['tenegerydemand']
+        # ted= ted_name['tenegerydemand']
+        ted =2000
         print (ted)
-        autonomy = results ['autonomy ']
-        location = results['location']
-        latitude = results['latitude']
-        longtitude = results['longtitude']
-        systemvolts = results['systemvolts']
+        # autonomy = results ['autonomy ']
+        # location = results['location']
+        # latitude = results['latitude']
+        # longtitude = results['longtitude']
+        systemvolts = 12
 
 
-        wpd = results1['wpd']
-        isc = results1['isc']
+        wpd = panel_name['wpd']
+        isc = panel_name['isc']
 
         power = ted / psh
 
@@ -118,7 +154,7 @@ class QouteList(Resource):
 
         print(panels)
 
-        panels_parallel = round(((panels * panelsvolts) / systemvolts) + num)
+        panels_parallel = round(((panels * panelsvolts) / systemvolts) + NUM)
 
         series = systemvolts / panelsvolts
         print("no of panel in series: ", series)
@@ -135,9 +171,19 @@ class QouteList(Resource):
         charge_controller = s_factor * isc * panels_parallel
         print("charge of controller: ", charge_controller)
 
+        # min no of panels in a string to be conected to inverter
+        # VmpNew    = Vmpold + (Vcoeff*(Tamb-Tstc))
+        # min_panels= (Vmax*1.1)/VmpNew
+        # print("min no of panels to inverter: ", min_panels)
+        # # max no of panes in a string tobe conected to inverter
+        # VocNew=VocOld + (Vcoeff*(Tamb-Tstc))
+        # max_panels= (Vmin*0.95)/VocNew
+        # print("max panels to inverter: ", max_panels)
+
+
         qoute_json['power'] = power
         qoute_json['panel'] =  panels
-        qoute_json['panels_parallel'] =  panels_parallel
+        # qoute_json['panels_parallel'] =  panels_parallel
         qoute_json['panels_series'] =  series
         qoute_json['total_panels'] =  totalpanels
         qoute_json['charge_controller'] =  charge_controller
@@ -150,7 +196,7 @@ class QouteList(Resource):
 
 
         
-        qoute_data.save()
+        qoute_data.save_to_db()
 
         return qoute_Schema.dump(qoute_data), 201
 
