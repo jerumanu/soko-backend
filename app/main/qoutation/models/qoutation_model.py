@@ -11,35 +11,59 @@ class Qoute(db.Model):
 
 
     id           = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
+
+    tenegerydemand= db.Column(db.Integer,)
+    autonomy = db.Column(db.Integer)
+    location=db.Column(db.String(50),)
+    latitude = db.Column(db.Integer,)
+    longtitude= db.Column(db.Integer)
+    systemvolts=db.Column(db.Integer)
+    name_panel =db.Column(db.String(20))
     power= db.Column(db.Integer,)
     panel = db.Column(db.Integer)
     panels_series=db.Column(db.Integer)
-    
     total_panels = db.Column(db.Integer,)
-    charge_controler= db.Column(db.Integer)
+    charge_controller= db.Column(db.Integer)
     batt_capacity=db.Column(db.Integer)
     batt_string = db.Column(db.Integer)
     batt_series =db.Column(db.Integer)
     no_batt =db.Column(db.Integer)
     inverter =db.Column(db.Integer)
+    batt_name = db.Column(db.String(50))
+    kw = db.Column(db.String(50))
+
+    
 
 
     # date_added     = db.Column(db.DateTime(),default=datetime.utcnow )
 
-    def __init__(self,power , panel,panels_series,total_panels,charge_controler,batt_capacity,batt_string,batt_series,no_batt,inverter):
+    def __init__(self,power , panel,panels_series,total_panels,charge_controller,kw,
+        batt_capacity,batt_string,batt_series,no_batt,inverter,tenegerydemand,autonomy,systemvolts,location,latitude,batt_name,name_panel,longtitude):
 
+
+        self.tenegerydemand = tenegerydemand
+        self.autonomy = autonomy
+        self.location= location
+        self.latitude=latitude
+        self.longtitude=longtitude
+        self.name_panel=name_panel
+        self.systemvolts=systemvolts
         self.power = power
         self.panel =panel
         self.panels_series =panels_series
         self.total_panels = total_panels
-        self.charge_controler =charge_controler
+        self.charge_controller =charge_controller
         self.batt_capacity = batt_capacity
         self.batt_string = batt_string
         self.batt_series = batt_series
         self.no_batt =no_batt
         self.inverter = inverter
+        self.batt_name = batt_name
+        self.kw = kw
+        
 
-       
+
+
         
     
     
