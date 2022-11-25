@@ -1,5 +1,5 @@
 # from app import db
-from flask import request
+from flask import request , make_response
 from app.main import db
 from app.main.auth.models.user import User
 from app.main.auth.models.blacklist  import Blacklist
@@ -7,6 +7,7 @@ from .user_views import  save_changes
 from app.main.auth.extensions.auth.jwt_auth import refresh_jwt
 from app.errors import CustomFlaskErr as notice
 from validate_email import validate_email
+
 
 USER_ACCOUNT_FORBIDDEN = "Account has been disabled"
 
@@ -86,6 +87,33 @@ class Auth:
 
             # Generate refresh_token based on the user emamil.
             refresh_token = (refresh_jwt.dumps({'email': email})).decode('ascii')
+            cookies = request.cookies
+            token = cookies.get('token') 
+            print ('token',token)
+            
+            res = make_response({
+                    'status':200,
+                    'message':"success",
+                    'user_id': user.id,
+                    # 'roles': 'editor',
+                    # 'is_active': user.is_active,
+                    'firstname': user.firstname,
+                    'user_role': user.user_role,
+                    'access_token': access_token,
+                    
+                })
+            res.set_cookie(
+                "token",
+                value= refresh_token,
+                max_age =1700,
+                expires= None,
+                path=request.path,
+                secure= False,
+                httponly=False,
+                
+
+                )
+            
 
             # Commit session.
             db.session.commit()
@@ -107,17 +135,7 @@ class Auth:
             #     "avatar": 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
             #     "name": user.firstname
             # }
-            return {
-                    'status':200,
-                    'message':"success",
-                    'user_id': user.id,
-                    # 'roles': 'editor',
-                    # 'is_active': user.is_active,
-                    'username': user.firstname,
-                    'user_role': user.user_role,
-                    'access_token': access_token,
-                    'refresh_token': refresh_token
-                }
+            return res
         else:
             # Return invalid password
             # raise notice(status_code=421,return_code=20003,action_status=False)
