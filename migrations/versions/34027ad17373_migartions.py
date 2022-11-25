@@ -1,8 +1,8 @@
 """migartions 
 
-Revision ID: 173c15a904fe
+Revision ID: 34027ad17373
 Revises: 
-Create Date: 2022-11-21 13:24:53.641485
+Create Date: 2022-11-24 10:41:36.809056
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '173c15a904fe'
+revision = '34027ad17373'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -41,11 +41,17 @@ def upgrade():
     )
     op.create_table(' qoute',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('tenegerydemand', sa.Integer(), nullable=True),
+    sa.Column('autonomy', sa.Integer(), nullable=True),
+    sa.Column('location', sa.String(length=50), nullable=True),
+    sa.Column('latitude', sa.Integer(), nullable=True),
+    sa.Column('longtitude', sa.Integer(), nullable=True),
+    sa.Column('systemvolts', sa.Integer(), nullable=True),
     sa.Column('power', sa.Integer(), nullable=True),
     sa.Column('panel', sa.Integer(), nullable=True),
-    sa.Column('panels_series', sa.String(length=50), nullable=True),
+    sa.Column('panels_series', sa.Integer(), nullable=True),
     sa.Column('total_panels', sa.Integer(), nullable=True),
-    sa.Column('charge_controler', sa.Integer(), nullable=True),
+    sa.Column('charge_controller', sa.Integer(), nullable=True),
     sa.Column('batt_capacity', sa.Integer(), nullable=True),
     sa.Column('batt_string', sa.Integer(), nullable=True),
     sa.Column('batt_series', sa.Integer(), nullable=True),
