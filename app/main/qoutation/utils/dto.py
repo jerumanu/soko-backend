@@ -20,6 +20,8 @@ class DeretedDto:
     api = Namespace('dereted', description='comments related operations')
     dereted= api.model('dereted', { 
 
+        
+
         'name': fields.String(description='locations of the client'),
         'tstc': fields.Integer(required=True, description='total energy demand in kw/hrs'),
         'wp': fields.Integer(required=True, description='No of days the battrey takes to be fuly discharged'),
@@ -54,15 +56,37 @@ class QouteDto:
     api = Namespace('qoute', description='comments related operations')
     qoute= api.model('qoute', { 
 
-        'power': fields.Integer( description='total energy demand in kw/hrs'),
-        'panel': fields.Integer( description='No of days the battrey takes to be fuly discharged'),
-        'panels_series':fields.Integer(  description=' latitude logations of the client  '),
-        'total_panels':fields.Integer(  description=' longtitude logations of the client  '),
-        'charge_controler':fields.Integer(  description=' longtitude logations of the client  '),
-        'batt_capacity':fields.Integer(  description=' longtitude logations of the client  '),
-        'batt_string':fields.Integer(  description=' longtitude logations of the client  '),
-        'batt_series':fields.Integer(  description=' longtitude logations of the client  '),
-        'no_batt':fields.Integer(  description=' longtitude logations of the client  '),
-        'inverter':fields.Integer(  description=' longtitude logations of the client  '),
+        'tenegerydemand': fields.Integer(required=True, description='total energy demand in kw/hrs'),
+        'name_panel':fields.String( description='locations of the client'),
+        'autonomy': fields.Integer(required=True, description='No of days the battrey takes to be fuly discharged'),
+        'location': fields.String(description='locations of the client'),
+        'latitude':fields.Integer( required=True, description=' latitude logations of the client  '),
+        'longtitude':fields.Integer( required=True, description=' longtitude logations of the client  '),
+        'systemvolts':fields.Integer( required=True, description=' client prefrence system volts')  ,
+        # 'power': fields.Integer( description='total energy demand in kw/hrs'),
+        # 'panel': fields.Integer( description='No of days the battrey takes to be fuly discharged'),
+        # 'panels_series':fields.Integer(  description=' latitude logations of the client  '),
+        # 'total_panels':fields.Integer(  description=' longtitude logations of the client  '),
+        # 'charge_controler':fields.Integer(  description=' longtitude logations of the client  '),
+        # 'batt_capacity':fields.Integer(  description=' longtitude logations of the client  '),
+        # 'batt_string':fields.Integer(  description=' longtitude logations of the client  '),
+        # 'batt_series':fields.Integer(  description=' longtitude logations of the client  '),
+        # 'no_batt':fields.Integer(  description=' longtitude logations of the client  '),
+        # 'inverter':fields.Integer(  description=' longtitude logations of the client  '),
+        # 'date_added ':fields.DateTime( required=True, description=' date created'    )
+    })
+
+    
+class InverterDto:
+
+    api = Namespace('inverter', description='comments related operations')
+    inverter= api.model('inverter', { 
+
+        'name': fields.String(description='locations of the client'),
+        'vmin': fields.Integer(required=True, description='total energy demand in kw/hrs'),
+        'vmax': fields.Integer(required=True, description='No of days the battrey takes to be fuly discharged'),
+        'min_panels':fields.Integer( required=True, description=' latitude logations of the client  '),
+        'max_panels':fields.Integer( required=True, description=' longtitude logations of the client  '),
+
         # 'date_added ':fields.DateTime( required=True, description=' date created'    )
     })
