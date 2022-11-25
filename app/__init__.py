@@ -19,7 +19,7 @@ from  .main.qoutation.views.batt_views          import api as batt_ns
 from  .main.auth.views.engineer_views    import api as engineer_ns
 from  .main.auth.views.business_views    import api as business_ns
 from .main.qoutation.views.qoute_views    import api as qoute_ns
-
+from  . main.qoutation.views.inverter_views import api as inverter_ns
 
 # blueprint = Blueprint('api', __name__ , )
 
@@ -52,3 +52,4 @@ api.add_namespace (engineer_ns, path="/engineer")
 api.add_namespace (business_ns, path='/business')
 api.add_namespace (users_ns, path='/userList')
 api.add_namespace(qoute_ns , path='/qoute')
+api.add_namespace(inverter_ns , path='/inverter')
