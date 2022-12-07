@@ -1,7 +1,7 @@
 from typing import List
 from  ....main import db
 from datetime import datetime
-
+from ...auth.models.user import User
 
 
 
@@ -30,15 +30,22 @@ class Qoute(db.Model):
     no_batt =db.Column(db.Integer)
     inverter =db.Column(db.Integer)
     batt_name = db.Column(db.String(50))
-    kw = db.Column(db.String(50))
+    kw = db.Column(db.Integer)
+    grid_inverter=db.Column(db.Integer)
+    l_string_p=db.Column(db.Integer)
+    h_string_p=db.Column(db.Integer)
+    iccc=db.Column(db.Integer)
+    wpd=db.Column(db.Integer)
+
 
     
 
 
     # date_added     = db.Column(db.DateTime(),default=datetime.utcnow )
 
-    def __init__(self,power , panel,panels_series,total_panels,charge_controller,kw,
-        batt_capacity,batt_string,batt_series,no_batt,inverter,tenegerydemand,autonomy,systemvolts,location,latitude,batt_name,name_panel,longtitude):
+    def __init__(self,power , panel,panels_series,total_panels,charge_controller,kw,grid_inverter,iccc,l_string_p,h_string_p,
+        batt_capacity,batt_string,batt_series,no_batt,inverter,tenegerydemand,autonomy,systemvolts,location,wpd,
+        latitude,batt_name,name_panel,longtitude):
 
 
         self.tenegerydemand = tenegerydemand
@@ -60,7 +67,12 @@ class Qoute(db.Model):
         self.inverter = inverter
         self.batt_name = batt_name
         self.kw = kw
-        
+        self.grid_inverter= grid_inverter
+        self.l_string_p=l_string_p
+        self.h_string_p=h_string_p
+        self.iccc=iccc
+        self.wpd=wpd
+
 
 
 
@@ -76,7 +88,8 @@ class Qoute(db.Model):
 
     @classmethod
     def find_by_name(cls, name) -> "Qoute":
-        return cls.query.filter_by(name = name).first() 
+        return cls.query.filter_by(name = name).first()
+    # delete_user = cls.query.filter_by( user_id == User.id).first() 
 
     @classmethod
     def find_by_id(cls, _id) -> "Qoute":
