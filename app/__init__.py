@@ -20,6 +20,7 @@ from  .main.auth.views.engineer_views    import api as engineer_ns
 from  .main.auth.views.business_views    import api as business_ns
 from .main.qoutation.views.qoute_views    import api as qoute_ns
 from  . main.qoutation.views.inverter_views import api as inverter_ns
+from .main.qoutation.views.voltsdropdown import api as voltsdrop_ns
 
 # blueprint = Blueprint('api', __name__ , )
 
@@ -33,6 +34,8 @@ api = Api(blueprint,
         
         )
 
+
+
 api.add_namespace(products_ns,  path='/product')
 api.add_namespace(subscribe_ns, path='/subscribe')
 api.add_namespace(category_ns,  path='/category')
@@ -44,12 +47,15 @@ api.add_namespace(comments_ns,  path='/comments')
 api.add_namespace(timings_ns,   path='/time')
 api.add_namespace(login_ns,     path='/auth')
 api.add_namespace(register_ns,  path='/user')
-api.add_namespace(rating_ns,  path='/ratings')
-api.add_namespace(dereted_ns, path="/dereted")
-api.add_namespace(load_ns, path="/analysis")
-api.add_namespace(batt_ns, path="/batt")
+api.add_namespace(rating_ns,    path='/ratings')
+api.add_namespace(dereted_ns,   path="/dereted")
+api.add_namespace(load_ns,      path="/analysis")
+api.add_namespace(batt_ns,      path="/batt")
 api.add_namespace (engineer_ns, path="/engineer")
 api.add_namespace (business_ns, path='/business')
-api.add_namespace (users_ns, path='/userList')
-api.add_namespace(qoute_ns , path='/qoute')
+api.add_namespace (users_ns,    path='/userList')
+api.add_namespace(qoute_ns ,    path='/qoute')
 api.add_namespace(inverter_ns , path='/inverter')
+api.add_namespace(voltsdrop_ns, path='/voltsdrop')
+
+

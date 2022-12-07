@@ -22,14 +22,14 @@ class Inverter(db.Model):
    
     # date_added     = db.Column(db.DateTime(),default=datetime.utcnow )
 
-    def __init__(self,name, vmin,vmax,max_panels,min_panels,panel_name):
+    def __init__(self,name, vmin,vmax,max_panels,min_panels,):
 
         self.vmax = vmax
         self.name=name
         self.vmin = vmin
         self.max_panels =max_panels
         self.min_panels = min_panels
-        self.panel_name = panel_name
+        # self.panel_name = panel_name
 
 
         

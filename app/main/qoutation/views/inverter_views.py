@@ -60,28 +60,33 @@ class ProductList(Resource):
 
         panel_name = next(d for d in results1 if d['name'] == name)
 
-
+        print(panel_name)
         vmpold= panel_name['vmp']
-        vcoeff= panel_name['vmp']
+        # vcoeff= panel_name['vcoeff']
         tstc= panel_name['tstc']
         vocold= panel_name['voc']
+        vcoeff = 0.003
+        print('helo',vcoeff)
+        tamb = 30
 
-        tamb = 40
 
 
         #  min no of panels in a string to be conected to inverter
 
 
-        vmp_new    = vmpold + (vcoeff*(tamb-tstc))
+        vmp_new   = vmpold +(-vcoeff*(tamb-tstc))
+        print(vmp_new)
+        
+        
 
-        min_panels= (vmax*1.1)/vmp_new
+        min_panels= (vmin*1.1)/vmp_new
         print("min no of panels to inverter: ", min_panels)
         # max no of panes in a string tobe conected to inverter
-        voc_new= vocold + (vcoeff*(tamb-tstc))
+        voc_new= vocold + (-vcoeff*(17-tstc))
 
 
 
-        max_panels= (vmin*0.95)/voc_new
+        max_panels= (vmax*0.95)/voc_new
 
 
         data_json = dict()
@@ -91,8 +96,9 @@ class ProductList(Resource):
         data_json['vmax'] = vmax
         data_json['vmin'] = vmin
         data_json['name'] = inveter_name
+        
 
-
+        print(data_json)
 
 
         print("max panels to inverter: ", max_panels)

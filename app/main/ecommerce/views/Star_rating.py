@@ -21,6 +21,7 @@ star_list_schema =  RatingsSchema( many=True)
 
 
 @api.route('/')
+
 class StarRating(Resource):
 
     @api.response(201, 'Product successfully created.')
@@ -32,6 +33,19 @@ class StarRating(Resource):
     def post(self):
 
         star_json= request.get_json()
+
+        data= []
+        rating= star_json['rating']
+
+
+        data.push(rating)
+        rate = sum(data , rating)
+
+        n = data.len()
+        print(n)
+        r = rate/n
+        print(r)
+        print(rate)
         product_data=star_schema.load(star_json)
         
         

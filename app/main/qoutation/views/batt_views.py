@@ -50,28 +50,28 @@ class Product(Resource):
         
 
 
-    # @api.doc('delete a product')
-    # @api.marshal_with(_dereted)
-    # @api.expect(_dereted, validate=True)
+    @api.doc('delete a product')
+    @api.marshal_with(_dereted)
+    @api.expect(_dereted, validate=True)
 
-    # def put(self, id):
-    #     batt_data= Batt.find_by_id(id)
-    #     dereted_json= request.get_json();
+    def put(self, id):
+        batt_data= Batt.find_by_id(id)
+        batt_json= request.get_json();
 
-    #     if batt_data:
+        if batt_data:
             
-    #         batt_data.price = dereted_json['price']
-    #         batt_data.name = dereted_json['name']
-    #         batt_data.description = dereted_json['description']
-    #         batt_data.price  = dereted_json['price ']
-    #         batt_data.image = dereted_json['image']
-    #         batt_data.update_at = dereted_json['update_at']
+            batt_data.battv= batt_json['battv']
+            batt_data.dod = batt_json['dod']
+            batt_data.ah = batt_json['ah']
+            batt_data.losses  = batt_json['losses']
+            batt_data.nreff = batt_json['nreff']
+            # batt_data.update_at = batt_json['update_at']
 
-    #     else:
-    #         batt_data= batt_Schema.load(dereted_json)
+        else:
+            batt_data= batt_Schema.load(batt_json)
 
-    #     batt_data.save_to_db()
-    #     return batt_Schema.dump(batt_data), 200
+        batt_data.save_to_db()
+        return batt_Schema.dump(batt_data), 200
 
 @api.route('/')
 class ProductList(Resource):

@@ -1,8 +1,9 @@
-import requests
+import requests ,json
 from app.main import db
 from app.main.qoutation.models.dereted_power import DeretedPanel
 from app.main.qoutation.models.load_analysis import LoadAnalysis
 from app.main.qoutation.models.batt import Batt
+from app.main.qoutation.utils.locations import county_dict
 
 
 
@@ -75,50 +76,68 @@ class QouteList(Resource):
 
         qoute_json = request.get_json()
         
-
-        
-
         print("relusts",qoute_json)
         
 
-        lat=qoute_json['latitude']
-        lon=qoute_json['longtitude']
+        # lat=qoute_json['latitude']
+        # lon=qoute_json['longtitude']
         autonomy=qoute_json['autonomy']
-        location=qoute_json['location']
+        location=qoute_json['location'].lower()
+
         kw = qoute_json ['kw']
         systemvolts = qoute_json ['systemvolts']
         
 
 
-        payload={'lat':30,'lon':80}
+        payload={'lat':-1.286389,'lon':36.817223}
+
+
+        print(county_dict)
+        print(type(county_dict))
+        print(location)
+
+        
+        
+        # 
+        
+        county_data=json.loads(county_dict)
+        print('hey',county_data)
+        print(type(county_data))
+        psh_data= next(d for d in county_data if d['county'] ==location )
+        psh=psh_data['psh']
+        lat=psh_data['lat']
+        lon=psh_data['lon']
 
         payload['lat'] = lat
 
         payload['lon'] = lon
 
-        
+
+        print(psh_data)
+        print('hello',psh)
 
 
         #print(r['inputs']['log'])
 
         print (payload)
 
-        r=requests.get('https://developer.nrel.gov/api/pvwatts/v6.json?api_key=DEMO_KEY&system_capacity=4&azimuth=180&tilt=40&array_type=1&module_type=1&losses=10', params=payload).json()
+        # r=requests.get('https://developer.nrel.gov/api/pvwatts/v6.json?api_key=DEMO_KEY&system_capacity=4&azimuth=180&tilt=40&array_type=1&module_type=1&losses=10', params=payload).json()
+        # key='1f290367b4709ba770a3e9d28bee61d9'
+        # rjson=requests.get("https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&1f290367b4709ba770a3e9d28bee61d9").json()
+        # r=requests.get('https://api.openweathermap.org/data/2.5/weather?&appid=7246bc8a04a3da01848d4a09fcede71d&units=metric', params=payload).json()
 
-
-
-
-
+        # tamb=r['main']['temp']
+        tamb=30
+        print('hello tamp, ',tamb)
         
-        
-        print('annual psh of the area',r['outputs']["solrad_annual"])
-        print("psh of the area",r['outputs']["solrad_monthly"])
+        # print('annual psh of the area',r['outputs']["solrad_annual"])
+        # print("psh of the area",r['outputs']["solrad_monthly"])
 
-        psh=min(r["outputs"]["solrad_monthly"])
-
-
+        # psh=min(r["outputs"]["solrad_monthly"])
+    
 
         results = loads_list_schema.dump( LoadAnalysis.find_all())
+
 
         name = qoute_json['name_panel']
 
@@ -126,7 +145,7 @@ class QouteList(Resource):
         # ted_name= next(d for d in results if d['name'] == name)
 
         results1 =dereted_list_schema.dump( DeretedPanel.find_all())
-
+        
         panel_name= next(d for d in results1 if d['name'] == name)
         # print('rese',results)
         print ("panel_name",panel_name)
@@ -135,9 +154,27 @@ class QouteList(Resource):
         s_factor=1.1
         print('results1',results)
         
-        ted= qoute_json['tenegerydemand']
+        ap_demand= qoute_json['ap_demand']
+        light_demand =qoute_json['ligth_demand']
 
-       
+        ted= ap_demand+light_demand
+        
+
+        name = panel_name['name']
+        wp= panel_name['wp'] 
+        vmp= panel_name['vmp']
+        voc=panel_name['voc']
+        isc=panel_name['isc']
+        fman=panel_name['fman']
+        tstc=panel_name['tstc']
+        vcoeff=panel_name['vcoeff']
+        tcoeff= panel_name ['tcoeff']
+        dirt= panel_name['dirt']
+        
+        wpd = round(wp * (1 + ((tcoeff/100) * (tamb - tstc))) * (1-dirt) * (1-fman))
+
+    
+
 
         print (ted)
 
@@ -146,13 +183,7 @@ class QouteList(Resource):
         # latitude = results['latitude']
         # longtitude = results['longtitude']
 
-        
-
-
-
-
-        wpd = panel_name['wpd']
-        isc = panel_name['isc']
+       
 
         power = ted / psh
 
@@ -184,15 +215,15 @@ class QouteList(Resource):
         batt_results = batt_list_Schema.dump(Batt.find_all())
 
 
-        batt_result= next(d for d in batt_results  if d['name'] == batt_name)
+        batt_result= next(d for d in batt_results  if d['batt_name'] == batt_name)
 
 
         battvolts = batt_result['battv']
         dod = batt_result['dod']
         ah = batt_result['ah']
-        # losses = batt_result['losses']
-        losses = 0.5
-        nreff = 0.5
+        losses = batt_result['losses']
+        
+        nreff = batt_result['nreff']
 
         #batt capacity
 
@@ -216,15 +247,8 @@ class QouteList(Resource):
 
         print("number of battery:  ", no_battery)
 
-
         inverter  = round(power *1.1)
-
-
-
         grid_inverter = round(kw*1.1)
-
-
-
 
         """
         min no of panels in a string to be conected to inverter
@@ -252,10 +276,13 @@ class QouteList(Resource):
         '''
         cable sizing
         '''
-        # icc= 3
+        # icc=  Iccc
 
-        # cable = icc >= 1.25  * isc_mod * no_string 
+        # cable = iccc = 1.25  * isc_mod * no_string
 
+        iccc = 1.25  * isc * panels_parallel
+        # isc from the panwl
+        # no of String panel in parale
 
 
 
@@ -268,11 +295,12 @@ class QouteList(Resource):
         maximun number of  strings  without  string protections 
         """
 
+        # should be in btw the range 
+        l_string_p = 1.5 * isc 
 
-        # string_protections = 1.5 * isc < fuse_rating > isc  * 2.4 
+        h_string_p = isc  * 2.4 
+
         
-
-
         qoute_json['power'] = power
         qoute_json['panel'] =  panels
         # qoute_json['panels_parallel'] =  panels_parallel
@@ -283,6 +311,7 @@ class QouteList(Resource):
         qoutation_json = dict()
 
         qoutation_json['power'] = power
+
         qoutation_json['panel'] =  panels
         # qoutation_json['panels_parallel'] =  panels_parallel
         qoutation_json['panels_series'] =  series
@@ -301,35 +330,25 @@ class QouteList(Resource):
         qoutation_json['tenegerydemand'] =  ted
         qoutation_json['autonomy'] =  autonomy
         qoutation_json['batt_name'] =  batt_name
-
         qoutation_json['kw'] =  kw
         qoutation_json['grid_inverter'] =  grid_inverter
-
+        qoutation_json['iccc'] =  iccc
+        qoutation_json['h_string_p'] =  h_string_p
+        qoutation_json['l_string_p'] =  l_string_p
+        qoutation_json['wpd'] =  wpd
+        
         print('qoutation json',qoutation_json)
-
-
-
-
-
         print ('wpd',wpd)
-
         print('qoute_json', qoute_json)
 
-
-
-
         qoute_data = qoute_Schema.load(qoutation_json)
-
-
-
-        
         qoute_data.save_to_db()
 
         return qoute_Schema.dump(qoute_data), 201
     
 
 # class Qoute(Resource):
-    
+
 
 
 

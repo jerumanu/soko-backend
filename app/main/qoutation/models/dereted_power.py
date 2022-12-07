@@ -18,14 +18,17 @@ class DeretedPanel(db.Model):
     vmp=db.Column(db.Integer,)
     voc= db.Column(db.Integer,)
     isc= db.Column(db.Integer)
-    tcoeff= db.Column(db.Integer)
-    fman=db.Column(db.Integer)
-    vcoeff= db.Column(db.Integer)
-    wpd= db.Column(db.Integer)
+    tcoeff= db.Column(db.Float)
+    fman=db.Column(db.Float)
+    vcoeff= db.Column(db.Float)
+    dirt= db.Column(db.Float)
+    
+    # price         = db.Column(db.Float, nullable=False)
+
 
     # date_added     = db.Column(db.DateTime(),default=datetime.utcnow )
 
-    def __init__(self,name, tstc,wp,vmp,voc,isc,tcoeff,fman,vcoeff,wpd):
+    def __init__(self,name, tstc,wp,vmp,voc,isc,tcoeff,fman,vcoeff,dirt):
         self.tstc = tstc
         self.name=name
         self.wp = wp
@@ -35,7 +38,8 @@ class DeretedPanel(db.Model):
         self.tcoeff=tcoeff
         self.fman=fman
         self.vcoeff =vcoeff
-        self.wpd = wpd
+        
+        self.dirt=dirt
         # self.date_added=date_added
         
         

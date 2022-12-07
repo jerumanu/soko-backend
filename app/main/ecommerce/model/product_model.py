@@ -19,7 +19,7 @@ class ProductModel(db.Model):
     image         = db.Column(db.String(256))
     product_owner = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     update_at     = db.Column(db.DateTime(),default=datetime.utcnow )
-   
+
     category_id   = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
 
 

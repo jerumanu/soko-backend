@@ -89,12 +89,15 @@ class Product(Resource):
 
         if deretedpower_data:
             
-            deretedpower_data.price = dereted_json['price']
-            deretedpower_data.name = dereted_json['name']
-            deretedpower_data.description = dereted_json['description']
-            deretedpower_data.price  = dereted_json['price ']
-            deretedpower_data.image = dereted_json['image']
-            deretedpower_data.update_at = dereted_json['update_at']
+            deretedpower_data.wp = dereted_json['wp']
+            deretedpower_data.tstc= dereted_json['tstc']
+            deretedpower_data.vmp = dereted_json['vmp']
+            deretedpower_data.voc = dereted_json['voc']
+            deretedpower_data.isc = dereted_json['isc']
+            deretedpower_data.tcoeff = dereted_json['tcoeff']
+            deretedpower_data.fman = dereted_json['fman']
+            deretedpower_data.vcoeff = dereted_json['vcoeff']
+            deretedpower_data.dirt = dereted_json['dirt']
 
         else:
             deretedpower_data = dereted_schema.load(dereted_json)
@@ -135,14 +138,14 @@ class ProductList(Resource):
         tstc=dereted_json['tstc']
         vcoeff=dereted_json['vcoeff']
         tcoeff= dereted_json ['tcoeff']
-
+        dirt= dereted_json['dirt']
         print('name',name)
 
             # dirt=results['dirt']
 
             # tceff= -0.5
-        tamb= 20
-        dirt=0.98
+        
+        
             # panelsvolts=12
             # num=0.2
             # s_factor=0.5
@@ -154,13 +157,11 @@ class ProductList(Resource):
         print(tstc)
         print(vcoeff)
 
-        tceff = tamb + tstc
+        # tceff = tamb + tstc
             
-        wpd = round(wp * (1 + ((tceff/100) * (tamb - tstc))) * (1-dirt) * (1-fman))
+    
 
-        dereted_json['wpd'] =  wpd
-
-        print ('wpd',wpd)
+       
         print('dereted_json',dereted_json)
         deretedpower_data = dereted_schema.load(dereted_json)
 
