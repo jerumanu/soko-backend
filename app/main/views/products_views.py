@@ -6,12 +6,14 @@ from flask_restx                  import Resource
 from ..schema.schema              import ProductSchema
 from ..utils.dto                  import ProductDto
 from ..decorators                 import subscription
+from cloudinary.uploader import upload
+from cloudinary.utils import cloudinary_url
 
 
 
 api                 = ProductDto.api
 _products           = ProductDto.product
-ITEM_NOT_FOUND      = "Item not found."
+ITEM_NOT_FOUND      =  "Product Not found"
 product_schema      = ProductSchema()
 product_list_schema =  ProductSchema( many=True)
 
@@ -34,7 +36,7 @@ class ProductFilter(Resource):
         product_data = ProductModel.find_by_name(name)
         if product_data:
             return product_schema.dump(product_data)
-        return {'message': ITEM_NOT_FOUND}, 404
+        return {'message': ITEM_NOT_FOUND}, 44
 
 
 
@@ -48,7 +50,7 @@ class Product(Resource):
         product_data =  ProductModel.find_by_id(id)
         if product_data:
             product_data.delete_from_db()
-            return {'message': "Item Deleted successfully"}, 200
+            return {'message':  'Product Deleted successfully'}, 200
         return {'message': ITEM_NOT_FOUND}, 404
 
     def get(self, id):
@@ -77,7 +79,7 @@ class Product(Resource):
             product_data = product_schema.load(product_json)
 
         product_data.save_to_db()
-        return product_schema.dump(product_data), 200
+        return product_schema.dump(product_data), 2
 
 @api.route('/')
 class ProductList(Resource):
@@ -85,15 +87,20 @@ class ProductList(Resource):
     @api.doc('list_of_products')
     @api.marshal_list_with(_products, envelope='data')
     def get(self):
-        return product_list_schema.dump( ProductModel.find_all()), 200
+        return product_list_schema.dump( ProductModel.find_all()), 2
 
 
-    @api.response(201, 'Product successfully created.')
+    @api.response(21, 'Product successfully created.')
     @api.doc('create a new Product')
     @api.expect(_products, validate=True)
-    @subscription("product", 2)
+    # @subscription(product, 2)
     def post(self):
-        product_json = request.get_json()
-        product_data = product_schema.load(product_json)
-        product_data.save_to_db()
-        return product_schema.dump(product_data), 201
+
+        item_json         = request.get_json()
+        print(item_json)
+        item_data = product_schema.load(item_json)
+        db.session.add(item_data)
+        db.session.commit()
+        return product_schema.dump(item_data), 201
+                
+        
