@@ -1,8 +1,8 @@
-"""migartions 
+"""migrate
 
-Revision ID: 34027ad17373
+Revision ID: 36a72fd21f91
 Revises: 
-Create Date: 2022-11-24 10:41:36.809056
+Create Date: 2022-12-06 11:24:01.119396
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '34027ad17373'
+revision = '36a72fd21f91'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -47,6 +47,7 @@ def upgrade():
     sa.Column('latitude', sa.Integer(), nullable=True),
     sa.Column('longtitude', sa.Integer(), nullable=True),
     sa.Column('systemvolts', sa.Integer(), nullable=True),
+    sa.Column('name_panel', sa.String(length=20), nullable=True),
     sa.Column('power', sa.Integer(), nullable=True),
     sa.Column('panel', sa.Integer(), nullable=True),
     sa.Column('panels_series', sa.Integer(), nullable=True),
@@ -57,6 +58,13 @@ def upgrade():
     sa.Column('batt_series', sa.Integer(), nullable=True),
     sa.Column('no_batt', sa.Integer(), nullable=True),
     sa.Column('inverter', sa.Integer(), nullable=True),
+    sa.Column('batt_name', sa.String(length=50), nullable=True),
+    sa.Column('kw', sa.Integer(), nullable=True),
+    sa.Column('grid_inverter', sa.Integer(), nullable=True),
+    sa.Column('l_string_p', sa.Integer(), nullable=True),
+    sa.Column('h_string_p', sa.Integer(), nullable=True),
+    sa.Column('iccc', sa.Integer(), nullable=True),
+    sa.Column('wpd', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
     )
@@ -71,13 +79,15 @@ def upgrade():
     )
     op.create_table('batt',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('name', sa.String(length=50), nullable=True),
+    sa.Column('batt_name', sa.String(length=50), nullable=True),
     sa.Column('battv', sa.Integer(), nullable=True),
     sa.Column('dod', sa.Integer(), nullable=True),
     sa.Column('ah', sa.Integer(), nullable=True),
+    sa.Column('losses', sa.Float(), nullable=True),
+    sa.Column('nreff', sa.Float(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
-    sa.UniqueConstraint('name')
+    sa.UniqueConstraint('batt_name'),
+    sa.UniqueConstraint('id')
     )
     op.create_table('blacklist',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -93,13 +103,26 @@ def upgrade():
     sa.Column('vmp', sa.Integer(), nullable=True),
     sa.Column('voc', sa.Integer(), nullable=True),
     sa.Column('isc', sa.Integer(), nullable=True),
-    sa.Column('tcoeff', sa.Integer(), nullable=True),
-    sa.Column('fman', sa.Integer(), nullable=True),
-    sa.Column('vcoeff', sa.Integer(), nullable=True),
-    sa.Column('wpd', sa.Integer(), nullable=True),
+    sa.Column('tcoeff', sa.Float(), nullable=True),
+    sa.Column('fman', sa.Float(), nullable=True),
+    sa.Column('vcoeff', sa.Float(), nullable=True),
+    sa.Column('dirt', sa.Float(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id'),
     sa.UniqueConstraint('name')
+    )
+    op.create_table('dropdown',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('cable', sa.String(length=50), nullable=True),
+    sa.Column('isc', sa.Integer(), nullable=True),
+    sa.Column('rho', sa.Float(), nullable=True),
+    sa.Column('length', sa.Integer(), nullable=True),
+    sa.Column('systemvolts', sa.Integer(), nullable=True),
+    sa.Column('area', sa.Float(), nullable=True),
+    sa.Column('name_panel', sa.String(length=50), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('cable'),
+    sa.UniqueConstraint('id')
     )
     op.create_table('engineer',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
@@ -113,6 +136,17 @@ def upgrade():
     sa.Column('instagram', sa.String(length=50), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
+    )
+    op.create_table('inveter',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('name', sa.String(length=50), nullable=True),
+    sa.Column('vmin', sa.Integer(), nullable=True),
+    sa.Column('vmax', sa.Integer(), nullable=True),
+    sa.Column('max_panels', sa.Integer(), nullable=True),
+    sa.Column('min_panels', sa.Integer(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('id'),
+    sa.UniqueConstraint('name')
     )
     op.create_table('starRating',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -228,7 +262,9 @@ def downgrade():
     op.drop_table('time_format')
     op.drop_table('subscribe')
     op.drop_table('starRating')
+    op.drop_table('inveter')
     op.drop_table('engineer')
+    op.drop_table('dropdown')
     op.drop_table('dereted')
     op.drop_table('blacklist')
     op.drop_table('batt')
