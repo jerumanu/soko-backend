@@ -3,7 +3,9 @@ from flask_marshmallow       import Marshmallow
 from app.main.qoutation.models.load_analysis import LoadAnalysis
 from ..models.dereted_power import DeretedPanel
 from ..models.inverter import Inverter
+from ..models.voltdropdown import VoltsDropDowm
 from ..models.qoutation_model import Qoute
+from ..models.batt import Batt
 # from ...main import db
 # from ..views.Star_rating import star_list_schema
 
@@ -28,7 +30,7 @@ class DeretedSchema(ma.SQLAlchemyAutoSchema):
 
 class BattSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model =DeretedPanel
+        model =Batt
         load_instance = True
         load_only = ("batt")
         include_fk= True   
@@ -42,6 +44,12 @@ class QouteSchema(ma.SQLAlchemyAutoSchema):
 class InverterSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Inverter
+        load_instance = True
+        load_only = ("inverter")
+        include_fk= True     
+class VoltageDropSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = VoltsDropDowm
         load_instance = True
         load_only = ("inverter")
         include_fk= True     
