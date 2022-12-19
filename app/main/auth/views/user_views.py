@@ -32,13 +32,13 @@ def save_new_user(data):
 
         
 
-        email_confirm_token =  (user.generate_confirmation_token(data['email'],data['firstname']))
+        # email_confirm_token =  (user.generate_confirmation_token(data['email'],data['firstname']))
         
-        confirm_url = (url_for('api.confirm',confirm_token=email_confirm_token,_external=True)) + '?email=' + data['email']
+        # confirm_url = (url_for('api.confirm',confirm_token=email_confirm_token,_external=True)) + '?email=' + data['email']
         # send_email(to=data['email'], subject='active',template='confirm.html', confirm_url=confirm_url,user=data['firstname'],)
 
         
-    else:
+    
         response_object = {
             'status': 'success',
             'message': 'Successfully registered.'

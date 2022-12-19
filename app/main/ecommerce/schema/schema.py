@@ -8,12 +8,11 @@ from ..model.favourite_model import FavouriteModel
 from ..model.product_model   import ProductModel
 from ..model.comment_model   import CommentsModel
 from ..model.timming_model   import TimeFormat
-from ..model.star_rating   import  StarRatingModel
-from marshmallow import EXCLUDE
-from ...main import db
-# from ..views.Star_rating import star_list_schema
+from ..model.star_rating     import  StarRatingModel
+from marshmallow             import EXCLUDE
+from  ....main               import db
 from ..model.payment_model   import Invoice, Transaction
-from ..model.submodel  import SolarType, Brand
+from ..model.submodel        import SolarType, Brand
 ma = Marshmallow()
 from marshmallow import Schema, fields
 

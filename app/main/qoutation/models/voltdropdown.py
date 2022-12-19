@@ -6,19 +6,19 @@ from datetime import datetime
 
 
 
-class Batt(db.Model):
+class VoltsDropDowm(db.Model):
 
-    __tablename__="batt"
+    __tablename__="dropdown"
 
 
     id           = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
-    batt_name= db.Column(db.String(50) ,unique=True)
-    battv= db.Column(db.Integer,)
-    dod = db.Column(db.Float)
-    ah=db.Column(db.Integer,)
-    losses = db.Column(db.Float)
-    nreff = db.Column(db.Float)
-    
+    cable = db.Column(db.String(50) ,unique=True)
+    isc= db.Column(db.Integer,)
+    rho = db.Column(db.Float)
+    length=db.Column(db.Integer,)
+    systemvolts= db.Column(db.Integer)
+    area= db.Column(db.Float)
+    name_panel=db.Column(db.String(50))
     # voc= db.Column(db.Integer,)
     # isc= db.Column(db.Integer)
     # tcoeff= db.Column(db.Integer)
@@ -26,36 +26,39 @@ class Batt(db.Model):
     # vcoeff= db.Column(db.Integer)
     # date_added     = db.Column(db.DateTime(),default=datetime.utcnow )
 
-    def __init__(self,batt_name, battv,ah,dod,nreff,losses):
-        self.battv = battv
-        self.batt_name=batt_name
-        self.ah = ah
-        self.dod= dod
-        self.nreff = nreff
-        self.losses =losses
+    def __init__(self,cable,isc,rho,length,systemvolts,area,name_panel):
+
+        self.cable =cable      
+        self.rho = rho
+        self.length = length
+        self.systemvolts=systemvolts
+        self.area= area
+        self.name_panel=name_panel
+        self.isc=isc
+        
+
+        
         # self.vmp= vmp
         # self.date_added=date_added
         
         
-    
-    
+
+
 
     def __repr__(self):
-        return 'Batt(name=%s)' % self.name
+        return 'VoltsDropDowm(cable=%s)' % self.cable
 
     def json(self):
-        return {'name': self.name, }   
+        return {'cable_name': self.cable, }   
+
+
 
     @classmethod
-    def find_by_name(cls, name) -> "Batt":
-        return cls.query.filter_by(name = name).first() 
-
-    @classmethod
-    def find_by_id(cls, _id) -> "Batt":
+    def find_by_id(cls, _id) -> "VoltsDropDowm":
         return cls.query.filter_by(id=_id).first() 
     
     @classmethod
-    def find_all(cls) -> List["Batt"]:
+    def find_all(cls) -> List["VoltsDropDowm"]:
         return cls.query.all()
 
     def save_to_db(self) -> None:

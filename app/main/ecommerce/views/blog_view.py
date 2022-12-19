@@ -1,9 +1,9 @@
 from flask                          import request
 from flask_restx                    import Resource
-from app.main.model.blog_model      import BlogModel
-from app.main.schema.schema         import BlogSchema
-from app.main.utils.dto             import BlogDto
-from ..                             import db
+from app.main.ecommerce.model.blog_model      import BlogModel
+from app.main.ecommerce.schema.schema         import BlogSchema
+from app.main.ecommerce.utils.dto             import BlogDto
+from  ....main import db
 from app.main.auth.models.user      import User
 
 

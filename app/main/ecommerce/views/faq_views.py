@@ -1,9 +1,9 @@
 from flask                          import request
 from flask_restx                    import Resource
-from app.main.model.faq_model       import FaqModel
-from app.main.schema.schema         import FaqSchema
-from app.main.utils.dto             import FaqDto
-from ..                             import db
+from app.main.ecommerce.model.faq_model       import FaqModel
+from app.main.ecommerce.schema.schema         import FaqSchema
+from app.main.ecommerce.utils.dto             import FaqDto
+from  ....main import db
 
 
 api              = FaqDto.api

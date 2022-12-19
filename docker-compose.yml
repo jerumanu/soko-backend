@@ -11,8 +11,8 @@ services:
     expose: -8080
 
     nginx:
-    build : ./ngnix
-    container_name: nginx
-    ports : -'80:80'
+      build : ./ngnix
+      container_name: nginx
+      ports : -'80:80'
 
 

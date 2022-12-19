@@ -2,22 +2,18 @@ import os
 import unittest
 # from flask.cli                import FlaskGroup
 from flask_migrate        import Migrate, MigrateCommand
-from flask_script         import Manager
-from app                  import blueprint
-from app.main             import create_app, db
-from app.main.views.home_view import home
-from app.main.views.ratings import rate
-
+from app.main                 import create_app, db
+from app                      import blueprint
+from app.main.ecommerce.views.home_view import home
+from flask_script import Manager
+from app.main.ecommerce.views.ratings import rate
 
 
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
 app.register_blueprint(blueprint)
-
 app.register_blueprint(home)
-
 app.register_blueprint(rate)
-
 app.app_context().push()
 
 

@@ -1,14 +1,8 @@
 """migartions 
 
-<<<<<<<< HEAD:migrations/versions/dd29dd9d7c47_migartions.py
 Revision ID: dd29dd9d7c47
 Revises: 
 Create Date: 2022-11-18 23:25:39.060371
-========
-Revision ID: a97f052c6696
-Revises: 
-Create Date: 2022-11-17 13:54:10.971844
->>>>>>>> payments:migrations/versions/a97f052c6696_initial_migration.py
 
 """
 from alembic import op
@@ -16,11 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<<< HEAD:migrations/versions/dd29dd9d7c47_migartions.py
 revision = 'dd29dd9d7c47'
-========
-revision = 'a97f052c6696'
->>>>>>>> payments:migrations/versions/a97f052c6696_initial_migration.py
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -74,7 +64,6 @@ def upgrade():
     sa.Column('block_time', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-<<<<<<<< HEAD:migrations/versions/dd29dd9d7c47_migartions.py
     op.create_table('dereted',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=50), nullable=True),
@@ -87,17 +76,10 @@ def upgrade():
     sa.Column('fman', sa.Integer(), nullable=True),
     sa.Column('vcoeff', sa.Integer(), nullable=True),
     sa.Column('wpd', sa.Integer(), nullable=True),
-========
-    op.create_table('brand',
-    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('name', sa.String(length=120), nullable=False),
-    sa.Column('createAt', sa.DateTime(), nullable=False),
->>>>>>>> payments:migrations/versions/a97f052c6696_initial_migration.py
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id'),
     sa.UniqueConstraint('name')
     )
-<<<<<<<< HEAD:migrations/versions/dd29dd9d7c47_migartions.py
     op.create_table('engineer',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('profesion', sa.String(length=50), nullable=True),
@@ -116,15 +98,6 @@ def upgrade():
     sa.Column('rating', sa.Integer(), nullable=True),
     sa.Column('rate', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
-========
-    op.create_table('solarType',
-    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('name', sa.String(length=120), nullable=False),
-    sa.Column('createAt', sa.DateTime(), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
-    sa.UniqueConstraint('name')
->>>>>>>> payments:migrations/versions/a97f052c6696_initial_migration.py
     )
     op.create_table('subscribe',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
@@ -183,28 +156,6 @@ def upgrade():
     sa.UniqueConstraint('id'),
     sa.UniqueConstraint('name')
     )
-    op.create_table('invoice',
-    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('phoneNumber', sa.String(), nullable=False),
-    sa.Column('paymentType', sa.String(), nullable=False),
-    sa.Column('amount', sa.Float(), nullable=False),
-    sa.Column('date', sa.DateTime(), nullable=False),
-    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('transaction',
-    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('receipt_id', sa.String(length=100), nullable=False),
-    sa.Column('date_paid', sa.DateTime(), nullable=False),
-    sa.Column('amount', sa.Float(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('merchant_request_id', sa.String(length=100), nullable=False),
-    sa.Column('phoneNumber', sa.String(), nullable=False),
-    sa.Column('paymentType', sa.String(), nullable=False),
-    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
     op.create_table('product',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('date_added', sa.DateTime(), nullable=True),
@@ -213,16 +164,10 @@ def upgrade():
     sa.Column('price', sa.Float(), nullable=False),
     sa.Column('image', sa.String(length=256), nullable=True),
     sa.Column('product_owner', sa.Integer(), nullable=False),
-    sa.Column('inStock', sa.Boolean(), nullable=False),
-    sa.Column('condition', sa.String(), nullable=False),
     sa.Column('update_at', sa.DateTime(), nullable=True),
     sa.Column('category_id', sa.Integer(), nullable=False),
-    sa.Column('solarType_id', sa.Integer(), nullable=False),
-    sa.Column('brand_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['brand_id'], ['brand.id'], ),
     sa.ForeignKeyConstraint(['category_id'], ['category.id'], ),
     sa.ForeignKeyConstraint(['product_owner'], ['user.id'], ),
-    sa.ForeignKeyConstraint(['solarType_id'], ['solarType.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
@@ -255,22 +200,15 @@ def downgrade():
     op.drop_table('favourite')
     op.drop_table('comments')
     op.drop_table('product')
-    op.drop_table('transaction')
-    op.drop_table('invoice')
     op.drop_table('category')
     op.drop_table('blog')
     op.drop_index(op.f('ix_user_email'), table_name='user')
     op.drop_table('user')
     op.drop_table('time_format')
     op.drop_table('subscribe')
-<<<<<<<< HEAD:migrations/versions/dd29dd9d7c47_migartions.py
     op.drop_table('starRating')
     op.drop_table('engineer')
     op.drop_table('dereted')
-========
-    op.drop_table('solarType')
-    op.drop_table('brand')
->>>>>>>> payments:migrations/versions/a97f052c6696_initial_migration.py
     op.drop_table('blacklist')
     op.drop_table('batt')
     op.drop_table('Faq')

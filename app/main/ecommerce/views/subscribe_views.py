@@ -1,11 +1,11 @@
 from flask                          import request
 from flask_restx                    import Resource
-from app.main.model.subscribe_model import SubscribeModel
-from app.main.schema.schema         import SubscribeSchema
-from app.main.utils.dto             import  SubscribeDto
+from app.main.ecommerce.model.subscribe_model import SubscribeModel
+from app.main.ecommerce.schema.schema         import SubscribeSchema
+from app.main.ecommerce.utils.dto             import  SubscribeDto
 import re
-from ..                             import db
-from ..                             import mail
+from ...                           import db
+from ...                         import mail
 from flask_mail                     import Message
 
 regex               = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')

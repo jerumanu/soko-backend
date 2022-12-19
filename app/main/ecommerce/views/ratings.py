@@ -1,6 +1,6 @@
 from flask.json import jsonify
 from app.main import db
-from app.main.model.star_rating import StarRatingModel
+from app.main.ecommerce.model.star_rating import StarRatingModel
 from flask                        import request
 from flask                                       import Blueprint
 
