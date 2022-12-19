@@ -25,7 +25,7 @@ class User(db.Model):
     public_id     = db.Column(db.String(100), unique=True)
     lastname       =db.Column(db.String(64))
     firstname       = db.Column(db.String (64))
-    user_role      = db.Column(db.String(length=30),)
+    user_role     = db.Column(db.String(length=30), default='user')
     password_hash = db.Column(db.String(128))
     is_active     = db.Column(db.Boolean, default=False)
     mobile        = db.Column(db.String(11))
@@ -38,6 +38,9 @@ class User(db.Model):
 
 
 
+    #relationship
+    blogAuthor    = db.relationship('BlogModel', backref='user', cascade = 'all, delete-orphan', lazy='joined')
+    userPayment   = db.relationship('Invoice', backref='user', cascade = 'all, delete-orphan', lazy='joined')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

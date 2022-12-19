@@ -1,6 +1,5 @@
 from flask_restx                                 import Api, Resource
 from flask                                       import Blueprint
-
 from .main.views.products_views                  import api as products_ns
 from .main.views.subscribe_views                 import api as subscribe_ns
 from .main.views.category_views                  import api as category_ns
@@ -9,6 +8,7 @@ from .main.views.blog_view                       import api as blog_ns
 from .main.views.favourite_views                 import api as favourite_ns
 from .main.views.comment_views                   import api as comments_ns
 from .main.views.time_views                      import api as timings_ns
+from .main.views.payments_view                   import api as payment_ns
 from app.main.auth.controller.auth_controler     import api as login_ns
 from app.main.auth.controller.register_controler import api as register_ns
 from app.main.auth.controller.user_controler      import api as users_ns
@@ -18,6 +18,8 @@ from .main.qoutation.views.load_analysis      import api as load_ns
 from  .main.qoutation.views.batt_views          import api as batt_ns
 from  .main.auth.views.engineer_views    import api as engineer_ns
 from  .main.auth.views.business_views    import api as business_ns
+from .main.views.brand_views                     import api as brand_ns
+from .main.views.solarType_views                 import api as solarType_ns
 
 
 # blueprint = Blueprint('api', __name__ , )
@@ -33,6 +35,7 @@ api = Api(blueprint,
         )
 
 api.add_namespace(products_ns,  path='/product')
+api.add_namespace(payment_ns,   path='/payment')
 api.add_namespace(subscribe_ns, path='/subscribe')
 api.add_namespace(category_ns,  path='/category')
 api.add_namespace(faq_ns,       path='/faq')
@@ -50,3 +53,6 @@ api.add_namespace(batt_ns, path="/batt")
 api.add_namespace (engineer_ns, path="/engineer")
 api.add_namespace (business_ns, path='/business')
 api.add_namespace (users_ns, path='/userList')
+api.add_namespace(brand_ns,     path='/brand')
+api.add_namespace(solarType_ns, path='/solar-type')
+

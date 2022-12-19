@@ -13,6 +13,15 @@ _comments = CommentsDto.comments
 COMMENT_NOT_FOUND = "Comment not found."
 
 comments_schema=  CommentsSchema()
+from flask                        import request
+from flask_restx                  import Resource
+from ..schema.schema              import CommentsSchema
+from ..utils.dto                  import CommentsDto
+
+api                  = CommentsDto.api
+_comments            = CommentsDto.comments
+COMMENT_NOT_FOUND    = "Comment not found."
+comments_schema      = CommentsSchema()
 comments_list_schema = CommentsSchema( many=True)
 
 @api.route('/<int:id>')

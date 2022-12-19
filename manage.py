@@ -1,24 +1,14 @@
 import os
 import unittest
-from flask_migrate            import Migrate, MigrateCommand
 # from flask.cli                import FlaskGroup
-from app.main                 import create_app, db
-from app                      import blueprint
+from flask_migrate        import Migrate, MigrateCommand
+from flask_script         import Manager
+from app                  import blueprint
+from app.main             import create_app, db
 from app.main.views.home_view import home
-from flask_script import Manager
-
-
-# from app.main.model       import product_model, subscribe_model, comment_model, timming_model
-# from app.main.auth.models import user, blacklist
-
-
-
-
 from app.main.views.ratings import rate
 
-from app.main.model       import product_model, subscribe_model, comment_model, timming_model,star_rating
-from app.main.auth.models import user, blacklist
-from app.main.qoutation.models import dereted_power,load_analysis
+
 
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
@@ -42,6 +32,7 @@ manager.add_command('db', MigrateCommand)
 migrate = Migrate(app, db)
 
 # cli.add_command('db', MigrateCommand)
+# cli.add_command(...)
 
 @manager.command
 def run():
@@ -59,3 +50,8 @@ def test():
 
 if __name__ == '__main__':
     manager.run()
+
+
+# if __name__ == "__main__":
+#     cli()
+

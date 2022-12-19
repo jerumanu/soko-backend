@@ -1,5 +1,3 @@
-
-
 from flask_marshmallow       import Marshmallow
 from ..model.product_model   import ProductModel
 from ..model.subscribe_model import SubscribeModel
@@ -12,10 +10,10 @@ from ..model.comment_model   import CommentsModel
 from ..model.timming_model   import TimeFormat
 from ..model.star_rating   import  StarRatingModel
 from marshmallow import EXCLUDE
-
-# from flask                        import request
 from ...main import db
 # from ..views.Star_rating import star_list_schema
+from ..model.payment_model   import Invoice, Transaction
+from ..model.submodel  import SolarType, Brand
 ma = Marshmallow()
 from marshmallow import Schema, fields
 
@@ -120,3 +118,35 @@ class RatingsSchema(ma.SQLAlchemyAutoSchema):
 
 
 
+        include_fk = True        
+
+
+class InvoiceSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model         = Invoice
+        load_instance = True #optional: deserialize to model instance
+        load_only     = ("payment Invoice")
+        include_fk    = True
+
+class TransactionSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model         = Transaction
+        load_instance = True #optional: deserialize to model instance
+        load_only     = ("payment")
+        include_fk    = True
+
+
+class SolarTypeSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model         = SolarType
+        load_instance = True #optional: deserialize to model instance
+        load_only     = ("solarType")
+        include_fk    = True
+
+
+class BrandSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model         = Brand
+        load_instance = True #optional: deserialize to model instance
+        load_only     = ("brand")
+        include_fk    = True
