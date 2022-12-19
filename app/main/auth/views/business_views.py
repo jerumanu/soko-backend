@@ -1,6 +1,7 @@
 from app.main import db
 from app.main.auth.models.business_profile import Business
 
+
 from flask                        import request
 from flask_restx                  import Resource
 from ..schema.schema             import BusinessSchema
@@ -8,6 +9,7 @@ from app.main.auth.utils.profile_dto             import BusinessDto
 
 from app.main.auth.extensions.auth import  role_required
 from app.main.auth.extensions.auth.jwt_auth import  auth
+from flask_login import login_required
 
 
 
@@ -16,13 +18,11 @@ from app.main.auth.extensions.auth.jwt_auth import  auth
 
 api = BusinessDto.api
 _business = BusinessDto.business
-
 ITEM_NOT_FOUND = "Dereted panel power not found  not found."
-
 business_schema= BusinessSchema()
-
-
 business_list_schema=  BusinessSchema(many=True)
+
+
 
 @api.route('/<int:id>')
 @api.param('id', 'The User identifier')  
@@ -85,12 +85,10 @@ class ProductList(Resource):
     @api.response(201, 'Product successfully created.')
     @api.doc('create a new Product')
     @api.expect(_business, validate=True)
-    @auth.login_required
-    
-    @role_required.permission(1)
-
-
+    # @login_required
+    @role_required.permission(3)
     def post(self):
+        
         dereted_json= request.get_json()
         deretedpower_data = business_schema.load(dereted_json)
         

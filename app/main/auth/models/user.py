@@ -1,11 +1,12 @@
 import logging
 import enum
-
 from ....main import db, flask_bcrypt
 from app.main.auth.extensions.auth.jwt_auth import jwt, auth, confirm_email_jwt
 from flask import g, request, jsonify
 import hashlib
 from datetime import datetime
+from flask import request
+from functools import wraps 
 # roles= {"user": user, "engineer": engineer ,"business":business ,'admin':admin}
 
 class EnumGender(enum.Enum):
@@ -167,7 +168,7 @@ class User(db.Model):
 
     # Get reset token
     def generate_reset_token(self):
-
+        
         return jwt.dumps({'reset': self.id}).decode('ascii')
 
 
@@ -224,31 +225,8 @@ class User(db.Model):
 
         # This is only for representation how you want to see user information after query.
         return "<User(id='%s', user_role'%s' firstname='%s',email='%s')>" % (self.id,  self.firstname ,self.email,self.user_role)
-    #
-    # # class_method
-    # @classmethod
-    # def return_all(cls):
-    #     def to_json(self):
-    #         return {
-    #             'id': self.id,
-    #             'email': self.email,
-    #             'mobile': self.mobile,
-    #             'lastname': self.lastname,
-                # 'firstname': self.firstname,
-    #             'user_role': self.user_role,
-    #             'is_active': self.is_active,
-    #             'name': self.name,
-    #             'member_since': str(self.member_since),
-    #         }
-    #
-    #     return {'users': list(map(lambda x: to_json(x), User.query.all()))}
-    #
-    # @classmethod
-    # def delete_all(cls):
-    #     try:
-    #         num_rows_deleted = db.session.query(cls).delete()
-    #         db.session.commit()
-    #         return {'status': 0, 'message': '{} row(s) deleted'.format(num_rows_deleted)}
-    #     except:
-    #         return {'status': 1, 'message': 'Something went wrong'}
-    #
+   
+
+
+
+

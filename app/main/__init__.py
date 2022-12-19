@@ -4,12 +4,13 @@ from flask_bcrypt     import Bcrypt
 from flask_mail       import Mail
 from flask_cors       import CORS
 from .config          import config_by_name
-
+# from flask_login import LoginManager
+# z
 db = SQLAlchemy()
 flask_bcrypt = Bcrypt()
 mail= Mail()
 cors= CORS()
-
+# login_manager = LoginManager()
 
 
 def create_app(config_name):
@@ -26,7 +27,12 @@ def create_app(config_name):
     mail.init_app(app)
     cors.init_app(app)
     db.init_app(app)
+    # login_manager.init_app(app)
     flask_bcrypt.init_app(app)
     mail.init_app(app)
 
     return app
+
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return User.query.get(int(user_id))

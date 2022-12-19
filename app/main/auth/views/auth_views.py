@@ -16,7 +16,8 @@ class Auth:
     def login_user(data):
         try:
             # Get user email and password.
-            email, password = data.get('email').strip(), data.get('password').strip()
+            email = data.get('email').strip()
+            password=data.get('password').strip()
 
         except Exception as why:
 
@@ -30,12 +31,12 @@ class Auth:
 
         # Check if user information is none.
         if email is None or password is None:
-            return {'message': "invaild mail or passworg"}, 404
+            return {'message': "invaild mail or password"}, 404
 
         # Get user if it is existed.
         user = User.query.filter_by(email=email).first()
         print ("hello")
-        print(user)
+        print("found user", user.user_role)
         # Check if user is not existed.
         if user is None:
 
@@ -56,6 +57,7 @@ class Auth:
                 # Generate access token. This method takes boolean \
                 # value for checking admin or normal user. Admin: 1 or 0.
                 access_token = user.generate_auth_token(0)
+                
 
             # If user is admin.
             elif user.user_role == 'admin':
