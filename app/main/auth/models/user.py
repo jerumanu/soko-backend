@@ -135,9 +135,9 @@ class User(db.Model):
         return False
 
     #Generates confirmation token.
-    def generate_confirmation_token(self):
+    def generate_confirmation_token(email, firstname):
 
-       return confirm_email_jwt.dumps({'email': self.email, 'firstname': self.firstname,}).decode('ascii')
+       return confirm_email_jwt.dumps({'email': email, 'firstname': firstname}).decode('ascii')
 
     # Check token
     @staticmethod
