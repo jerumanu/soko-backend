@@ -24,10 +24,7 @@ class RegisterRequired(Resource):
     @api.response(201, 'User successfully created.')
     @api.doc('create a new user')
     @api.expect(_user, validate=True)
-
     def post(self):
         data = request.json
         
-        return save_new_user(data=data)    
-
-        
+        return save_new_user(data=data)
