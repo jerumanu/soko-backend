@@ -9,7 +9,7 @@ class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'my_precious_secret_key')
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-    MAIL_SERVER = 'smtp.qq.com'
+    MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465
     MAIL_ASCII_ATTACHMENTS = False
     MAIL_USE_SSL = True

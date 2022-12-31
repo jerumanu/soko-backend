@@ -2,7 +2,6 @@ import logging
 from flask import request
 from flask_restx import Resource,Namespace
 from validate_email import validate_email
-
 from app.main.auth.extensions import  auth
 from app.main.auth.models.user  import User
 from app.main.auth.extensions.auth.jwt_auth  import refresh_jwt
@@ -18,6 +17,7 @@ from ..utils.auth_dto import RegisterDto
 api = RegisterDto.api
 _user = RegisterDto.user
 
+
 @api.route('/register')
 class RegisterRequired(Resource):
     """register interface"""
@@ -28,4 +28,6 @@ class RegisterRequired(Resource):
     def post(self):
         data = request.json
         
-        return save_new_user(data=data)
+        return save_new_user(data=data)    
+
+        

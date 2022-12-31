@@ -1,5 +1,5 @@
 # from app import db
-from flask import request
+from flask import request , make_response
 from app.main import db
 from app.main.auth.models.user import User
 from app.main.auth.models.blacklist  import Blacklist
@@ -8,6 +8,7 @@ from app.main.auth.extensions.auth.jwt_auth import refresh_jwt
 from app.errors import CustomFlaskErr as notice
 from validate_email import validate_email
 
+
 USER_ACCOUNT_FORBIDDEN = "Account has been disabled"
 
 class Auth:
@@ -15,7 +16,8 @@ class Auth:
     def login_user(data):
         try:
             # Get user email and password.
-            email, password = data.get('email').strip(), data.get('password').strip()
+            email = data.get('email').strip()
+            password=data.get('password').strip()
 
         except Exception as why:
 
@@ -29,12 +31,12 @@ class Auth:
 
         # Check if user information is none.
         if email is None or password is None:
-            return {'message': "invaild mail or passworg"}, 404
+            return {'message': "invaild mail or password"}, 404
 
         # Get user if it is existed.
         user = User.query.filter_by(email=email).first()
         print ("hello")
-        print(user)
+        print("found user", user.user_role)
         # Check if user is not existed.
         if user is None:
 
@@ -55,6 +57,7 @@ class Auth:
                 # Generate access token. This method takes boolean \
                 # value for checking admin or normal user. Admin: 1 or 0.
                 access_token = user.generate_auth_token(0)
+                
 
             # If user is admin.
             elif user.user_role == 'admin':
@@ -86,6 +89,33 @@ class Auth:
 
             # Generate refresh_token based on the user emamil.
             refresh_token = (refresh_jwt.dumps({'email': email})).decode('ascii')
+            cookies = request.cookies
+            token = cookies.get('token') 
+            print ('token',token)
+            
+            res = make_response({
+                    'status':200,
+                    'message':"success",
+                    'user_id': user.id,
+                    # 'roles': 'editor',
+                    # 'is_active': user.is_active,
+                    'firstname': user.firstname,
+                    'user_role': user.user_role,
+                    'access_token': access_token,
+                    
+                })
+            res.set_cookie(
+                "token",
+                value= refresh_token,
+                max_age =1700,
+                expires= None,
+                path=request.path,
+                secure= False,
+                httponly=False,
+                
+
+                )
+            
 
             # Commit session.
             db.session.commit()
@@ -107,17 +137,7 @@ class Auth:
             #     "avatar": 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
             #     "name": user.firstname
             # }
-            return {
-                    'status':200,
-                    'message':"success",
-                    'user_id': user.id,
-                    # 'roles': 'editor',
-                    # 'is_active': user.is_active,
-                    'username': user.firstname,
-                    'user_role': user.user_role,
-                    'access_token': access_token,
-                    'refresh_token': refresh_token
-                }
+            return res
         else:
             # Return invalid password
             # raise notice(status_code=421,return_code=20003,action_status=False)
