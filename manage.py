@@ -45,7 +45,7 @@ migrate = Migrate(app, db)
 
 @manager.command
 def run():
-    app.run(Debug=True)
+    app.run(host='127.0.0.1', port=8080, debug=False)
 
 @manager.command
 def test():
