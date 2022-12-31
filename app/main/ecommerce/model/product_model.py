@@ -32,19 +32,19 @@ class ProductModel(db.Model):
    
     
 
-    
-   
-    
-    
-    
-    
 
-    def __init__(self, name,description,product_owner,image,price):
+
+    def __init__(self, name,description,product_owner,image,price, solarType_id, brand_id, condition, inStock, category_id):
         self.name = name
         self.description = description
         self.image = image
         self.product_owner = product_owner
         self.price = price
+        self.brand_id = brand_id
+        self.solarType_id = solarType_id
+        self.condition = condition
+        self.inStock  = inStock
+        self.category_id = category_id
         self.date_added= dt.datetime.now()
         self.update_at= dt.datetime.now()
         

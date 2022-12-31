@@ -14,11 +14,12 @@ class BlogModel(db.Model):
     author      = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     # comments    = db.Column()
 
-    def __init__(self, title, text, description):
+    def __init__(self, title, text, description, author):
         self.createAt    = dt.datetime.now()
         self.title       = title
         self.text        = text
         self.description = description
+        self.author      = author
 
     def __repr__(self) -> str:
         return 'Blog(name=%s)' % self.title

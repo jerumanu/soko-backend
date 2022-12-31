@@ -1,5 +1,5 @@
-from typing import List
-from .. import db 
+from typing   import List
+from ....main import db
 import datetime as dt
 
 class Invoice(db.Model):

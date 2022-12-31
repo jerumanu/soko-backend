@@ -18,9 +18,10 @@ class CategoryModel(db.Model):
     product    = db.relationship('ProductModel', backref='category', cascade = 'all, delete-orphan', lazy='joined')
     
 
-    def __init__(self, name):
+    def __init__(self, name, author):
         self.createdAt  = dt.datetime.now()
         self.name       = name
+        self.author   = author
 
     def __repr__(self) -> str:
         return 'Category(name=%s)' % self.name
