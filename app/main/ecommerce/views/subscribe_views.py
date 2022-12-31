@@ -1,4 +1,4 @@
-from flask                          import request
+from flask                          import request, json
 from flask_restx                    import Resource
 from app.main.ecommerce.model.subscribe_model import SubscribeModel
 from app.main.ecommerce.schema.schema         import SubscribeSchema
@@ -32,12 +32,11 @@ class Subscribe(Resource):
     @api.expect(_subscribe, validate=True)
     def post(self):
         item_json = request.get_json()
-        
         if(re.fullmatch(regex, item_json['email'])):
             emailConfirmation = SubscribeModel.query.filter_by(email=item_json['email'].lower()).first()
             if not emailConfirmation :
                 msg = Message('Hello',  recipients = [item_json['email']])
-                msg.body = "Hello Flask message sent from Flask-Mail"
+                msg.body = "Hello, You have successfully subscribe to sokosolar newsletter"
                 mail.send(msg)
                 item_data = item_schema.load(item_json)
                 db.session.add(item_data)
@@ -85,27 +84,30 @@ class Unsubscribe(Resource):
         item_data = SubscribeModel.query.filter_by(email=email.lower()).first_or_404(description=f"{email} not found in database.")
         return item_schema.dump(item_data), 200
 
+
 @api.route('/send_updates')
 @api.param('name', 'The User identifier')
 class Update(Resource):
     @api.doc('sending newsletter to all subscribers')
-    
+    @api.marshal_list_with(_subscribe, envelope='data')
     def post(self):
-        subject = request.form.get('subject')
-        message = request.form.get('message')
         data = request.get_json()
-        emaillist = item_list_schema.dump(SubscribeModel.find_all())
-
+        message = data['message']
+        subject = data['subject']
+        print("data", data)
+        emaillist = item_list_schema.dump(SubscribeModel.query.all())
         with mail.connect() as conn:
             for user in emaillist:
-                message =  message
-                subject =  subject
-                msg = Message(recipients=[user.email],
-                            body=message,
-                            subject=subject)
+                for key in user:
+                    if key == "email":
+                        print(user[key])
+                        message =  message
+                        subject =  subject
+                        msg = Message(recipients=[user[key]],
+                                    body=message,
+                                    subject=subject)
 
-                conn.send(msg)
-    
-        return{"message": "Successfully submitted"}
+                        conn.send(msg)
+                        return{"message": "Successfully submitted"}
 
 

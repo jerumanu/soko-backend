@@ -1,9 +1,10 @@
 from flask                     import request
 from flask_restx               import Resource
-from app.main.model.submodel   import *
-from app.main.schema.schema    import BrandSchema
-from app.main.utils.dto        import BrandDto
-from ..                        import db
+from app.main.ecommerce.model.submodel   import Brand
+from app.main.ecommerce.schema.schema    import BrandSchema
+from app.main.ecommerce.utils.dto        import BrandDto
+from ....main                       import db
+from app.main.auth.models.user      import User
 
 
 
@@ -29,19 +30,23 @@ class BrandList(Resource):
     def post(self):
         item_json         = request.get_json()
         nameConfirmation  = Brand.query.filter_by(name=item_json["name"]).first()
+        author            = User.query.filter_by(id=item_json['author']).first()
 
-        if not nameConfirmation:
-            item_data = item_schema.load(item_json)
-            db.session.add(item_data)
-            db.session.commit()
-            return item_schema.dump(item_data), 201
-                
+        if author:
+            if not nameConfirmation:
+                item_data = item_schema.load(item_json)
+                db.session.add(item_data)
+                db.session.commit()
+                return item_schema.dump(item_data), 201
+                    
+            else:
+                return {"message": "Name already exist"}, 201
         else:
-            return {"message": "Name already exist"}, 201
+            return {"message": "Invalid user ID"}, 404
 
 
 @api.route('/<int:id>')
-class Brand(Resource):
+class BrandFilter(Resource):
     @api.doc('deleting brand name')
     @api.marshal_with(_brand)
     def delete(self, id):
@@ -66,7 +71,6 @@ class Brand(Resource):
     @api.marshal_with(_brand)
     @api.expect(_brand, validate=True)
     def put(self, id):
-         
         item_data = Brand.query.filter_by(id=id).first_or_404(description=f" not found in database.")
         item_json = request.get_json()
       
@@ -76,6 +80,21 @@ class Brand(Resource):
             db.session.add(item_data)
             db.session.commit()
         return  item_schema.dump(item_data), 200
+
+@api.route('/user/<int:userId>')
+@api.param('UserId', 'The User identifier')
+class FilterBrand(Resource):
+    @api.doc('Getting solar brand posted by specific user')
+    @api.marshal_list_with(_brand, envelope='data')
+    def get(self, userId):
+        brand = Brand.query.filter_by(author=userId).all()
+        if brand:
+            return item_list_schema.dump(brand), 201
+        else:
+            return {
+                "message": "You haven't uploaded any Product brand yet"
+            }, 401
+
 
 
 

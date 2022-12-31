@@ -70,10 +70,9 @@ class Blog(Resource):
     def put(self, id):
         item_data = BlogModel.query.filter_by(id=id).first_or_404(description=f" not found in database.")
         item_json = request.get_json()
-        print("hello", item_data)
-        print("world", item_json)
         if item_data:
             item_data.title=item_json['title']
+            item_data.text=item_json['text']
             item_data.description=item_json['description']
             
         else:

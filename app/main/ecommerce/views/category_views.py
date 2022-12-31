@@ -1,5 +1,5 @@
 from wsgiref import validate
-from flask                          import request
+from flask                          import request, jsonify
 from flask_restx                    import Resource
 from app.main.ecommerce.model.category_model  import CategoryModel
 from app.main.ecommerce.schema.schema         import CategorySchema
@@ -20,6 +20,7 @@ class Category(Resource):
     def get(self):
         return item_list_schema.dump(CategoryModel.find_all()), 200
 
+
     @api.response(201, 'Category added successfully')
     @api.doc("Adding category")
     @api.expect(_category, validate=True)
@@ -27,8 +28,7 @@ class Category(Resource):
         item_json = request.get_json()
         nameConfirmation = CategoryModel.query.filter_by(name=item_json["name"]).first()
         author           = User.query.filter_by(id=item_json['author']).first()
-        
-
+      
         if author:
             if not nameConfirmation:
                 item_data = item_schema.load(item_json)
@@ -42,18 +42,34 @@ class Category(Resource):
             return {"message": "Invalid user ID"}, 404
 
 
+@api.route('/user/<int:userId>')
+class Category(Resource):
+    @api.doc('deleting category')
+    @api.marshal_with(_category)
+    def get(self, userId):
+        category = CategoryModel.query.filter_by(author=userId).all()
+        if Category:
+            return item_list_schema.dump(category)
+        return jsonify({
+            "message": "No category uploaded"
+        })
+
+
 @api.route('/<int:id>')
 class Category(Resource):
     @api.doc('deleting category')
+    @api.response(201, 'deleted successfully')
     @api.marshal_with(_category)
     def delete(self, id):
         item_data = CategoryModel.query.filter_by(id=id).first()
         if not item_data:
-            return{"message":"Item is not found"}
+            return{"message":"Item is not found"}, 404
         else:
             db.session.delete(item_data)
             db.session.commit()
-            return {"deleted successfully"}
+            print("hell0 world kenya")
+            return {"message":"deleted successfully"}, 201
+           
 
     
     @api.doc("get category by id")

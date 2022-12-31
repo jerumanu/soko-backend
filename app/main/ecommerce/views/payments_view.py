@@ -1,5 +1,5 @@
 from app.main                     import db
-from app.main.model.payment_model import Invoice, Transaction
+from app.main.ecommerce.model.payment_model import Invoice, Transaction
 from flask                        import request, jsonify, make_response
 from flask_restx                  import Resource
 from ..schema.schema              import InvoiceSchema, TransactionSchema
