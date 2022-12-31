@@ -1,6 +1,5 @@
 import os
 import unittest
-# from flask.cli                import FlaskGroup
 from flask_migrate        import Migrate, MigrateCommand
 from app.main                 import create_app, db
 from app                      import blueprint
@@ -19,16 +18,12 @@ app.app_context().push()
 
 
 manager = Manager(app)
-migrate = Migrate(app, db)
+migrate = Migrate(app, db, command='migrate')
 
 manager.add_command('db', MigrateCommand)
-
-# cli = FlaskGroup(app)
-
 migrate = Migrate(app, db)
 
-# cli.add_command('db', MigrateCommand)
-# cli.add_command(...)
+
 
 @manager.command
 def run():
@@ -48,6 +43,4 @@ if __name__ == '__main__':
     manager.run()
 
 
-# if __name__ == "__main__":
-#     cli()
 
