@@ -10,8 +10,9 @@ class DeleteUser():
         })
 
 class Userlist():
-        api = Namespace('users', description=' user related operations')
-        users = api.model('users', {
+        api = Namespace('user', description=' user related operations')
+        users = api.model('user', {
+                'id'              : fields.Integer(readonly= True, description=" unique identifier"),
                 'email': fields.String(required=True, description='user email address'),
                 'user_role': fields.String(required=True, description='user user_role'),
                 # 'is_active': fields.String(required=True, description='user is_active'),

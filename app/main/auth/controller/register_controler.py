@@ -2,7 +2,6 @@ import logging
 from flask import request
 from flask_restx import Resource,Namespace
 from validate_email import validate_email
-
 from app.main.auth.extensions import  auth
 from app.main.auth.models.user  import User
 from app.main.auth.extensions.auth.jwt_auth  import refresh_jwt
@@ -24,8 +23,15 @@ class RegisterRequired(Resource):
     @api.response(201, 'User successfully created.')
     @api.doc('create a new user')
     @api.expect(_user, validate=True)
-
     def post(self):
-        data = request.json
-        
-        return save_new_user(data=data)
+        data = request.get_json(force=True)
+        emailConfrimation = User.query.filter_by(email=data['email']).first()
+        if not emailConfrimation:
+            save_new_user(data=data)
+            return {
+                "message": 'User successfully created.'
+            }, 201
+        else:
+            return {
+                "message": "User already exist"
+            }

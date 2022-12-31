@@ -18,16 +18,17 @@ class ProductDto:
     api = Namespace('product', description='product related operations')
     product = api.model('product', {
         'id'          : fields.Integer(readonly= True, description="unique identifier"),
-        'name'         : fields.String(required=True, description='product email address'),
-        'description'  : fields.String(required=True, description='product productname'),
-        'price'        : fields.Float(0.00,required=True, description='product price'),
-        "image"        : fields.String(description='product Identifier'),
-        'product_owner': fields.String(description='product Identifier'),
-        'inStock'      : fields.Boolean(required=True, description="is the product available"),
-        'condition'    : fields.String(required=True, description="Is the product new or used"),
-        'solarType_id ': fields.Integer(required=True, description="Solar type Id"),
-        'brand_id '    : fields.Integer(required=True, description="Brand Id"),
-        'category'     : fields.String(description='category Identifier')
+        'name'        : fields.String(required=True, description='product email address'),
+        'description' : fields.String(required=True, description='product productname'),
+        'price'       : fields.Float(0.00,required=True, description='product price'),
+        "image"       : fields.String(description='product Identifier'),
+        'inStock'     : fields.Boolean(required=True, description="is the product available"),
+        'condition'   : fields.String(required=True, description="Is the product new or used"),
+        'solarType_id': fields.Integer(required=True, description="Solar type Id"),
+        'brand_id'    : fields.Integer(required=True, description="Brand Id"),
+        'category_id'    : fields.Integer(required=True, description='category Identifier'),         
+        'product_owner': fields.Integer(required=True,  description="Author id")
+
     })
 
 
@@ -141,7 +142,8 @@ class BrandDto:
     api     = Namespace('Brand name', description='Product brand name')
     brand   = api.model('brand', {
         'id'    : fields.Integer(readonly=True,  description="unique identifier"),
-        'name'  : fields.String(required=True,   description="Product Brand name")
+        'name'  : fields.String(required=True,   description="Product Brand name"),
+        'author': fields.Integer(required=True,  description="Author id")
     })
 
 
@@ -149,6 +151,7 @@ class SolarTypeDto:
     api       = Namespace('Solar type', description='Type of solar in the market')
     solarType = api.model('solarType', {
         'id'    : fields.Integer(readonly=True,  description="unique identifier"),
-        'name'  : fields.String(required=True,   description="solar type name")
+        'name'  : fields.String(required=True,   description="solar type name"),
+        'author': fields.Integer(required=True,  description="Author id")
     })
 

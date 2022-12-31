@@ -1,5 +1,3 @@
-# from app.v1 import v1_api
-
 from flask_restx import Namespace, fields
 
 class RegisterDto():
