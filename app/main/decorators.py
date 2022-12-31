@@ -1,6 +1,6 @@
 from datetime                     import date, datetime, timedelta
 from functools                    import wraps
-from app.main.model.payment_model import Transaction
+from app.main.ecommerce.model.payment_model import Transaction
 
 
 def subscription(paymentType, userId):
