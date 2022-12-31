@@ -1,14 +1,8 @@
-"""migartions 
+"""Initial migration.
 
-<<<<<<<< HEAD:migrations/versions/dd29dd9d7c47_migartions.py
-Revision ID: dd29dd9d7c47
+Revision ID: 17e27448ac98
 Revises: 
-Create Date: 2022-11-18 23:25:39.060371
-========
-Revision ID: a97f052c6696
-Revises: 
-Create Date: 2022-11-17 13:54:10.971844
->>>>>>>> payments:migrations/versions/a97f052c6696_initial_migration.py
+Create Date: 2022-12-31 12:57:08.330908
 
 """
 from alembic import op
@@ -16,11 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<<< HEAD:migrations/versions/dd29dd9d7c47_migartions.py
-revision = 'dd29dd9d7c47'
-========
-revision = 'a97f052c6696'
->>>>>>>> payments:migrations/versions/a97f052c6696_initial_migration.py
+revision = '17e27448ac98'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -49,6 +39,35 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
     )
+    op.create_table(' qoute',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('tenegerydemand', sa.Integer(), nullable=True),
+    sa.Column('autonomy', sa.Integer(), nullable=True),
+    sa.Column('location', sa.String(length=50), nullable=True),
+    sa.Column('latitude', sa.Integer(), nullable=True),
+    sa.Column('longtitude', sa.Integer(), nullable=True),
+    sa.Column('systemvolts', sa.Integer(), nullable=True),
+    sa.Column('name_panel', sa.String(length=20), nullable=True),
+    sa.Column('power', sa.Integer(), nullable=True),
+    sa.Column('panel', sa.Integer(), nullable=True),
+    sa.Column('panels_series', sa.Integer(), nullable=True),
+    sa.Column('total_panels', sa.Integer(), nullable=True),
+    sa.Column('charge_controller', sa.Integer(), nullable=True),
+    sa.Column('batt_capacity', sa.Integer(), nullable=True),
+    sa.Column('batt_string', sa.Integer(), nullable=True),
+    sa.Column('batt_series', sa.Integer(), nullable=True),
+    sa.Column('no_batt', sa.Integer(), nullable=True),
+    sa.Column('inverter', sa.Integer(), nullable=True),
+    sa.Column('batt_name', sa.String(length=50), nullable=True),
+    sa.Column('kw', sa.Integer(), nullable=True),
+    sa.Column('grid_inverter', sa.Integer(), nullable=True),
+    sa.Column('l_string_p', sa.Integer(), nullable=True),
+    sa.Column('h_string_p', sa.Integer(), nullable=True),
+    sa.Column('iccc', sa.Integer(), nullable=True),
+    sa.Column('wpd', sa.Integer(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('id')
+    )
     op.create_table('Faq',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('title', sa.String(length=120), nullable=False),
@@ -60,13 +79,15 @@ def upgrade():
     )
     op.create_table('batt',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('name', sa.String(length=50), nullable=True),
+    sa.Column('batt_name', sa.String(length=50), nullable=True),
     sa.Column('battv', sa.Integer(), nullable=True),
-    sa.Column('dod', sa.Integer(), nullable=True),
+    sa.Column('dod', sa.Float(), nullable=True),
     sa.Column('ah', sa.Integer(), nullable=True),
+    sa.Column('losses', sa.Float(), nullable=True),
+    sa.Column('nreff', sa.Float(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
-    sa.UniqueConstraint('name')
+    sa.UniqueConstraint('batt_name'),
+    sa.UniqueConstraint('id')
     )
     op.create_table('blacklist',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -74,7 +95,6 @@ def upgrade():
     sa.Column('block_time', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-<<<<<<<< HEAD:migrations/versions/dd29dd9d7c47_migartions.py
     op.create_table('dereted',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=50), nullable=True),
@@ -83,21 +103,27 @@ def upgrade():
     sa.Column('vmp', sa.Integer(), nullable=True),
     sa.Column('voc', sa.Integer(), nullable=True),
     sa.Column('isc', sa.Integer(), nullable=True),
-    sa.Column('tcoeff', sa.Integer(), nullable=True),
-    sa.Column('fman', sa.Integer(), nullable=True),
-    sa.Column('vcoeff', sa.Integer(), nullable=True),
-    sa.Column('wpd', sa.Integer(), nullable=True),
-========
-    op.create_table('brand',
-    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('name', sa.String(length=120), nullable=False),
-    sa.Column('createAt', sa.DateTime(), nullable=False),
->>>>>>>> payments:migrations/versions/a97f052c6696_initial_migration.py
+    sa.Column('tcoeff', sa.Float(), nullable=True),
+    sa.Column('fman', sa.Float(), nullable=True),
+    sa.Column('vcoeff', sa.Float(), nullable=True),
+    sa.Column('dirt', sa.Float(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id'),
     sa.UniqueConstraint('name')
     )
-<<<<<<<< HEAD:migrations/versions/dd29dd9d7c47_migartions.py
+    op.create_table('dropdown',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('cable', sa.String(length=50), nullable=True),
+    sa.Column('isc', sa.Integer(), nullable=True),
+    sa.Column('rho', sa.Float(), nullable=True),
+    sa.Column('length', sa.Integer(), nullable=True),
+    sa.Column('systemvolts', sa.Integer(), nullable=True),
+    sa.Column('area', sa.Float(), nullable=True),
+    sa.Column('name_panel', sa.String(length=50), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('cable'),
+    sa.UniqueConstraint('id')
+    )
     op.create_table('engineer',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('profesion', sa.String(length=50), nullable=True),
@@ -111,20 +137,22 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
     )
+    op.create_table('inveter',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('name', sa.String(length=50), nullable=True),
+    sa.Column('vmin', sa.Integer(), nullable=True),
+    sa.Column('vmax', sa.Integer(), nullable=True),
+    sa.Column('max_panels', sa.Integer(), nullable=True),
+    sa.Column('min_panels', sa.Integer(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('id'),
+    sa.UniqueConstraint('name')
+    )
     op.create_table('starRating',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('rating', sa.Integer(), nullable=True),
     sa.Column('rate', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
-========
-    op.create_table('solarType',
-    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('name', sa.String(length=120), nullable=False),
-    sa.Column('createAt', sa.DateTime(), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
-    sa.UniqueConstraint('name')
->>>>>>>> payments:migrations/versions/a97f052c6696_initial_migration.py
     )
     op.create_table('subscribe',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
@@ -173,6 +201,16 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
     )
+    op.create_table('brand',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('name', sa.String(length=120), nullable=False),
+    sa.Column('createAt', sa.DateTime(), nullable=False),
+    sa.Column('author', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['author'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('id'),
+    sa.UniqueConstraint('name')
+    )
     op.create_table('category',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=120), nullable=False),
@@ -192,6 +230,16 @@ def upgrade():
     sa.Column('date', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('solarType',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('name', sa.String(length=120), nullable=False),
+    sa.Column('createAt', sa.DateTime(), nullable=False),
+    sa.Column('author', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['author'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('id'),
+    sa.UniqueConstraint('name')
     )
     op.create_table('transaction',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
@@ -256,24 +304,24 @@ def downgrade():
     op.drop_table('comments')
     op.drop_table('product')
     op.drop_table('transaction')
+    op.drop_table('solarType')
     op.drop_table('invoice')
     op.drop_table('category')
+    op.drop_table('brand')
     op.drop_table('blog')
     op.drop_index(op.f('ix_user_email'), table_name='user')
     op.drop_table('user')
     op.drop_table('time_format')
     op.drop_table('subscribe')
-<<<<<<<< HEAD:migrations/versions/dd29dd9d7c47_migartions.py
     op.drop_table('starRating')
+    op.drop_table('inveter')
     op.drop_table('engineer')
+    op.drop_table('dropdown')
     op.drop_table('dereted')
-========
-    op.drop_table('solarType')
-    op.drop_table('brand')
->>>>>>>> payments:migrations/versions/a97f052c6696_initial_migration.py
     op.drop_table('blacklist')
     op.drop_table('batt')
     op.drop_table('Faq')
+    op.drop_table(' qoute')
     op.drop_table(' loads')
     op.drop_table(' business')
     # ### end Alembic commands ###
