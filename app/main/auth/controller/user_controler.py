@@ -1,17 +1,14 @@
 from flask import request
-from flask_restx import Resource, Namespace
-
-
-from app.main.auth.models.user import User
+from flask_restx import Resource
 from app.main.auth.extensions.auth import  role_required
 from app.main.auth.extensions.auth.jwt_auth import  auth
 from app.main.auth.views.user_views import get_all_users
 # from app.main.auth.utils.user_dto import user_put_model,get_user_fields
-from ..utils.auth_dto import RegisterDto
+from ..utils.user_dto import Userlist
 
 
-api = RegisterDto.api
-_user = RegisterDto.user
+api = Userlist.api
+_users = Userlist.users
 # user_ns = Namespace('user')
 
 # parser = user_ns.parser()
@@ -23,16 +20,10 @@ _user = RegisterDto.user
 
 @api.route('/userlist')
 class UserList(Resource):
-    """
-    列出所有用户
-    过滤某个字段，在头部加上 X-Fields: email
-    """
     @api.doc('list_of_registered_users')
-    @api.marshal_list_with(_user, envelope='data')
+    @api.marshal_list_with(_users, envelope='data')
     # @role_required.permission(2)
-   
     def get(self):
-
         return get_all_users()
 
 
