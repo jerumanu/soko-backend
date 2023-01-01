@@ -8,6 +8,9 @@ from app.main.ecommerce.model.star_rating import StarRatingModel
 from app.main.ecommerce.schema.schema import RatingsSchema
 from flask                        import request
 from flask_restx                  import Resource
+from app.main.ecommerce.model.product_model import ProductModel
+
+
 from ..utils.dto import StarDto
 import json
 
@@ -31,27 +34,21 @@ class StarRating(Resource):
     # refactor the code  to alow mean callculation befor the serialization 
 
     def post(self):
-
         star_json= request.get_json()
 
-        data= []
-        rating= star_json['rating']
-
-
-        data.push(rating)
-        rate = sum(data , rating)
-
-        n = data.len()
-        print(n)
-        r = rate/n
-        print(r)
-        print(rate)
-        product_data=star_schema.load(star_json)
         
+        productId     = ProductModel.query.filter_by(id=star_json['product_id']).first()
         
-        product_data.save_to_db()
 
-        return star_schema.dump(product_data), 201
+        
+        if productId:
+            star_ratting_data = star_schema.load(star_json)
+
+            star_ratting_data.save_to_db()
+
+            return star_schema.dump(star_ratting_data), 201
+        else:
+                return {"message": "Prodcut not found"}, 404    
 
     @api.doc('list_of_products')
     # @api.marshal_list_with(_star, envelope='data')

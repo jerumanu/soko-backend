@@ -140,13 +140,14 @@ class QouteList(Resource):
 
 
         name = qoute_json['name_panel']
-
+        print('hello tamp, ',name)
         
         # ted_name= next(d for d in results if d['name'] == name)
 
         results1 =dereted_list_schema.dump( DeretedPanel.find_all())
         
         panel_name= next(d for d in results1 if d['name'] == name)
+        
         # print('rese',results)
         print ("panel_name",panel_name)
         panelsvolts =12
