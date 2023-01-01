@@ -1,8 +1,8 @@
 """create tables
 
-Revision ID: 9c77ff443266
+Revision ID: 4f4d05931609
 Revises: 
-Create Date: 2023-01-01 07:56:48.460684
+Create Date: 2023-01-01 09:04:39.864178
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9c77ff443266'
+revision = '4f4d05931609'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -95,6 +95,14 @@ def upgrade():
     sa.Column('block_time', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('cable',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('cable', sa.String(length=50), nullable=True),
+    sa.Column('rho', sa.Float(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('cable'),
+    sa.UniqueConstraint('id')
+    )
     op.create_table('dereted',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=50), nullable=True),
@@ -115,7 +123,6 @@ def upgrade():
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('cable', sa.String(length=50), nullable=True),
     sa.Column('isc', sa.Integer(), nullable=True),
-    sa.Column('rho', sa.Float(), nullable=True),
     sa.Column('length', sa.Integer(), nullable=True),
     sa.Column('systemvolts', sa.Integer(), nullable=True),
     sa.Column('area', sa.Float(), nullable=True),
@@ -320,6 +327,7 @@ def downgrade():
     op.drop_table('engineer')
     op.drop_table('dropdown')
     op.drop_table('dereted')
+    op.drop_table('cable')
     op.drop_table('blacklist')
     op.drop_table('batt')
     op.drop_table('Faq')

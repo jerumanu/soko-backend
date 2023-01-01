@@ -6,6 +6,7 @@ from ..models.inverter import Inverter
 from ..models.voltdropdown import VoltsDropDowm
 from ..models.qoutation_model import Qoute
 from ..models.batt import Batt
+from ..models.cablesize import CableDropDown
 # from ...main import db
 # from ..views.Star_rating import star_list_schema
 
@@ -53,4 +54,10 @@ class VoltageDropSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
         load_only = ("inverter")
         include_fk= True     
+
+class CableDropSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = CableDropDown
+        load_instance = True
         
+        include_fk= True          

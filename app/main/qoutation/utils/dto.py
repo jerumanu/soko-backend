@@ -17,7 +17,7 @@ class LoadsDto:
 
 class DeretedDto:
 
-    api = Namespace('derated', description='comments related operations')
+    api = Namespace('derated', description='panels details ')
     dereted= api.model('dereted', { 
 
         
@@ -58,7 +58,7 @@ class BattDto:
 
 class QouteDto:
 
-    api = Namespace('qoute', description='comments related operations')
+    api = Namespace('qoute', description=' qoute user realted details ')
     qoute= api.model('qoute', { 
 
         'ap_demand': fields.Integer(required=True, description='total energy demand in kw/hrs'),
@@ -87,7 +87,7 @@ class QouteDto:
     
 class InverterDto:
 
-    api = Namespace('inverter', description='comments related operations')
+    api = Namespace('inverter', description='inverter details ')
     inverter= api.model('inverter', { 
         'name': fields.String(description='locations of the client'),
 
@@ -106,10 +106,23 @@ class VoltsDropDto:
     dropdown= api.model('dropdown', { 
 
         'cable': fields.String(description='locations of the client'),
-        'rho':fields.Float(0.00,required=True, description='product price'),
+        # 'rho':fields.Float(0.00,required=True, description='product price'),
         'length':fields.Integer( required=True, description=' latitude logations of the client  '),
         'systemvolts':fields.Integer( required=True, description=' latitude logations of the client '),
         'name_panel':fields.String(description='locations of the client'),
+        # 'voc':fields.Integer( required=True, description=' longtitude logations of the client  '),
+        
+
+        # 'date_added ':fields.DateTime( required=True, description=' date created'    )
+    })
+class CableDropDto:
+
+    api = Namespace('cables details', description='cables rho info')
+    cable= api.model('cable', { 
+
+        'cable': fields.String(description='locations of the client'),
+        'rho':fields.Float(0.00,required=True, description='product price'),
+        
         # 'voc':fields.Integer( required=True, description=' longtitude logations of the client  '),
         
 

@@ -23,6 +23,7 @@ from .main.ecommerce.views.solarType_views        import api as solarType_ns
 from .main.qoutation.views.qoute_views            import api as qoute_ns
 from  . main.qoutation.views.inverter_views       import api as inverter_ns
 from .main.qoutation.views.voltsdropdown          import api as voltsdrop_ns
+from .main.qoutation.views.cablesize         import api as cable_ns
 
 # blueprint = Blueprint('api', __name__ , )
 
@@ -63,5 +64,6 @@ api.add_namespace(solarType_ns, path='/solar-type')
 api.add_namespace(qoute_ns ,    path='/qoute')
 api.add_namespace(inverter_ns , path='/inverter')
 api.add_namespace(voltsdrop_ns, path='/voltsdrop')
+api.add_namespace(cable_ns, path='/cable')
 
 

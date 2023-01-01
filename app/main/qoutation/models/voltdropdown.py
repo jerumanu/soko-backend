@@ -14,7 +14,6 @@ class VoltsDropDowm(db.Model):
     id           = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     cable = db.Column(db.String(50) ,unique=True)
     isc= db.Column(db.Integer,)
-    rho = db.Column(db.Float)
     length=db.Column(db.Integer,)
     systemvolts= db.Column(db.Integer)
     area= db.Column(db.Float)
@@ -26,10 +25,10 @@ class VoltsDropDowm(db.Model):
     # vcoeff= db.Column(db.Integer)
     # date_added     = db.Column(db.DateTime(),default=datetime.utcnow )
 
-    def __init__(self,cable,isc,rho,length,systemvolts,area,name_panel):
+    def __init__(self,cable,isc,length,systemvolts,area,name_panel):
 
         self.cable =cable      
-        self.rho = rho
+        
         self.length = length
         self.systemvolts=systemvolts
         self.area= area

@@ -1,10 +1,12 @@
 from app.main import db
 from app.main.qoutation.models.voltdropdown  import VoltsDropDowm
 from app.main.qoutation.models.dereted_power import DeretedPanel
+from app.main.qoutation.models.cablesize import CableDropDown
+
 # from app.main.qoutation.models.load_analysis import LoadAnalysis
 from flask                        import request
 from flask_restx                  import Resource
-from ..schemas.schema             import VoltageDropSchema,DeretedSchema
+from ..schemas.schema             import VoltageDropSchema,DeretedSchema,CableDropSchema
 from ..utils.dto                  import VoltsDropDto
 
 
@@ -20,7 +22,7 @@ ITEM_NOT_FOUND = "Dereted panel power not found  not found."
 volts_Schema= VoltageDropSchema()
 volts_list_Schema =  VoltageDropSchema( many=True)
 
-
+cable_list_Schema =  CableDropSchema( many=True)
 
 dereted_schema= DeretedSchema()
 dereted_list_schema=  DeretedSchema(many=True)
@@ -73,7 +75,7 @@ class ProductList(Resource):
         volts_json= request.get_json()
         DROPDOWN = 0.02
 
-        rho=volts_json['rho']
+        
         length=volts_json['length']
         systemvolts=volts_json['systemvolts']
         name = volts_json['name_panel']
@@ -82,18 +84,21 @@ class ProductList(Resource):
         # ted_name= next(d for d in results if d['name'] == name)
 
         results1 =dereted_list_schema.dump( DeretedPanel.find_all())
+        data = cable_list_Schema.dump(CableDropDown.find_all())
 
         panel_name= next(d for d in results1 if d['name'] == name)
+        cable_name= next(d for d in data if d['cable'] == cable)
 
         isc = panel_name['isc']
 
+        rho=cable_name['rho']
 
 
         area= (2*isc * rho *length )/(DROPDOWN * systemvolts)
 
         voltage_json =dict()
 
-        voltage_json['rho']=rho
+        
         voltage_json['length']=length
         voltage_json['systemvolts']=systemvolts
         voltage_json['name_panel'] =name
