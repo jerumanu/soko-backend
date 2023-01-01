@@ -7,6 +7,8 @@ from validate_email_address import validate_email
 from app.main.auth.mails.email  import send_email
 from     app.errors  import CustomFlaskErr as notice
 
+
+
 def save_new_user(data):
     user = User.query.filter_by(email=data['email']).first()
     # print (data['username'])
@@ -32,11 +34,7 @@ def save_new_user(data):
 
         
 
-        # email_confirm_token =  (user.generate_confirmation_token(data['email'],data['firstname']))
-        
-        # confirm_url = (url_for('api.confirm',confirm_token=email_confirm_token,_external=True)) + '?email=' + data['email']
-        # send_email(to=data['email'], subject='active',template='confirm.html', confirm_url=confirm_url,user=data['firstname'],)
-
+       
         
     
         response_object = {
