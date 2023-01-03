@@ -50,14 +50,15 @@ class StarRating(Resource):
         else:
                 return {"message": "Prodcut not found"}, 404    
 
-    @api.doc('list_of_products')
+    @api.route('/star/<int:product_id>')
+    @api.doc('product ratting')
     # @api.marshal_list_with(_star, envelope='data')
-    def get(self):
+    def get(self,product_id):
         # critic_avg = db.session.query(func.avg(Rating.rating)).scalar() or 0
 
-
+        start_json =  StarRatingModel.query.filter_by(product_id=product_id).all()
         
-        result= star_list_schema .dump( StarRatingModel.find_all())
+        result= star_list_schema.dump(start_json)
         
 
         num= mean(d['rating'] for d in result)
@@ -77,8 +78,22 @@ class StarRating(Resource):
         
 
         return jsonify({'data':data}) 
+
+
+# @api.route('/star/<int:product_id>')
+# @api.param('UserId', 'The User identifier')
+# class ProductFilter(Resource):
+#     @api.doc('Your owner')
+#     @api.marshal_with(_products)
+#     def get(self, product_id):
+#         start_json = ProductModel.query.filter_by(product_id=product_id).all()
+#         if product_json:
+#             return product_list_schema.dump(product_json)
+#         return jsonify({
+#             "message": "sorry no ratting yet"
+#         })   
     
 
         
         
-        # return star_list_schema .dump( StarRatingModel.find_all()), 200
+#         # return star_list_schema .dump( StarRatingModel.find_all()), 200
