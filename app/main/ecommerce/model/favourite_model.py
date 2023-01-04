@@ -17,6 +17,10 @@ class FavouriteModel(db.Model):
     def find_all(cls) -> List["FavouriteModel"]:
         return cls.query.all()
 
+    @classmethod
+    def find_by_id(cls, _id) -> "FavouriteModel":
+        return cls.query.filter_by(id=_id).first() 
+
 
     def __repr__(self):
         return self.id
