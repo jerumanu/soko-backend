@@ -46,14 +46,13 @@ class Comments(Resource):
         return {'message': COMMENT_NOT_FOUND}, 404
 
    
-    @api.doc('delete a product')
+    @api.doc('edit a product')
     @api.marshal_with(_comments)
-
     def put(self, id):
         comment_data = CommentsModel.find_by_id(id)
         comment_json = request.get_json();
-        author            = User.query.filter_by(id=comment_json['comment_owner']).first()
-        productId         = ProductModel.query.filter_by(id=comment_json['product_id']).first()
+        author       = User.query.filter_by(id=comment_json['comment_owner']).first()
+        productId    = ProductModel.query.filter_by(id=comment_json['product_id']).first()
 
         if comment_data:
             comment_data.comment= comment_json['comment']
@@ -87,15 +86,17 @@ class CommentsList(Resource):
     @api.expect(_comments, validate=True)
     def post(self):
         comment_json = request.get_json()
+        print("payload",comment_json)
         author            = User.query.filter_by(id=comment_json['comment_owner']).first()
+        print("author",author)
         productId         = ProductModel.query.filter_by(id=comment_json['product_id']).first()
+        print("product id", productId)
         
 
         if author:
             if productId:
                 comment_data = comments_schema.load(comment_json)
                 comment_data.save_to_db()
-                # return comments_schema.dump(comment_data), 201
                 return {"message": "commented successfully"}, 201
             else:
                 return {"message": "Prodcut not found"}, 404
