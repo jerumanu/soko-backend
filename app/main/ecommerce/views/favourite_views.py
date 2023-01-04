@@ -20,14 +20,13 @@ class Favourite(Resource):
     @api.doc('add specific product as favourite and getting specific product add as favourite by specific user')
     @api.marshal_with(_favourite)
     def delete(self, id):
-       
-        favourite = Favourite.query.filter_by(id=id).first()
+        favourite = FavouriteModel.find_by_id(id)
         if not favourite:
-            return{"message":"Item is not found"}
+            return{"message":"Item is not found"}, 404
         else:
             db.session.delete(favourite)
             db.session.commit()
-            return {"item removed successfully"}
+            return {"item removed successfully"}, 201
 
 
 @api.route('/')
@@ -50,7 +49,6 @@ class Favourite(Resource):
         product    = ProductModel.query.filter_by(id=item_json['product_id']).first_or_404(description=f"no product found")
         author     = User.query.filter_by(id=item_json['user_id']).first()
         
-
         if author:
             if product:
                 favourite_item = item_schema.load(item_json)
