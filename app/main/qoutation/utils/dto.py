@@ -17,7 +17,7 @@ class LoadsDto:
 
 class DeretedDto:
 
-    api = Namespace('dereted', description='comments related operations')
+    api = Namespace('derated', description='comments related operations')
     dereted= api.model('dereted', { 
 
         

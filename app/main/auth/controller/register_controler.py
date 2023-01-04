@@ -17,6 +17,7 @@ from ..utils.auth_dto import RegisterDto
 api = RegisterDto.api
 _user = RegisterDto.user
 
+
 @api.route('/register')
 class RegisterRequired(Resource):
     """register interface"""
@@ -24,14 +25,6 @@ class RegisterRequired(Resource):
     @api.doc('create a new user')
     @api.expect(_user, validate=True)
     def post(self):
-        data = request.get_json(force=True)
-        emailConfrimation = User.query.filter_by(email=data['email']).first()
-        if not emailConfrimation:
-            save_new_user(data=data)
-            return {
-                "message": 'User successfully created.'
-            }, 201
-        else:
-            return {
-                "message": "User already exist"
-            }
+        data = request.json
+        
+        return save_new_user(data=data)

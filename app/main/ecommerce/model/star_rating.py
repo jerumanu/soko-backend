@@ -13,6 +13,8 @@ class StarRatingModel(db.Model):
     id            = db.Column(db.Integer, primary_key=True, )
     rating    =db.Column(db.Integer,)
     rate = db.Column(db.Integer,)
+
+    product_id    = db.Column(db.Integer,db.ForeignKey('product.id'),nullable=False)
     
     # product_id    = db.Column(db.Integer,db.ForeignKey('product.id'),nullable=False)
 
@@ -56,21 +58,7 @@ class StarRatingModel(db.Model):
         'rating ': self.rating,
         }    
     
-    # def sum_rating(cls)-> List ["StarRatingModel"]:
-    #     result = cls.query.all()
-    #     dict=dict()
-    #     # total = sum(d['rating'] for d in result )
-    #     num =mean(d['rating'] for d in result)
-    #     # list =[12,1,2,3]
-    #     # avg= mean(num)
-    #     # num.save_to_db()
-    #     # print(num)
-    #     return num
-    # def sum_rating(cls)-> List ["StarRatingModel"]:
-    #     result = cls.query.all()
-    #     # avg= mean(result)
-    #     num=list(result.keys())
-    #     return num
+    
     
     @classmethod
     def find_by_id(cls, _id) -> " StarRatingModel":

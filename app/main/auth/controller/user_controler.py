@@ -8,7 +8,7 @@ from ..utils.user_dto import Userlist
 
 
 api = Userlist.api
-_user = Userlist.users
+_users = Userlist.users
 # user_ns = Namespace('user')
 
 # parser = user_ns.parser()
@@ -21,7 +21,7 @@ _user = Userlist.users
 @api.route('/userlist')
 class UserList(Resource):
     @api.doc('list_of_registered_users')
-    @api.marshal_list_with(_user, envelope='data')
+    @api.marshal_list_with(_users, envelope='data')
     # @role_required.permission(2)
     def get(self):
         return get_all_users()

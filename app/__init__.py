@@ -59,7 +59,7 @@ api.add_namespace (business_ns, path='/business')
 api.add_namespace (users_ns,    path='/userList')
 api.add_namespace(brand_ns,     path='/brand')
 api.add_namespace(solarType_ns, path='/solar-type')
-api.add_namespace (users_ns,    path='/userList')
+
 api.add_namespace(qoute_ns ,    path='/qoute')
 api.add_namespace(inverter_ns , path='/inverter')
 api.add_namespace(voltsdrop_ns, path='/voltsdrop')
