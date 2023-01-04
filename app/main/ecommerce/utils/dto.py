@@ -3,14 +3,10 @@ from flask_restx import Namespace, fields
 class CommentsDto:
 
     api = Namespace('comments', description='comments related operations')
-    comments= api.model('comments', { 
-        'created_on': fields.DateTime(required=True, description='user email address'),
-        'comment': fields.String(required=True, description='user username'),
-        'comment_owner': fields.String(description='user Identifier'),
-        'update_at':fields.DateTime( required=True, description=' time the product was updated  '),
-        'product_id':fields.Integer( required=True, description=' time the product was updated  ')
-
-
+    comments= api.model('comments', {
+        'comment': fields.String(required=True, description='comment'),
+        'comment_owner': fields.Integer(required=True,  description="comment author"),
+        'product_id':fields.Integer( required=True, description=' time the product was updated')
     })  
 
 
