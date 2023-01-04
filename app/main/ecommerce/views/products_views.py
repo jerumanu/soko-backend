@@ -83,9 +83,10 @@ class Product(Resource):
             product_data.solarType_id = product_json['solarType_id']
             product_data.brand_id = product_json['brand_id']
             
-
-            product_data.save_to_db()
-            return product_schema.dump(product_data), 201
+        else:
+            product_data = product_schema.load(product_json)
+        product_data.save_to_db()
+        return product_schema.dump(product_data), 201
 
 
 @api.route('/')
@@ -123,3 +124,14 @@ class ProductList(Resource):
    
                 
         
+@api.route('/<name>')
+@api.param('name', 'The User identifier')  
+class Product(Resource):
+    @api.doc('query by product name')
+    @api.marshal_with(_products)
+    def get(self, name):
+        product_data =  ProductModel.find_by_name(name)
+        if product_data:
+            return product_schema.dump(product_data)
+        return {'message': ITEM_NOT_FOUND}, 404  
+
