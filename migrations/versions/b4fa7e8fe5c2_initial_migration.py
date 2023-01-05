@@ -1,14 +1,8 @@
-"""create tables
+"""Initial migration.
 
-<<<<<<<< HEAD:migrations/versions/0e2d12918f57_initial_migration.py
-Revision ID: 0e2d12918f57
+Revision ID: b4fa7e8fe5c2
 Revises: 
-Create Date: 2023-01-04 15:05:14.199660
-========
-Revision ID: 9c77ff443266
-Revises: 
-Create Date: 2023-01-01 07:56:48.460684
->>>>>>>> 8edbaec58d37a0bab2fc83626152270990ef1407:migrations/versions/9c77ff443266_create_tables.py
+Create Date: 2023-01-05 09:37:44.428198
 
 """
 from alembic import op
@@ -16,11 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<<< HEAD:migrations/versions/0e2d12918f57_initial_migration.py
-revision = '0e2d12918f57'
-========
-revision = '9c77ff443266'
->>>>>>>> 8edbaec58d37a0bab2fc83626152270990ef1407:migrations/versions/9c77ff443266_create_tables.py
+revision = 'b4fa7e8fe5c2'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -241,6 +231,7 @@ def upgrade():
     sa.Column('paymentType', sa.String(), nullable=False),
     sa.Column('amount', sa.Float(), nullable=False),
     sa.Column('date', sa.DateTime(), nullable=False),
+    sa.Column('merchant_request_id', sa.String(length=100), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

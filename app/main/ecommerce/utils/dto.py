@@ -117,6 +117,7 @@ class StarDto:
 class InvoiceDto:
     api     = Namespace('invoice payment', description='payment for services provided')
     payment = api.model('invoice', {
+        'id'          : fields.Integer(readonly=True,  description="unique identifier"),
         'amount'      : fields.Float(required=True,  description='amount'),
         'phoneNumber' : fields.String(required=True, description='number to pay'),
         'user_id'     : fields.Integer(required=True, description='user id'),
@@ -126,6 +127,7 @@ class InvoiceDto:
 class TransactionDto:
     api     = Namespace('Transaction payment', description='payment for services provided')
     transaction = api.model('transaction', {
+        'id'                 : fields.Integer(readonly=True,  description="unique identifier"),
         'receipt_id '        : fields.String(required=True, description='payment reciept'),
         'date_paid '         : fields.String(required=True, description='date paid'),
         'merchant_request_id': fields.String(required=True, description='merchant id'),

@@ -1,6 +1,7 @@
-from flask_restx                                  import Api, Resource
+from flask_restx                                  import Api
 from flask                                        import Blueprint
 from .main.ecommerce.views.payments_view          import api as payment_ns
+from .main.ecommerce.views.transaction_view       import api as transaction_ns
 from .main.ecommerce.views.products_views         import api as products_ns
 from .main.ecommerce.views.subscribe_views        import api as subscribe_ns
 from .main.ecommerce.views.category_views         import api as category_ns
@@ -24,10 +25,10 @@ from .main.qoutation.views.qoute_views            import api as qoute_ns
 from  . main.qoutation.views.inverter_views       import api as inverter_ns
 from .main.qoutation.views.voltsdropdown          import api as voltsdrop_ns
 
-# blueprint = Blueprint('api', __name__ , )
 
 
-blueprint = Blueprint('api', __name__, url_prefix="/app")
+
+blueprint = Blueprint('api', __name__)
 
 api = Api(blueprint,
         title='Sokosolar documention ',
@@ -63,5 +64,6 @@ api.add_namespace(solarType_ns, path='/solar-type')
 api.add_namespace(qoute_ns ,    path='/qoute')
 api.add_namespace(inverter_ns , path='/inverter')
 api.add_namespace(voltsdrop_ns, path='/voltsdrop')
-
+api.add_namespace(products_ns,  path='/product')
+api.add_namespace(transaction_ns, path='/transactions')
 
