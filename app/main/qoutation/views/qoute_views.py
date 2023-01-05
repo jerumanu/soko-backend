@@ -1,7 +1,7 @@
 import requests ,json
 from app.main import db
 from app.main.qoutation.models.dereted_power import DeretedPanel
-from app.main.qoutation.models.load_analysis import LoadAnalysis
+from app.main.qoutation.models.qoutation_model import Qoute
 from app.main.qoutation.models.batt import Batt
 from app.main.qoutation.utils.locations import county_dict
 
@@ -12,7 +12,7 @@ from flask                        import request
 from flask_restx                  import Resource
 
 from ..schemas.schema             import DeretedSchema,LoadsSchema,BattSchema,QouteSchema
-from ..utils.dto                  import DeretedDto ,QouteDto
+from ..utils.dto                  import DeretedDto ,QouteDto,QouteGetDto
 
 
 
@@ -20,6 +20,8 @@ from ..utils.dto                  import DeretedDto ,QouteDto
 
 api  =QouteDto.api
 _qoute  = QouteDto.qoute
+# api  =QouteGetDto.api
+# _getqoute = QouteGetDto.get_qoute
 
 
 
@@ -66,7 +68,9 @@ class QouteList(Resource):
     def get(self):
         # critic_avg = db.session.query(func.avg(Rating.rating)).scalar() or 0
         
-        return dereted_list_schema.dump( DeretedPanel.find_all()), 200
+        retu=qoute_list_Schema.dump(Qoute.find_all())
+        print("get retu", retu)
+        return  retu
 
     @api.response(201, 'Product successfully created.')
     @api.doc('create a new Product')
@@ -136,7 +140,7 @@ class QouteList(Resource):
         # psh=min(r["outputs"]["solrad_monthly"])
     
 
-        results = loads_list_schema.dump( LoadAnalysis.find_all())
+        # results = loads_list_schema.dump(LoadAnalysis.find_all())
 
 
         name = qoute_json['name_panel']
@@ -144,7 +148,7 @@ class QouteList(Resource):
         
         # ted_name= next(d for d in results if d['name'] == name)
 
-        results1 =dereted_list_schema.dump( DeretedPanel.find_all())
+        results1 =dereted_list_schema.dump(DeretedPanel.find_all())
         
         panel_name= next(d for d in results1 if d['name'] == name)
         
@@ -153,7 +157,7 @@ class QouteList(Resource):
         panelsvolts =12
         NUM =0.2
         s_factor=1.1
-        print('results1',results)
+        # print('results1',results)
         
         ap_demand= qoute_json['ap_demand']
         light_demand =qoute_json['ligth_demand']
@@ -171,8 +175,11 @@ class QouteList(Resource):
         vcoeff=panel_name['vcoeff']
         tcoeff= panel_name ['tcoeff']
         dirt= panel_name['dirt']
+
+        print("this is  wp ",wp)
         
-        wpd = round(wp * (1 + ((tcoeff/100) * (tamb - tstc))) * (1-dirt) * (1-fman))
+        wpd = (wp * (1 + ((tcoeff/100) * (tamb - tstc))) * (1-dirt) * (1-fman))
+        print('hello this is wpd',wpd)
 
     
 
@@ -189,6 +196,8 @@ class QouteList(Resource):
         power = ted / psh
 
         print (power)
+        # print('hello this is wpd',wpd)
+        
 
         panels = round(power / wpd)
 
@@ -314,7 +323,7 @@ class QouteList(Resource):
         qoutation_json['power'] = power
 
         qoutation_json['panel'] =  panels
-        # qoutation_json['panels_parallel'] =  panels_parallel
+        qoutation_json['panels_parallel'] =  panels_parallel
         qoutation_json['panels_series'] =  series
         qoutation_json['total_panels'] =  totalpanels
         qoutation_json['charge_controller'] =  charge_controller

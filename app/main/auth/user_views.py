@@ -16,6 +16,8 @@ def save_new_user(data):
             firstname     = data['firstname'],
            
             password      = data['password'],
+
+            
             registered_on = datetime.datetime.utcnow()
         )
         save_changes(new_user)

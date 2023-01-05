@@ -71,19 +71,43 @@ class QouteDto:
         'longtitude':fields.Integer( required=True, description=' longtitude logations of the client  '),
         'systemvolts':fields.Integer( required=True, description=' client prefrence system volts')  ,
         'kw':fields.Integer( required=True, description=' client prefrence system volts')  ,
-        # 'power': fields.Integer( description='total energy demand in kw/hrs'),
-        # 'panel': fields.Integer( description='No of days the battrey takes to be fuly discharged'),
-        # 'panels_series':fields.Integer(  description=' latitude logations of the client  '),
-        # 'total_panels':fields.Integer(  description=' longtitude logations of the client  '),
-        # 'charge_controler':fields.Integer(  description=' longtitude logations of the client  '),
-        # 'batt_capacity':fields.Integer(  description=' longtitude logations of the client  '),
-        # 'batt_string':fields.Integer(  description=' longtitude logations of the client  '),
-        # 'batt_series':fields.Integer(  description=' longtitude logations of the client  '),
-        # 'no_batt':fields.Integer(  description=' longtitude logations of the client  '),
-        # 'inverter':fields.Integer(  description=' longtitude logations of the client  '),
+        
+    })
+class QouteGetDto:
+
+    api = Namespace('get_qoute', description=' qoute user realted details ')
+    get_qoute= api.model('get_qoute', { 
+
+        'ap_demand': fields.Integer(required=True, description='total energy demand in kw/hrs'),
+        'ligth_demand': fields.Integer(required=True, description='total energy demand in kw/hrs'),
+        'name_panel':fields.String( description='locations of the client'),
+        'batt_name':fields.String( description='locations of the client'),
+        'autonomy': fields.Integer(required=True, description='No of days the battrey takes to be fuly discharged'),
+        'location': fields.String(description='locations of the client'),
+        'latitude':fields.Integer( required=True, description=' latitude logations of the client  '),
+        'longtitude':fields.Integer( required=True, description=' longtitude logations of the client  '),
+        'systemvolts':fields.Integer( required=True, description=' client prefrence system volts')  ,
+        'kw':fields.Integer( required=True, description=' client prefrence system volts')  ,
+        'power': fields.Integer( description='total energy demand in kw/hrs'),
+        'panel': fields.Integer( description='No of days the battrey takes to be fuly discharged'),
+        'panels_series':fields.Integer(  description=' latitude logations of the client  '),
+        'total_panels':fields.Integer(  description=' longtitude logations of the client  '),
+        'charge_controler':fields.Integer(  description=' longtitude logations of the client  '),
+        'batt_capacity':fields.Integer(  description=' longtitude logations of the client  '),
+        'batt_string':fields.Integer(  description=' longtitude logations of the client  '),
+        'batt_series':fields.Integer(  description=' longtitude logations of the client  '),
+        'no_batt':fields.Integer(  description=' longtitude logations of the client  '),
+        'inverter':fields.Integer(  description=' longtitude logations of the client  '),
+        'panels_parallel':fields.Integer(  description=' longtitude logations of the client  '),
+        'h_string_p':fields.Integer(  description=' longtitude logations of the client  '),
+        'l_string_p':fields.Integer(  description=' longtitude logations of the client  '),
+        'iccc':fields.Integer(  description=' longtitude logations of the client  '),
+        'wpd':fields.Integer(  description=' longtitude logations of the client  '),
+        'grid_inverter':fields.Integer(  description=' longtitude logations of the client  '),
+        # 'batt_name':fields.Integer(  description=' longtitude logations of the client  '),
+
         # 'date_added ':fields.DateTime( required=True, description=' date created'    )
     })
-
     
 class InverterDto:
 
