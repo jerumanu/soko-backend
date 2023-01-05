@@ -1,6 +1,6 @@
 from app.main                     import db
 from app.main.ecommerce.model.payment_model import Invoice, Transaction
-from flask                        import request, jsonify, make_response
+from flask                        import request
 from flask_restx                  import Resource
 from ..schema.schema              import InvoiceSchema
 from ..utils.dto                  import InvoiceDto
@@ -54,7 +54,7 @@ class Invoices(Resource):
 @api.route('/transact/mpesaexpress')
 class Payment(Resource):
     @api.expect(_payments, validate=True)
-    def get(self):
+    def post(self):
         post_data   = request.get_json(force=True)
         phoneNumber = post_data['phoneNumber']
         amount      = post_data['amount']
@@ -69,11 +69,12 @@ class Payment(Resource):
                 "amount"            : f"{amount}", 
                 "phone_number"      : f"{phoneNumber}",
                 "reference_code"    : "SokoSolar",
-                "callback_url"      : "http://68fb-41-90-46-163.ngrok.io/payment/mpesa/callback-url", 
+                "callback_url"      : "https://db91-41-90-46-163.ngrok.io/payment/mpesa/callback-url", 
                 "description"       : f"Payment for our services" 
             }
         
             resp    = mpesa_api.MpesaExpress.stk_push(**data)
+            print(resp)
         
             invoice = Invoice(user_id=user_id, merchant_request_id=resp['MerchantRequestID'], paymentType=paymentType, amount=amount, phoneNumber=phoneNumber)
             saved_invoice = invoice.save()
@@ -95,7 +96,6 @@ class Payment(Resource):
 
 @api.route('/mpesa/callback-url')
 class Payment(Resource):
-    @api.expect(_payments, validate=True)
     def post(self):
         post_data = request.get_json(force=True)
         invoice = Invoice.query.filter_by(merchant_request_id = post_data["Body"]["stkCallback"]["MerchantRequestID"]).first()
@@ -104,17 +104,23 @@ class Payment(Resource):
         if result_code != 0:
             return False
 
-        mpesa_receipt = post_data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"]
-        phoneNumber   = post_data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
-        date_paid = datetime.now()
+        receipt_id      = post_data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"]
+        print("receipt_id", receipt_id)
+        phoneNumber     = post_data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
+        transactionDate = post_data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][3]["Value"]
         amount = invoice.amount      
         user_id = invoice.user_id
         paymentType =invoice.paymentType
+       
+        
 
+        transaction = Transaction(receipt_id=receipt_id, transactionDate=transactionDate, amount=amount, user_id=user_id, merchant_request_id=invoice.merchant_request_id,  phoneNumber=phoneNumber,  paymentType=paymentType)
 
-        transaction = Transaction(mpesa_receipt, date_paid, amount,user_id, invoice.merchant_request_id,  phoneNumber,  paymentType)
+        print("transaction", transaction.receipt_id)
         
         recorded_transaction = transaction.save()
+        print("transaction 2", recorded_transaction.values())
+
 
         if recorded_transaction["status"]:
             return True
