@@ -1,8 +1,8 @@
 """Initial migration.
 
-Revision ID: b4fa7e8fe5c2
+Revision ID: ff1205b64e19
 Revises: 
-Create Date: 2023-01-05 09:37:44.428198
+Create Date: 2023-01-05 21:40:25.552222
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b4fa7e8fe5c2'
+revision = 'ff1205b64e19'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -247,11 +247,11 @@ def upgrade():
     )
     op.create_table('transaction',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('receipt_id', sa.String(length=100), nullable=False),
-    sa.Column('date_paid', sa.DateTime(), nullable=False),
+    sa.Column('receipt_id', sa.String(length=200), nullable=False),
+    sa.Column('transactionDate', sa.String(length=250), nullable=False),
     sa.Column('amount', sa.Float(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('merchant_request_id', sa.String(length=100), nullable=False),
+    sa.Column('merchant_request_id', sa.String(length=200), nullable=False),
     sa.Column('phoneNumber', sa.String(), nullable=False),
     sa.Column('paymentType', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
