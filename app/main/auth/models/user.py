@@ -7,6 +7,7 @@ import hashlib
 from datetime import datetime
 from flask import request
 from functools import wraps 
+from .engineer_profile import Engineer
 # roles= {"user": user, "engineer": engineer ,"business":business ,'admin':admin}
 
 class EnumGender(enum.Enum):
@@ -42,6 +43,8 @@ class User(db.Model):
     #relationship
     blogAuthor    = db.relationship('BlogModel', backref='user', cascade = 'all, delete-orphan', lazy='joined')
     userPayment   = db.relationship('Invoice', backref='user', cascade = 'all, delete-orphan', lazy='joined')
+    engineer      = db.relationship("Engineer", uselist=False, backref="user")
+
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

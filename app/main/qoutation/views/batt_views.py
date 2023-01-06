@@ -5,7 +5,7 @@ from flask                        import request
 from flask_restx                  import Resource
 from ..schemas.schema             import BattSchema
 from ..utils.dto                  import BattDto
-
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 
 
@@ -30,10 +30,9 @@ batt_list_Schema =  BattSchema( many=True)
 @api.route('/<int:id>')
 @api.param('id', 'The User identifier')  
 class Product(Resource):
-
+    @permission
     @api.doc('delete  a product')
     @api.marshal_with(_dereted)
-
     def delete(self,id):
         batt_data= Batt.find_by_id(id)
         if batt_data:
@@ -41,6 +40,7 @@ class Product(Resource):
             return {'message': "dereted panel power Deleted successfully"}, 200
         return {'message': ITEM_NOT_FOUND}, 404
 
+    @permission
     def get(self, id):
         store_data =Batt.find_by_id(id)
         if store_data:
@@ -49,11 +49,10 @@ class Product(Resource):
 
         
 
-
+    @permission
     @api.doc('delete a product')
     @api.marshal_with(_dereted)
     @api.expect(_dereted, validate=True)
-
     def put(self, id):
         batt_data= Batt.find_by_id(id)
         batt_json= request.get_json();
@@ -75,19 +74,18 @@ class Product(Resource):
 
 @api.route('/')
 class ProductList(Resource):
-
+    @permission
     @api.doc('list_of_dereted')
     @api.marshal_list_with(_dereted, envelope='data')
-    
     def get(self):
         # critic_avg = db.session.query(func.avg(Rating.rating)).scalar() or 0
         
         return batt_list_Schema.dump(Batt.find_all()), 200
 
+    @permission
     @api.response(201, 'Product successfully created.')
     @api.doc('create a new Product')
     @api.expect(_dereted, validate=True)
-
     def post(self):
         batt_json= request.get_json()
         batt_data= batt_Schema.load(batt_json)

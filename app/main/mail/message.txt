@@ -1,3 +1,0 @@
-Dear ${Person_name},
-
-Thank you for subscribing to our Newsletter!!

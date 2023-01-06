@@ -5,6 +5,7 @@ from app.main.ecommerce.schema.schema    import BrandSchema
 from app.main.ecommerce.utils.dto        import BrandDto
 from ....main                       import db
 from app.main.auth.models.user      import User
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 
 
@@ -18,12 +19,14 @@ item_list_schema = BrandSchema(many=True)
 
 @api.route("/")
 class BrandList(Resource):
+    @permission
     @api.doc('List of brands')
     @api.marshal_list_with(_brand  , envelope='data')
     def get(self):
         return item_list_schema.dump(Brand.find_all()), 200
 
 
+    @permission
     @api.response(201, 'Brand name added successfully')
     @api.doc("Adding Brand name")
     @api.expect(_brand , validate=True)
@@ -47,6 +50,7 @@ class BrandList(Resource):
 
 @api.route('/<int:id>')
 class BrandFilter(Resource):
+    @permission
     @api.doc('deleting brand name')
     @api.marshal_with(_brand)
     def delete(self, id):
@@ -58,7 +62,8 @@ class BrandFilter(Resource):
             db.session.commit()
             return {"message":"deleted successfully"}
 
-    
+
+    @permission
     @api.doc("get brand name by id")
     @api.marshal_with(_brand)
     def get(self, id):
@@ -66,7 +71,7 @@ class BrandFilter(Resource):
         return item_schema.dump(item_data), 200
 
         
-
+    @permission
     @api.doc('edit brand name')
     @api.marshal_with(_brand)
     @api.expect(_brand, validate=True)
@@ -84,6 +89,7 @@ class BrandFilter(Resource):
 @api.route('/user/<int:userId>')
 @api.param('UserId', 'The User identifier')
 class FilterBrand(Resource):
+    @permission
     @api.doc('Getting solar brand posted by specific user')
     @api.marshal_list_with(_brand, envelope='data')
     def get(self, userId):

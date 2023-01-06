@@ -7,6 +7,7 @@ from ..schemas.schema             import DeretedSchema,LoadsSchema
 from ..utils.dto                  import DeretedDto
 from app.main.auth.extensions.auth import  role_required
 from app.main.auth.extensions.auth.jwt_auth  import  auth
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 
 
@@ -27,15 +28,11 @@ dereted_list_schema=  DeretedSchema(many=True)
 
 @api.route('/<name>')
 @api.param('name', 'The User identifier')
-
 class ProductFilter(Resource):
-
+    @permission
     @api.doc('get a product')
     @api.marshal_with(_dereted)
-
-
-    def get(self):
-
+    def get(self, name):
         my_dict = dict()
         deretedpower_data = DeretedPanel.find_by_name(name)
         if deretedpower_data:

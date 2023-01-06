@@ -11,19 +11,20 @@ class CommentsModel(db.Model):
     __tablename__ = "comments"
 
     id            = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    created_on    = db.Column(db.DateTime, nullable=False)
+    created_on    = db.Column(db.DateTime, default=datetime.now(), nullable=False)
     comment       = db.Column(db.String(250),nullable=False )
-    comment_owner  = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    update_at     = db.Column(db.DateTime(),default=datetime.utcnow )
+    comment_owner = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    update_at     = db.Column(db.DateTime(),default=datetime.utcnow, nullable=False )
     product_id    = db.Column(db.Integer,db.ForeignKey('product.id'),nullable=False)
     
 
 
-    def __init__(self, created_on ,comment,update_at):
+    def __init__(self,comment, comment_owner, product_id):
         
-        self.created_on  = created_on 
+        self.created_on = datetime.now()
         self.comment = comment
-        self.update_at = update_at
+        self.comment_owner = comment_owner
+        self.product_id = product_id
         
         
     

@@ -1,7 +1,6 @@
 from  ....main import db 
 from datetime import datetime
 from typing import List
-from .favourite_model import FavouriteModel
 import datetime as dt
 
 

@@ -3,14 +3,10 @@ from flask_restx import Namespace, fields
 class CommentsDto:
 
     api = Namespace('comments', description='comments related operations')
-    comments= api.model('comments', { 
-        'created_on': fields.DateTime(required=True, description='user email address'),
-        'comment': fields.String(required=True, description='user username'),
-        'comment_owner': fields.String(description='user Identifier'),
-        'update_at':fields.DateTime( required=True, description=' time the product was updated  '),
-        'product_id':fields.Integer( required=True, description=' time the product was updated  ')
-
-
+    comments= api.model('comments', {
+        'comment': fields.String(required=True, description='comment'),
+        'comment_owner': fields.Integer(required=True,  description="comment author"),
+        'product_id':fields.Integer( required=True, description=' time the product was updated')
     })  
 
 
@@ -26,7 +22,7 @@ class ProductDto:
         'condition'   : fields.String(required=True, description="Is the product new or used"),
         'solarType_id': fields.Integer(required=True, description="Solar type Id"),
         'brand_id'    : fields.Integer(required=True, description="Brand Id"),
-        'category_id'    : fields.Integer(required=True, description='category Identifier'),         
+        'category_id' : fields.Integer(required=True, description='category Identifier'),         
         'product_owner': fields.Integer(required=True,  description="Author id")
 
     })
@@ -120,7 +116,8 @@ class StarDto:
 
 class InvoiceDto:
     api     = Namespace('invoice payment', description='payment for services provided')
-    payment = api.model('invoice', {
+    payment = api.model('Invoice', {
+        'id'          : fields.Integer(readonly=True,  description="unique identifier"),
         'amount'      : fields.Float(required=True,  description='amount'),
         'phoneNumber' : fields.String(required=True, description='number to pay'),
         'user_id'     : fields.Integer(required=True, description='user id'),
@@ -129,14 +126,15 @@ class InvoiceDto:
 
 class TransactionDto:
     api     = Namespace('Transaction payment', description='payment for services provided')
-    transaction = api.model('transaction', {
-        'receipt_id '        : fields.String(required=True, description='payment reciept'),
-        'date_paid '         : fields.String(required=True, description='date paid'),
+    transaction = api.model('Transaction', {
+        'id'                 : fields.Integer(readonly=True,  description="unique identifier"),
+        'receipt_id'         : fields.String(required=True, description='payment reciept'),
         'merchant_request_id': fields.String(required=True, description='merchant id'),
         'amount'             : fields.Float (required=True, description='amount'),
         'phoneNumber'        : fields.String(required=True, description='phone number'),
         'user_id'            : fields.String(required=True, description='user id'),
-        'paymentType'        : fields.String(required=True, description='Payment type')
+        'paymentType'        : fields.String(required=True, description='Payment type'),
+        'transactionDate'    : fields.String(required=True, description='Payment date')
     })
 
 

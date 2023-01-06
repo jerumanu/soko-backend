@@ -5,6 +5,7 @@ from app.main.ecommerce.schema.schema    import SolarTypeSchema
 from app.main.ecommerce.utils.dto        import SolarTypeDto
 from ....main                       import db
 from app.main.auth.models.user      import User
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 
 
@@ -18,12 +19,13 @@ item_list_schema = SolarTypeSchema(many=True)
 
 @api.route("/")
 class SolarList(Resource):
+    @permission
     @api.doc('List of solar type')
     @api.marshal_list_with(_solarType , envelope='data')
     def get(self):
         return item_list_schema.dump(SolarType.find_all()), 200
 
-
+    @permission
     @api.response(201, 'Brand name added successfully')
     @api.doc("Adding solar type name")
     @api.expect(_solarType, validate=True)
@@ -49,6 +51,7 @@ class SolarList(Resource):
 @api.route('/user/<int:userId>')
 @api.param('UserId', 'The User identifier')
 class Solar(Resource):
+    @permission
     @api.doc('Your owner')
     @api.marshal_list_with(_solarType , envelope='data')
     def get(self, userId):
@@ -62,6 +65,7 @@ class Solar(Resource):
 
 @api.route('/<int:id>')
 class Solar(Resource):
+    @permission
     @api.doc('deleting solar type')
     @api.marshal_with(_solarType)
     def delete(self, id):
@@ -73,7 +77,8 @@ class Solar(Resource):
             db.session.commit()
             return {"message":"deleted successfully"}, 201
 
-    
+
+    @permission
     @api.doc("get solar type by id")
     @api.marshal_with(_solarType)
     def get(self, id):
@@ -81,7 +86,7 @@ class Solar(Resource):
         return item_schema.dump(item_data), 201
 
         
-
+    @permission
     @api.doc('edit solar type name')
     @api.marshal_with(_solarType)
     @api.expect(_solarType, validate=True)

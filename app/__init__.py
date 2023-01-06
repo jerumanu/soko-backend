@@ -1,6 +1,7 @@
-from flask_restx                                  import Api, Resource
+from flask_restx                                  import Api
 from flask                                        import Blueprint
 from .main.ecommerce.views.payments_view          import api as payment_ns
+from .main.ecommerce.views.transaction_view       import api as transaction_ns
 from .main.ecommerce.views.products_views         import api as products_ns
 from .main.ecommerce.views.subscribe_views        import api as subscribe_ns
 from .main.ecommerce.views.category_views         import api as category_ns
@@ -8,7 +9,6 @@ from .main.ecommerce.views.faq_views              import api as faq_ns
 from .main.ecommerce.views.blog_view              import api as blog_ns
 from .main.ecommerce.views.favourite_views        import api as favourite_ns
 from .main.ecommerce.views.comment_views          import api as comments_ns
-from .main.ecommerce.views.time_views             import api as timings_ns
 from app.main.auth.controller.auth_controler      import api as login_ns
 from app.main.auth.controller.register_controler  import api as register_ns
 from app.main.auth.controller.user_controler      import api as users_ns
@@ -26,10 +26,10 @@ from .main.qoutation.views.voltsdropdown          import api as voltsdrop_ns
 from .main.qoutation.views.cablesize         import api as cable_ns
 from .main.qoutation.views.get_qoute         import api as getqoute_ns
 
-# blueprint = Blueprint('api', __name__ , )
 
 
-blueprint = Blueprint('api', __name__, url_prefix="/app")
+
+blueprint = Blueprint('api', __name__)
 
 api = Api(blueprint,
         title='Sokosolar documention ',
@@ -47,9 +47,7 @@ api.add_namespace(category_ns,  path='/category')
 api.add_namespace(faq_ns,       path='/faq')
 api.add_namespace(blog_ns,      path='/blog')
 api.add_namespace(favourite_ns, path='/favourite')
-api.add_namespace(products_ns,  path='/product')
 api.add_namespace(comments_ns,  path='/comments')
-api.add_namespace(timings_ns,   path='/time')
 api.add_namespace(login_ns,     path='/auth')
 api.add_namespace(register_ns,  path='/user')
 # api.add_namespace(rating_ns,    path='/ratings')
@@ -61,10 +59,10 @@ api.add_namespace (business_ns, path='/business')
 api.add_namespace (users_ns,    path='/userList')
 api.add_namespace(brand_ns,     path='/brand')
 api.add_namespace(solarType_ns, path='/solar-type')
-
 api.add_namespace(qoute_ns ,    path='/qoute')
 api.add_namespace(inverter_ns , path='/inverter')
 api.add_namespace(voltsdrop_ns, path='/voltsdrop')
+api.add_namespace(transaction_ns, path='/transactions')
 api.add_namespace(cable_ns, path='/cable')
 api.add_namespace(getqoute_ns, path='/getqoute')
 

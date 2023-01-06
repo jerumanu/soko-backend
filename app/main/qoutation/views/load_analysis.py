@@ -4,7 +4,7 @@ from flask                        import request
 from flask_restx                  import Resource
 from ..schemas.schema              import LoadsSchema
 from ..utils.dto                  import LoadsDto
-
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 
 
@@ -23,10 +23,9 @@ loads_list_schema =  LoadsSchema( many=True)
 @api.route('/<int:id>')
 @api.param('id', 'The User identifier')  
 class Product(Resource):
-
+    @permission
     @api.doc('delete  a product')
     @api.marshal_with( _loads)
-
     def delete(self,id):
         loads_analysis_data =  LoadAnalysis.find_by_id(id)
         if loads_analysis_data:
@@ -34,6 +33,7 @@ class Product(Resource):
             return {'message': "Item Deleted successfully"}, 200
         return {'message': LOADS_NOT_FOUND}, 404
 
+    @permission
     def get(self, id):
         store_data = LoadAnalysis.find_by_id(id)
         if store_data:
@@ -44,7 +44,7 @@ class Product(Resource):
     @api.doc('edit a load analysis')
     @api.marshal_with( _loads)
     @api.expect( _loads, validate=True)
-
+    @permission
     def put(self, id):
         loads_analysis_data =  LoadAnalysis.find_by_id(id)
         product_json= request.get_json();
@@ -67,19 +67,19 @@ class Product(Resource):
 
 @api.route('/')
 class ProductList(Resource):
-
+    @permission
     @api.doc('list_of _loads')
     @api.marshal_list_with( _loads, envelope='data')
-    
     def get(self):
         # critic_avg = db.session.query(func.avg(Rating.rating)).scalar() or 0
         
         return loads_list_schema.dump( LoadAnalysis.find_all()), 200
 
+
+    @permission
     @api.response(201, 'Product successfully created.')
     @api.doc('create a new Product')
     @api.expect( _loads, validate=True)
-
     def post(self):
         product_json = request.get_json()
         loads_analysis_data =  loads_schema.load(product_json)

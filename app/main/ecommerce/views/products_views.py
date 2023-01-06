@@ -9,8 +9,7 @@ from ..schema.schema               import ProductSchema
 from ..utils.dto                   import ProductDto
 from app.main.ecommerce.model.payment_model  import Transaction
 from ...decorators                  import subscription
-from cloudinary.uploader import upload
-from cloudinary.utils import cloudinary_url
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 
 
@@ -29,6 +28,7 @@ product_list_schema =  ProductSchema( many=True)
 @api.route('/user/<int:userId>')
 @api.param('UserId', 'The User identifier')
 class ProductFilter(Resource):
+    @permission
     @api.doc('Your owner')
     @api.marshal_with(_products)
     def get(self, userId):
@@ -44,6 +44,7 @@ class ProductFilter(Resource):
 @api.route('/<int:id>')
 @api.param('id', 'The User identifier')  
 class Product(Resource):
+    @permission
     @api.doc('delete  a product')
     @api.marshal_with(_products)
     def delete(self,id):
@@ -53,6 +54,7 @@ class Product(Resource):
             return {'message':  'Product Deleted successfully'}, 200
         return {'message': ITEM_NOT_FOUND}, 404
 
+    @permission
     def get(self, id):
         store_data = ProductModel.find_by_id(id)
         if store_data:
@@ -61,7 +63,7 @@ class Product(Resource):
 
     
 
-
+    @permission
     @api.doc('delete a product')
     @api.marshal_with(_products)
     @api.expect(_products, validate=True)
@@ -83,13 +85,15 @@ class Product(Resource):
             product_data.solarType_id = product_json['solarType_id']
             product_data.brand_id = product_json['brand_id']
             
-
-            product_data.save_to_db()
-            return product_schema.dump(product_data), 201
+        else:
+            product_data = product_schema.load(product_json)
+        product_data.save_to_db()
+        return product_schema.dump(product_data), 201
 
 
 @api.route('/')
 class ProductList(Resource):
+    @permission
     @api.doc('list_of_products')
     @api.marshal_list_with(_products, envelope='data')
     def get(self):
@@ -97,7 +101,7 @@ class ProductList(Resource):
 
       
     
-
+    @permission
     @api.response(21, 'Product successfully created.')
     @api.doc('create a new Product')
     @api.expect(_products, validate=True)
@@ -123,3 +127,15 @@ class ProductList(Resource):
    
                 
         
+@api.route('/<name>')
+@api.param('name', 'The User identifier') 
+class Product(Resource):
+    @permission
+    @api.doc('query by product name')
+    @api.marshal_with(_products)
+    def get(self, name):
+        product_data =  ProductModel.find_by_name(name)
+        if product_data:
+            return product_schema.dump(product_data)
+        return {'message': ITEM_NOT_FOUND}, 404  
+
