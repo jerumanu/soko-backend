@@ -1,3 +1,4 @@
+
 from app.main import db
 from app.main.auth.models.engineer_profile import Engineer
 from flask                        import request
@@ -7,6 +8,8 @@ from app.main.auth.utils.profile_dto                  import EngineerDto
 from app.main.auth.extensions.auth import  role_required
 from app.main.auth.extensions.auth.jwt_auth import  auth
 from app.main.auth.models.user import User
+from app.main.decorators import subscription
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 
 
@@ -21,7 +24,8 @@ engineer_list_schema= EngineerSchema(many=True)
 @api.route('/<int:id>')
 @api.param('id', 'The User identifier')  
 class Engineers(Resource):
-    @api.doc('delete  a product')
+    @permission
+    @api.doc('delete  a engineer')
     @api.marshal_with(_engineer)
     def delete(self,id):
         engineer_data =  Engineer.find_by_id(id)
@@ -30,6 +34,7 @@ class Engineers(Resource):
             return {'message': "dereted panel power Deleted successfully"}, 200
         return {'message': ITEM_NOT_FOUND}, 404
 
+    @permission
     def get(self, id):
         store_data = Engineer.find_by_id(id)
         if store_data:
@@ -38,12 +43,11 @@ class Engineers(Resource):
 
         
 
-
+    @permission
     @api.doc('delete a product')
     @api.marshal_with(_engineer)
     @api.expect(_engineer, validate=True)
-    # @auth.login_required
-    # @role_required.permission(2)
+    @subscription("engineer")
     def put(self, id):
         engineer_data = Engineer.query.filter_by(id=id).first_or_404(description=f"Engineer not found in database.")
         engineer_json = request.get_json();
@@ -72,16 +76,18 @@ class Engineers(Resource):
 
 @api.route('/')
 class EngineerList(Resource):
+    @permission
     @api.doc('list_of_engineer')
     @api.marshal_list_with(_engineer, envelope='data')
     def get(self):
         # critic_avg = db.session.query(func.avg(Rating.rating)).scalar() or 0
         return engineer_list_schema.dump(Engineer.find_all()), 200
 
-
+    @permission
     @api.response(201, 'Product successfully created.')
     @api.doc('create a new Product')
     @api.expect(_engineer, validate=True)
+    @subscription("engineer")
     def post(self):
         engineer_json= request.get_json()
         engineerUser = User.query.filter_by(id=engineer_json['engineerUser']).first()

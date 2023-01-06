@@ -97,6 +97,7 @@ class ProductList(Resource):
     @api.doc('list_of_products')
     @api.marshal_list_with(_products, envelope='data')
     def get(self):
+        
         return product_list_schema.dump( ProductModel.find_all()), 201
 
       
@@ -105,6 +106,7 @@ class ProductList(Resource):
     @api.response(21, 'Product successfully created.')
     @api.doc('create a new Product')
     @api.expect(_products, validate=True)
+    @subscription("product")
     def post(self):
         product_json = request.get_json(force=True)
         print(product_json)

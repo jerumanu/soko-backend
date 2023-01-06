@@ -18,9 +18,10 @@ def permission(f):
         try:
             data = jwt.loads(token)
             current_user = User.query.filter_by(email = data['email']).first()
-            return  f(current_user, *args, **kwargs)
+            
         except:
             return {
                 'message' : 'Token is invalid t !!'
             }, 401
+        return  f(current_user, *args, **kwargs)
     return decorated
