@@ -28,8 +28,8 @@ class ProductModel(db.Model):
     #relationship
     favourite     = db.relationship('FavouriteModel', backref='product', cascade = 'all, delete-orphan', lazy='joined')
     comment       = db.relationship('CommentsModel', backref='product', cascade = 'all, delete-orphan', lazy='joined')
-    comment       = db.relationship('StarRatingModel', backref='product', cascade = 'all, delete-orphan', lazy='joined')
-   
+    ratings       = db.relationship('StarRatingModel', backref='product', cascade = 'all, delete-orphan', lazy='joined')
+
     
 
 

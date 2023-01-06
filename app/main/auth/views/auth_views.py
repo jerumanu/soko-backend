@@ -11,6 +11,7 @@ from validate_email import validate_email
 
 USER_ACCOUNT_FORBIDDEN = "Account has been disabled"
 
+
 class Auth:
     @staticmethod
     def login_user(data):

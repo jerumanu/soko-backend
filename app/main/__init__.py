@@ -24,6 +24,7 @@ mpesa_api=MpesaAPI()
 
 def create_app(config_name):
     app = Flask(__name__)
+    # cors = CORS(app,resources={r"/app/*": {"origins": ["http://localhost:3000" , "http://127.0.0.1:5000"]}})
     app.config.from_object(config_by_name[config_name])
     app.config['MAIL_SERVER']         = 'smtp.gmail.com'
     app.config['MAIL_SERVER']         = 'smtp.gmail.com'
@@ -37,7 +38,7 @@ def create_app(config_name):
     app.config["API_ENVIRONMENT"]     = "sandbox" #sandbox or production
     app.config["APP_KEY"]             = "vbxsneeZ9IMFoyKKIgOIQQZFlawAADnP" # App_key from developers portal
     app.config["APP_SECRET"]          = "WAzDhQVhitIXwiTc" #App_Secret from developers portal
-    cors.init_app(app)
+    cors.init_app(app,resources={r"/app/*": {"origins": ["http://localhost:3000" , "http://127.0.0.1:5000","*"]}})
     mail.init_app(app)
     mpesa_api.init_app(app)
     db.init_app(app)
