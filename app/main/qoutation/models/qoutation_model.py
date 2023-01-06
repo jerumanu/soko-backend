@@ -11,7 +11,7 @@ class Qoute(db.Model):
 
 
     id           = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
-
+    qoute_owner = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     tenegerydemand= db.Column(db.Integer,)
     autonomy = db.Column(db.Integer)
     location=db.Column(db.String(50),)
@@ -44,7 +44,7 @@ class Qoute(db.Model):
 
     # date_added     = db.Column(db.DateTime(),default=datetime.utcnow )
 
-    def __init__(self,power , panel,panels_series,total_panels,charge_controller,kw,grid_inverter,iccc,l_string_p,h_string_p,
+    def __init__(self,power ,product_owner, panel,panels_series,total_panels,charge_controller,kw,grid_inverter,iccc,l_string_p,h_string_p,
         batt_capacity,batt_string,batt_series,no_batt,inverter,tenegerydemand,autonomy,systemvolts,location,wpd,panels_parallel,
         latitude,batt_name,name_panel,longtitude):
 
@@ -74,6 +74,8 @@ class Qoute(db.Model):
         self.iccc=iccc
         self.wpd=wpd
         self.panels_parallel=panels_parallel
+        self.product_owner = product_owner
+
 
 
 

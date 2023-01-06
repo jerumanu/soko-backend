@@ -44,6 +44,8 @@ class User(db.Model):
     blogAuthor    = db.relationship('BlogModel', backref='user', cascade = 'all, delete-orphan', lazy='joined')
     userPayment   = db.relationship('Invoice', backref='user', cascade = 'all, delete-orphan', lazy='joined')
     engineer      = db.relationship("Engineer", uselist=False, backref="user")
+    qouteAuthor    = db.relationship('Qoute', backref='user', cascade = 'all, delete-orphan', lazy='joined')
+
 
 
     def __init__(self, **kwargs):

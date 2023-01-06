@@ -60,7 +60,7 @@ class QouteDto:
 
     api = Namespace('qoute', description=' qoute user realted details ')
     qoute= api.model('qoute', { 
-
+        'qoute_owner':fields.Integer(required=True, description='user id '),
         'ap_demand': fields.Integer(required=True, description='total energy demand in kw/hrs'),
         'ligth_demand': fields.Integer(required=True, description='total energy demand in kw/hrs'),
         'name_panel':fields.String( description='locations of the client'),

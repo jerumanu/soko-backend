@@ -50,9 +50,11 @@ class StarRating(Resource):
         else:
                 return {"message": "Prodcut not found"}, 404    
 
-    @api.route('/star/<int:product_id>')
+@api.route('/rate')
+class Starratinglist(Resource):
+    @permission
     @api.doc('product ratting')
-    # @api.marshal_list_with(_star, envelope='data')
+    @api.marshal_list_with(_star)
     @permission
     def get(self,product_id):
         # critic_avg = db.session.query(func.avg(Rating.rating)).scalar() or 0

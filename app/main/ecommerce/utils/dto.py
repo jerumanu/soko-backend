@@ -103,7 +103,7 @@ class StarDto:
     api = Namespace('star', description='user related operations')
     star = api.model('star', {
         'rating':fields.Integer(description='user Identifier'),
-        'rate':fields.Integer(description='rating Identifier'),
+        # 'rate':fields.Integer(description='rating Identifier'),
         'product_id':fields.Integer( required=True, description=' time the product was updated  ')
 
         # 'four_stars': fields.Integer( description='user stars'),
