@@ -6,6 +6,7 @@ from app.main.ecommerce.utils.dto             import  FavouriteDto
 from  ....main import db
 from app.main.ecommerce.model.product_model   import  ProductModel
 from app.main.auth.models.user      import  User
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 api              = FavouriteDto.api
 _favourite       = FavouriteDto.favourite
@@ -17,6 +18,7 @@ item_list_schema = FavouriteSchema(many=True)
 
 @api.route('/<int:id>')
 class Favourite(Resource):
+    @permission
     @api.doc('add specific product as favourite and getting specific product add as favourite by specific user')
     @api.marshal_with(_favourite)
     def delete(self, id):
@@ -31,16 +33,13 @@ class Favourite(Resource):
 
 @api.route('/')
 class Favourite(Resource):
+    @permission
     @api.doc('geting all favourite product for specific user')
     @api.marshal_list_with(_favourite, envelope='favourite')
     def get(self):
         return item_list_schema.dump(FavouriteModel.find_all()), 200
 
-    
-    
-    
-    
-    
+    @permission
     @api.response(201, 'Saved successfully')
     @api.doc("Adding Save")
     @api.expect(_favourite, validate=True)

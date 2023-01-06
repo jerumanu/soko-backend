@@ -6,6 +6,7 @@ from app.main.ecommerce.schema.schema         import CategorySchema
 from app.main.ecommerce.utils.dto             import CategoryDto
 from  ....main import db
 from app.main.auth.models.user      import User
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 api              = CategoryDto.api
 _category        = CategoryDto.category
@@ -15,12 +16,13 @@ item_list_schema = CategorySchema(many=True)
 
 @api.route("/")
 class Category(Resource):
+    @permission
     @api.doc('List of category names')
     @api.marshal_list_with(_category, envelope='data')
     def get(self):
         return item_list_schema.dump(CategoryModel.find_all()), 200
 
-
+    @permission
     @api.response(201, 'Category added successfully')
     @api.doc("Adding category")
     @api.expect(_category, validate=True)
@@ -44,6 +46,7 @@ class Category(Resource):
 
 @api.route('/user/<int:userId>')
 class Category(Resource):
+    @permission
     @api.doc('deleting category')
     @api.marshal_with(_category)
     def get(self, userId):
@@ -57,6 +60,7 @@ class Category(Resource):
 
 @api.route('/<int:id>')
 class Category(Resource):
+    @permission
     @api.doc('deleting category')
     @api.response(201, 'deleted successfully')
     @api.marshal_with(_category)
@@ -71,13 +75,14 @@ class Category(Resource):
             return {"message":"deleted successfully"}, 201
            
 
-    
+    @permission
     @api.doc("get category by id")
     @api.marshal_with(_category)
     def get(self, id):
         item_data = CategoryModel.query.filter_by(id=id).first_or_404(description=f" not found in database.")
         return item_schema.dump(item_data), 200
 
+    @permission
     @api.doc('edit category name')
     @api.marshal_with(_category)
     @api.expect(_category, validate=True)

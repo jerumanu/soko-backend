@@ -5,6 +5,7 @@ from app.main.ecommerce.schema.schema         import BlogSchema
 from app.main.ecommerce.utils.dto             import BlogDto
 from  ....main import db
 from app.main.auth.models.user      import User
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 
 api              = BlogDto.api
@@ -15,12 +16,14 @@ item_list_schema = BlogSchema(many=True)
 
 @api.route("/")
 class Blog(Resource):
-    @api.doc('List of frequently asked questions')
+    @permission
+    @api.doc('List of blog')
     @api.marshal_list_with(_blog , envelope='data')
     def get(self):
         return item_list_schema.dump(BlogModel.find_all()), 200
 
-    @api.response(201, 'FAQ added successfully')
+    @permission
+    @api.response(201, 'Blog added successfully')
     @api.doc("Adding FAQ")
     @api.expect(_blog , validate=True)
     def post(self):
@@ -44,6 +47,7 @@ class Blog(Resource):
 
 @api.route('/<int:id>')
 class Blog(Resource):
+    @permission
     @api.doc('deleting FAQ')
     @api.marshal_with(_blog )
     def delete(self, id):
@@ -55,7 +59,7 @@ class Blog(Resource):
             db.session.commit()
             return {"deleted successfully"}
 
-    
+    @permission
     @api.doc("get category by id")
     @api.marshal_with(_blog )
     def get(self, id):
@@ -63,7 +67,7 @@ class Blog(Resource):
         return item_schema.dump(item_data), 200
 
         
-
+    @permission
     @api.doc('edit Frequently asked questions')
     @api.marshal_with(_blog )
     @api.expect(_blog, validate=True)

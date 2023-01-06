@@ -6,7 +6,7 @@ from flask                        import request
 from flask_restx                  import Resource
 from ..schemas.schema             import VoltageDropSchema,DeretedSchema
 from ..utils.dto                  import VoltsDropDto
-
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 
 
@@ -32,10 +32,9 @@ dereted_list_schema=  DeretedSchema(many=True)
 @api.route('/<int:id>')
 @api.param('id', 'The User identifier')  
 class Product(Resource):
-
+    @permission
     @api.doc('delete  a product')
     @api.marshal_with(_dropdown )
-
     def delete(self,id):
         voltsdrop_data= VoltsDropDowm.find_by_id(id)
         if voltsdrop_data:
@@ -43,6 +42,7 @@ class Product(Resource):
             return {'message': "dereted panel power Deleted successfully"}, 200
         return {'message': ITEM_NOT_FOUND}, 404
 
+    @permission
     def get(self, id):
         store_data =VoltsDropDowm.find_by_id(id)
         if store_data:
@@ -56,7 +56,7 @@ class Product(Resource):
 
 @api.route('/')
 class ProductList(Resource):
-
+    @permission
     @api.doc('list_of_dropdown ')
     @api.marshal_list_with(_dropdown , envelope='data')
     
@@ -68,7 +68,7 @@ class ProductList(Resource):
     @api.response(201, 'Product successfully created.')
     @api.doc('create a new Product')
     @api.expect(_dropdown , validate=True)
-
+    @permission
     def post(self):
         volts_json= request.get_json()
         DROPDOWN = 0.02

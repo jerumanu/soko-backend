@@ -4,7 +4,7 @@ from app.main.qoutation.models.dereted_power import DeretedPanel
 from app.main.qoutation.models.load_analysis import LoadAnalysis
 from app.main.qoutation.models.batt import Batt
 from app.main.qoutation.utils.locations import county_dict
-
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 
 
@@ -59,15 +59,15 @@ qoute_list_Schema =  QouteSchema( many=True)
 #     panels = round(power /wpd)
 @api.route('/')
 class QouteList(Resource):
-
+    @permission
     @api.doc('list_of_dereted')
     @api.marshal_list_with(_qoute, envelope='data')
-    
     def get(self):
         # critic_avg = db.session.query(func.avg(Rating.rating)).scalar() or 0
         
         return dereted_list_schema.dump( DeretedPanel.find_all()), 200
 
+    @permission
     @api.response(201, 'Product successfully created.')
     @api.doc('create a new Product')
     @api.expect(_qoute , validate=True )

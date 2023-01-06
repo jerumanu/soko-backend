@@ -9,7 +9,6 @@ from .main.ecommerce.views.faq_views              import api as faq_ns
 from .main.ecommerce.views.blog_view              import api as blog_ns
 from .main.ecommerce.views.favourite_views        import api as favourite_ns
 from .main.ecommerce.views.comment_views          import api as comments_ns
-from .main.ecommerce.views.time_views             import api as timings_ns
 from app.main.auth.controller.auth_controler      import api as login_ns
 from app.main.auth.controller.register_controler  import api as register_ns
 from app.main.auth.controller.user_controler      import api as users_ns
@@ -46,9 +45,7 @@ api.add_namespace(category_ns,  path='/category')
 api.add_namespace(faq_ns,       path='/faq')
 api.add_namespace(blog_ns,      path='/blog')
 api.add_namespace(favourite_ns, path='/favourite')
-api.add_namespace(products_ns,  path='/product')
 api.add_namespace(comments_ns,  path='/comments')
-api.add_namespace(timings_ns,   path='/time')
 api.add_namespace(login_ns,     path='/auth')
 api.add_namespace(register_ns,  path='/user')
 api.add_namespace(rating_ns,    path='/ratings')

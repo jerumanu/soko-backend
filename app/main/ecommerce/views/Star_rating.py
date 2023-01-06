@@ -9,6 +9,7 @@ from app.main.ecommerce.schema.schema import RatingsSchema
 from flask                        import request
 from flask_restx                  import Resource
 from app.main.ecommerce.model.product_model import ProductModel
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 
 from ..utils.dto import StarDto
@@ -24,9 +25,8 @@ star_list_schema =  RatingsSchema( many=True)
 
 
 @api.route('/')
-
 class StarRating(Resource):
-
+    @permission
     @api.response(201, 'Product successfully created.')
     @api.doc('create a new Product')
     @api.expect(_star, validate=True)
@@ -52,6 +52,7 @@ class StarRating(Resource):
 
     @api.doc('list_of_products')
     # @api.marshal_list_with(_star, envelope='data')
+    @permission
     def get(self):
         # critic_avg = db.session.query(func.avg(Rating.rating)).scalar() or 0
 

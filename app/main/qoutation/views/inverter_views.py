@@ -6,7 +6,7 @@ from flask                        import request
 from flask_restx                  import Resource
 from ..schemas.schema             import InverterSchema,DeretedSchema
 from ..utils.dto                  import InverterDto
-
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 
 
@@ -26,22 +26,19 @@ inverter_list_Schema =  InverterSchema( many=True)
 
 @api.route('/')
 class ProductList(Resource):
-
+    @permission
     @api.doc('list_of_inverter ')
     @api.marshal_list_with(_inverter , envelope='data')
-    
     def get(self):
-        
         return inverter_list_Schema.dump(Inverter.find_all()), 200
 
+
+    @permission
     @api.response(201, 'Product successfully created.')
     @api.doc('create a new Product')
     @api.expect(_inverter , validate=True)
-
     def post(self):
-
         inverter_json= request.get_json()
-
         name = inverter_json['name_panel']
         vmax= inverter_json['vmax']
         vmin = inverter_json['vmin']

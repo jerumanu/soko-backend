@@ -7,6 +7,7 @@ import re
 from ...                           import db
 from ...                         import mail
 from flask_mail                     import Message
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 regex               = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
 api                 = SubscribeDto.api
@@ -21,12 +22,14 @@ item_list_schema    = SubscribeSchema( many=True)
 @api.route('/email')
 @api.param('name', 'The User identifier')
 class Subscribe(Resource):
+    @permission
     @api.doc('list_of_emails')
     @api.marshal_list_with(_subscribe, envelope='data')
     def get(self):
         return item_list_schema.dump(SubscribeModel.find_all()), 200
 
 
+    @permission
     @api.response(201, ' successfully subscribe')
     @api.doc('subscribe to email')
     @api.expect(_subscribe, validate=True)
@@ -47,7 +50,7 @@ class Subscribe(Resource):
         else:
             return {"message": "Invalid Email"}, 404
 
-    
+    @permission
     @api.doc('unsubscribe by delete the email')
     @api.marshal_with(_subscribe)
     def delete(self):
@@ -66,6 +69,7 @@ class Subscribe(Resource):
 @api.route('/unsubscribe/<email>')
 @api.param('email', 'User email')
 class Unsubscribe(Resource):
+    @permission
     @api.doc('unsubscribe by delete the email')
     @api.marshal_with(_subscribe)
     def delete(self, email):
@@ -77,7 +81,7 @@ class Unsubscribe(Resource):
             db.session.commit()
             return {"Email is unsubscribed successfully"}
         
-        
+    @permission
     @api.doc('get email')
     @api.marshal_with(_subscribe)
     def get(self, email):
@@ -88,6 +92,7 @@ class Unsubscribe(Resource):
 @api.route('/send_updates')
 @api.param('name', 'The User identifier')
 class Update(Resource):
+    @permission
     @api.doc('sending newsletter to all subscribers')
     @api.marshal_list_with(_subscribe, envelope='data')
     def post(self):

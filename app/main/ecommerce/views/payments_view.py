@@ -7,6 +7,7 @@ from ..utils.dto                  import InvoiceDto
 from app.main                     import mpesa_api
 from datetime                     import datetime
 from app.main.auth.models.user      import User
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 api                   =  InvoiceDto.api
 _payments             =  InvoiceDto.payment
@@ -20,6 +21,7 @@ payments_list_schema  =  InvoiceSchema(many=True)
 
 @api.route('/')
 class payments(Resource):
+    @permission
     @api.doc('all  payments ')
     @api.marshal_list_with(_payments, envelope='data')
     def get(self):
@@ -30,6 +32,7 @@ class payments(Resource):
 
 @api.route('/<int:id>')
 class InvoiceId(Resource):
+    @permission
     @api.doc('')
     @api.marshal_with(_payments)
     def get(self, id):
@@ -41,6 +44,7 @@ class InvoiceId(Resource):
 
 @api.route('/user/<int:userId>')
 class Invoices(Resource):
+    @permission
     @api.doc('')
     @api.marshal_with(_payments)
     def get(self, userId):
@@ -53,6 +57,7 @@ class Invoices(Resource):
 
 @api.route('/transact/mpesaexpress')
 class Payment(Resource):
+    @permission
     @api.expect(_payments, validate=True)
     def post(self):
         post_data   = request.get_json(force=True)
@@ -96,6 +101,7 @@ class Payment(Resource):
 
 @api.route('/mpesa/callback-url')
 class Payment(Resource):
+    @permission
     def post(self):
         post_data = request.get_json(force=True)
         invoice = Invoice.query.filter_by(merchant_request_id = post_data["Body"]["stkCallback"]["MerchantRequestID"]).first()
@@ -133,6 +139,7 @@ class Payment(Resource):
 
 @api.route('/mpesa/verify', methods=["POST"])
 class MpesaVerification(Resource):
+    @permission
     def post(self):
         data = request.get_json(force=True)
         print("--------Data--------")

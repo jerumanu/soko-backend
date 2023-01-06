@@ -6,7 +6,7 @@ from ..schema.schema              import TransactionSchema
 from ..utils.dto                  import TransactionDto
 from app.main                     import mpesa_api
 from datetime                     import datetime
-
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 
 
@@ -19,6 +19,7 @@ Payment_NOT_FOUND     = "Payment not found."
 
 @api.route('/')
 class Transactions(Resource):
+    @permission
     @api.doc('geting all transaction')
     @api.marshal_list_with(_tpayments , envelope='transaction')
     def get(self):
@@ -27,6 +28,7 @@ class Transactions(Resource):
 
 @api.route('/<int:id>')
 class TransactionId(Resource):
+    @permission
     @api.doc('getting transaction by id')
     @api.marshal_with(_tpayments)
     def get(self, id):
@@ -37,6 +39,7 @@ class TransactionId(Resource):
 
 @api.route('/user/<int:userId>')
 class TransactionUserId(Resource):
+    @permission
     @api.doc('getting transcation by user id')
     @api.marshal_with(_tpayments)
     def get(self, userId):

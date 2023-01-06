@@ -3,11 +3,12 @@ from app.main import db
 from app.main.ecommerce.model.star_rating import StarRatingModel
 from flask                        import request
 from flask                                       import Blueprint
-
+from app.main.auth.extensions.auth.api_doc_required import permission
 
 rate = Blueprint('rate', __name__ ,url_prefix="/rate" )
 
 @rate.route('/', methods=['POST', 'GET'])
+@permission
 def rating():
     
 
